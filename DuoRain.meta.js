@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name                DuoRain
 // @namespace           https://github.com/DuoXPy/DuoRain
-// @version             6.1.0.BETA.01
+// @version             6.0.0.BETA.01
 // @description         The Ultimate Automation Tool for Duolingo
 // @author              OracleMythix & oxGorou
 // @match               https://*.duolingo.com/*
