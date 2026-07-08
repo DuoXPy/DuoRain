@@ -4,6 +4,7 @@
 // @version             6.0.0.BETA.01
 // @description         The Ultimate Automation Tool for Duolingo
 // @author              OracleMythix & oxGorou
+// @license MIT
 // @match               https://*.duolingo.com/*
 // @match               https://*.duolingo.cn/*
 // @icon                https://avatars.githubusercontent.com/u/223025697?s=200&v=4
