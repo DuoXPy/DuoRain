@@ -2813,17 +2813,10 @@
         }
     }
 
-    async function checkForUpdates(force) {
-        const lastCheckKey = 'dr_update_last_check';
+    async function checkForUpdates() {
         const availableKey = 'dr_update_available_version';
         const dismissedKey = 'dr_update_dismissed_version';
         const now = Date.now();
-
-        if (!force) {
-            const last = parseInt(localStorage.getItem(lastCheckKey)) || 0;
-            if (now - last < 6 * 60 * 60 * 1000) return;
-        }
-        localStorage.setItem(lastCheckKey, String(now));
 
         try {
             const res = await fetchApi('GET', drUpdateMetaUrl + '?_=' + now, null, {});
@@ -5956,8 +5949,8 @@
         applyLocalMax();
         startLeaguePolling();
         checkUpdateBannerFromCache();
-        setTimeout(() => checkForUpdates(false), 3000);
-        setInterval(() => checkForUpdates(false), 6 * 60 * 60 * 1000);
+        checkForUpdates();
+        setInterval(checkForUpdates, 6 * 60 * 60 * 1000);
         setInterval(bgCheck, 2500);
         setInterval(async () => {
             if (!user) return;
@@ -6401,6 +6394,13 @@
         });
 
         connect();
+
+        window.DR_checkForUpdates = () => checkForUpdates();
+        window.DR_resetUpdateCheck = () => {
+            localStorage.removeItem('dr_update_available_version');
+            localStorage.removeItem('dr_update_dismissed_version');
+            hideUpdateBanner();
+        };
     }
 
     if (document.readyState === 'loading') {
