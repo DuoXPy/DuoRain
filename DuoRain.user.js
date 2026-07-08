@@ -1571,13 +1571,13 @@
             box-sizing: border-box;
             max-height: 0;
             opacity: 0;
-            padding: 0 10px;
+            padding: 0 12px;
             margin: 0;
             overflow: hidden;
             border-radius: 8px;
             corner-shape: var(--DR-corner);
-            background: rgba(var(--DR-blue), 0.12);
-            outline: 1.5px solid rgba(var(--DR-blue), 0.3);
+            background: var(--dr-card-bg);
+            outline: 1.5px solid var(--dr-card-border);
             outline-offset: -1.5px;
             transition: max-height var(--DR-motion-page) var(--DR-ease),
                         opacity var(--DR-motion) ease,
@@ -1585,18 +1585,9 @@
         }
 
         .DR_Update_Banner.on {
-            max-height: 54px;
+            max-height: 56px;
             opacity: 1;
-            padding: 8px 10px;
-        }
-
-        .DR_Update_Banner button:hover {
-            filter: brightness(0.9);
-        }
-
-        .DR_Update_Banner button:active {
-            filter: brightness(0.9);
-            transform: scale(0.92);
+            padding: 10px 12px;
         }
 
         .DR_Quest_Get_Btn.done {
@@ -1892,12 +1883,9 @@
                                 <p class="DR_T2 DR_NoSel" id="DR_Update_Version_Text" style="font-size: 11px; line-height: 1.2;"></p>
                             </div>
                         </div>
-                        <div style="display: flex; align-items: center; gap: 6px; flex-shrink: 0;">
-                            <button type="button" class="DR_NoSel" id="DR_Update_Btn" style="height: 28px; padding: 0 10px; border: none; border-radius: 6px; background: rgb(var(--DR-blue)); color: #fff; font-size: 11px; font-weight: 800; cursor: pointer;">UPDATE</button>
-                            <button type="button" class="DR_NoSel" id="DR_Update_Dismiss_Btn" style="width: 28px; height: 28px; border: none; border-radius: 6px; background: transparent; color: var(--dr-text); opacity: 0.5; cursor: pointer; display: flex; align-items: center; justify-content: center;">
-                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-                            </button>
-                        </div>
+                        <button type="button" class="DR_Sm_Btn DR_NoSel" id="DR_Update_Btn" style="flex-shrink: 0; min-width: 66px;">
+                            <span class="DR_Sm_Btn_Label" style="color: #fff;">UPDATE</span>
+                        </button>
                     </div>
                     <div id="DR_Main_Content" class="dr-disabled" style="display: flex; flex-direction: column; gap: 8px; width: 100%; transition: opacity var(--DR-motion) ease, filter var(--DR-motion) ease;">
                         <div class="DR_Profile_Block" id="DR_User_Row" style="display: none; position: relative; background: var(--dr-card-bg); border: 1.5px solid var(--dr-card-border); border-radius: 8px; padding: 10px; align-items: center; gap: 8px;">
@@ -2806,16 +2794,14 @@
 
     function checkUpdateBannerFromCache() {
         const availableKey = 'dr_update_available_version';
-        const dismissedKey = 'dr_update_dismissed_version';
         const avail = localStorage.getItem(availableKey);
-        if (avail && compareVersions(avail, drScriptVersion) > 0 && localStorage.getItem(dismissedKey) !== avail) {
+        if (avail && compareVersions(avail, drScriptVersion) > 0) {
             showUpdateBanner(avail);
         }
     }
 
     async function checkForUpdates() {
         const availableKey = 'dr_update_available_version';
-        const dismissedKey = 'dr_update_dismissed_version';
         const now = Date.now();
 
         try {
@@ -2828,9 +2814,7 @@
             const remoteVersion = match[1].trim();
             if (compareVersions(remoteVersion, drScriptVersion) > 0) {
                 localStorage.setItem(availableKey, remoteVersion);
-                if (localStorage.getItem(dismissedKey) !== remoteVersion) {
-                    showUpdateBanner(remoteVersion);
-                }
+                showUpdateBanner(remoteVersion);
             } else {
                 localStorage.removeItem(availableKey);
                 hideUpdateBanner();
@@ -5974,12 +5958,6 @@
         document.getElementById('DR_Update_Btn').addEventListener('click', () => {
             window.open(drUpdatePageUrl, '_blank');
         });
-        document.getElementById('DR_Update_Dismiss_Btn').addEventListener('click', () => {
-            const banner = document.getElementById('DR_Update_Banner');
-            const v = banner ? banner.dataset.version : null;
-            if (v) localStorage.setItem('dr_update_dismissed_version', v);
-            hideUpdateBanner();
-        });
         document.getElementById('DR_Settings_Back_Btn').addEventListener('click', () => changePage(1));
         document.getElementById('DR_Version_Btn').addEventListener('click', () => changePage('Stats'));
         document.getElementById('DR_Stats_Back_Btn').addEventListener('click', () => changePage(1));
@@ -6398,7 +6376,6 @@
         window.DR_checkForUpdates = () => checkForUpdates();
         window.DR_resetUpdateCheck = () => {
             localStorage.removeItem('dr_update_available_version');
-            localStorage.removeItem('dr_update_dismissed_version');
             hideUpdateBanner();
         };
     }
