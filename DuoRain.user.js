@@ -10735,7 +10735,7 @@
     });
 
     document.getElementById("DR_GitHub_Btn").addEventListener("click", () => {
-      window.open("https://github.com/OracleMythix/DuoRain-BETA", "_blank");
+      window.open("https://github.com/DuoXPy/DuoRain", "_blank");
     });
 
     document
