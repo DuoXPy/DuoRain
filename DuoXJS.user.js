@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name                DuoXJS
 // @namespace           https://github.com/LibreDuo/DuoXJS
-// @version             6.0.0.BETA.04
+// @version             1.0.0
 // @description         Free userscript utility for Duolingo
 // @author              LibreDuo
 // @license MIT
@@ -124,8 +124,8 @@
       "https://d35aaqx5ub95lt.cloudfront.net/images/icons/398e4298a3b39ce566050e5c041949ef.svg",
   };
 
-  const dxVersion = "6.0.0 Beta 04";
-  const dxScriptVersion = "6.0.0.BETA.04";
+  const dxVersion = "1.0.0";
+  const dxScriptVersion = "1.0.0";
   const dxUpdateMetaUrl =
     "https://raw.githubusercontent.com/LibreDuo/DuoXJS/main/DuoXJS.meta.js";
   const dxUpdatePageUrl = "https://github.com/LibreDuo/DuoXJS";

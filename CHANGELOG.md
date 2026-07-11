@@ -1,4 +1,4 @@
-## [6.0.0.BETA.04]
+## [1.0.0]
 
 - Rebranded to DuoXJS under LibreDuo organization
 

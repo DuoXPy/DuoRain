@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name                DuoXJS
 // @namespace           https://github.com/LibreDuo/DuoXJS
-// @version             6.0.0.BETA.04
+// @version             1.0.0
 // @description         Free userscript utility for Duolingo
 // @author              LibreDuo
 // @license MIT

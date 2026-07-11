@@ -25,7 +25,6 @@ jobs:
           with open('CHANGELOG.md', 'r', encoding='utf-8') as f:
               content = f.read()
 
-          # Match the first version header, e.g., ## [6.0.0.BETA.04]
           match = re.search(r'##\s*\[([^\]]+)\]', content)
           if not match:
               print("::error::No version header found in CHANGELOG.md")
@@ -33,7 +32,6 @@ jobs:
 
           version = match.group(1)
           
-          # Extract changelog body up to the next ## header
           start_pos = match.end()
           next_match = re.search(r'##\s*\[', content[start_pos:])
           if next_match:
@@ -41,10 +39,8 @@ jobs:
           else:
               body = content[start_pos:].strip()
 
-          # Set GITHUB_OUTPUT variables
           with open(os.environ['GITHUB_OUTPUT'], 'a', encoding='utf-8') as out:
               out.write(f"version={version}\n")
-              # Write multiline release notes body safely
               out.write("body<<EOF\n")
               out.write(body + "\n")
               out.write("EOF\n")
