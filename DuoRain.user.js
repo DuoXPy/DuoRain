@@ -5364,8 +5364,14 @@
     }
   }
 
-  async function refreshStats() {
+  let accountStatsTs = 0;
+  const ACCOUNT_STATS_TTL = 30000;
+
+  async function refreshStats(force = false) {
     if (!token || !userId || !user || refreshStatsBusy) {
+      return;
+    }
+    if (!force && Date.now() - accountStatsTs < ACCOUNT_STATS_TTL) {
       return;
     }
 
@@ -5392,6 +5398,7 @@
         if (data.creationDate !== undefined) {
           user.creationDate = data.creationDate;
         }
+        accountStatsTs = Date.now();
         showUser();
       }
     } catch {
@@ -5572,7 +5579,7 @@
         completed ? "XP Farm Complete" : "XP Farm Stopped",
         `Farmed ${totalXp} XP.`,
       );
-      refreshStats();
+      refreshStats(true);
     }
 
     clearProgress("DR_XP", completed);
@@ -5725,7 +5732,7 @@
         completed ? "Gem Farm Complete" : "Gem Farm Stopped",
         `+${totalGained} gems acquired.`,
       );
-      refreshStats();
+      refreshStats(true);
     }
 
     clearProgress("DR_Gem", completed);
@@ -5909,7 +5916,7 @@
         completed ? "Streak Restored" : "Streak Farm Stopped",
         `Processed ${savedDays} days.`,
       );
-      refreshStats();
+      refreshStats(true);
     } else if (completed && doneLoops > 0) {
       notify(
         "error",
@@ -5984,7 +5991,7 @@
       const ok = await keepStreak();
       if (ok) {
         localStorage.setItem(keptKey, todayIso);
-        refreshStats();
+        refreshStats(true);
         notify("success", "Auto Keep Streak", "Your streak is safe for today.");
       } else {
         notify(
@@ -6265,7 +6272,7 @@
     }
 
     clearProgress("DR_League", completed);
-    refreshStats();
+    refreshStats(true);
 
     farmStates.league = false;
     farmCtl.league = null;
@@ -6300,17 +6307,17 @@
 
   let leagueDataCache = null;
   let leagueDataTs = 0;
-  const LEAGUE_TTL = 8000;
+  const LEAGUE_TTL = 30000;
 
   async function fetchLeagueData(force) {
     if (!userId || !token) return null;
-    const now = Date.now();
-    if (!force && leagueDataCache && now - leagueDataTs < LEAGUE_TTL)
+    if (!force && leagueDataCache && Date.now() - leagueDataTs < LEAGUE_TTL) {
       return leagueDataCache;
+    }
     try {
       const res = await fetchApi(
         "GET",
-        `${config.api.leaderboards}/users/${userId}?client_unlocked=true&get_reactions=true&_=${now}`,
+        `${config.api.leaderboards}/users/${userId}?client_unlocked=true&get_reactions=true&_=${Date.now()}`,
       );
       if (res.status === 200) {
         const parsed = safeJsonParse(res.responseText);
@@ -6482,7 +6489,7 @@
 
   async function fetchQuests(force = false) {
     if (!token || !userId) return null;
-    if (!force && questState && Date.now() - questStateTs < 15000) {
+    if (!force && questState && Date.now() - questStateTs < 30000) {
       return questState;
     }
 
@@ -6716,8 +6723,11 @@
 
           try {
             const tMetric = actBtn.dataset.m;
-            const tAmt = parseInt(actBtn.dataset.amt);
             const tQId = actBtn.dataset.id;
+            let tAmt = parseInt(actBtn.dataset.amt);
+            if (tMetric && tMetric !== "QUESTS") {
+              tAmt = Math.max(tAmt, 2000);
+            }
 
             const updLoad = {
               metric_updates: [{ metric: tMetric, quantity: tAmt }],
@@ -6725,17 +6735,26 @@
               timestamp: timeQuest(tQId),
             };
 
-            const res = await fetchApi(
+            let res = await fetchApi(
               "POST",
               `${config.api.goals}/users/${userId}/progress/batch`,
               updLoad,
               setGoalHeaders(token),
             );
+            if (res.status === 200) {
+              await wait(300);
+              res = await fetchApi(
+                "POST",
+                `${config.api.goals}/users/${userId}/progress/batch`,
+                updLoad,
+                setGoalHeaders(token),
+              );
+            }
 
             if (res.status === 200) {
               actBtn.innerText = "✓";
               notify("success", "Quest updated", "Progress injected.");
-              getQuests();
+              getQuests(true);
             } else {
               actBtn.innerText = "BRUTE";
               actBtn.disabled = false;
@@ -6782,18 +6801,29 @@
     try {
       for (let i = 0; i < targets.length; i++) {
         const goal = targets[i];
-        const res = await fetchApi(
+        const rem = questRemaining(goal);
+        const qty =
+          goal.metric && goal.metric !== "QUESTS" ? Math.max(rem, 2000) : rem;
+        const payload = {
+          metric_updates: [{ metric: goal.metric, quantity: qty }],
+          timezone: accountTimezone(),
+          timestamp: timeQuest(goal.goalId),
+        };
+        let res = await fetchApi(
           "POST",
           `${config.api.goals}/users/${userId}/progress/batch`,
-          {
-            metric_updates: [
-              { metric: goal.metric, quantity: questRemaining(goal) },
-            ],
-            timezone: accountTimezone(),
-            timestamp: timeQuest(goal.goalId),
-          },
+          payload,
           setGoalHeaders(token),
         );
+        if (res.status === 200) {
+          await wait(300);
+          res = await fetchApi(
+            "POST",
+            `${config.api.goals}/users/${userId}/progress/batch`,
+            payload,
+            setGoalHeaders(token),
+          );
+        }
         if (res.status !== 200) allOk = false;
         setProgress("DR_QuestForce", ((i + 1) / targets.length) * 100);
       }
@@ -8109,6 +8139,13 @@
       );
       if (res.status === 200) {
         notify("success", "Leaderboard Status", "Status updated.");
+
+        const me = leagueDataCache?.active?.cohort?.rankings?.find(
+          (r) => String(r.user_id) === String(userId),
+        );
+        if (me) me.reaction = reaction;
+        leagueDataTs = 0;
+
         return true;
       }
       notify(
@@ -8219,6 +8256,7 @@
         if (ok) {
           currentStatus = s.value;
           showStatuses(document.getElementById("DR_Status_Search").value);
+          if (leagueDataCache) applyLeagueSummary(leagueDataCache);
         } else {
           btn.className = "DR_Shop_Btn fail";
           btn.innerText = "ERR";
