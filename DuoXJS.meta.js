@@ -1,9 +1,9 @@
 // ==UserScript==
-// @name                DuoRain
-// @namespace           https://github.com/DuoXPy/DuoRain
-// @version             6.0.0.BETA.03
-// @description         The Ultimate Automation Tool for Duolingo
-// @author              OracleMythix & oxGorou
+// @name                DuoXJS
+// @namespace           https://github.com/LibreDuo/DuoXJS
+// @version             6.0.0.BETA.04
+// @description         Free userscript utility for Duolingo
+// @author              LibreDuo
 // @license MIT
 // @match               https://*.duolingo.com/*
 // @match               https://*.duolingo.cn/*
@@ -18,6 +18,6 @@
 // @connect             ios-api-2.duolingo.com
 // @connect             raw.githubusercontent.com
 // @connect             avatars.githubusercontent.com
-// @downloadURL         https://raw.githubusercontent.com/DuoXPy/DuoRain/main/DuoRain.user.js
-// @updateURL           https://raw.githubusercontent.com/DuoXPy/DuoRain/main/DuoRain.meta.js
+// @downloadURL         https://raw.githubusercontent.com/LibreDuo/DuoXJS/main/DuoXJS.user.js
+// @updateURL           https://raw.githubusercontent.com/LibreDuo/DuoXJS/main/DuoXJS.meta.js
 // ==/UserScript==

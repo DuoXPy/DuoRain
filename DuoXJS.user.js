@@ -1,9 +1,9 @@
 // ==UserScript==
-// @name                DuoRain
-// @namespace           https://github.com/DuoXPy/DuoRain
-// @version             6.0.0.BETA.03
-// @description         The Ultimate Automation Tool for Duolingo
-// @author              OracleMythix & oxGorou
+// @name                DuoXJS
+// @namespace           https://github.com/LibreDuo/DuoXJS
+// @version             6.0.0.BETA.04
+// @description         Free userscript utility for Duolingo
+// @author              LibreDuo
 // @license MIT
 // @match               https://*.duolingo.com/*
 // @match               https://*.duolingo.cn/*
@@ -18,8 +18,8 @@
 // @connect             ios-api-2.duolingo.com
 // @connect             raw.githubusercontent.com
 // @connect             avatars.githubusercontent.com
-// @downloadURL         https://raw.githubusercontent.com/DuoXPy/DuoRain/main/DuoRain.user.js
-// @updateURL           https://raw.githubusercontent.com/DuoXPy/DuoRain/main/DuoRain.meta.js
+// @downloadURL         https://raw.githubusercontent.com/LibreDuo/DuoXJS/main/DuoXJS.user.js
+// @updateURL           https://raw.githubusercontent.com/LibreDuo/DuoXJS/main/DuoXJS.meta.js
 // ==/UserScript==
 
 (function () {
@@ -31,7 +31,7 @@
     setItem: (key, value) => {
       localSetItem.call(window.localStorage, key, value);
       if (
-        key.startsWith("dr_") &&
+        key.startsWith("dx_") &&
         typeof unsafeWindow !== "undefined" &&
         unsafeWindow.localStorage
       ) {
@@ -54,7 +54,7 @@
         const len = window.localStorage.length;
         for (let i = 0; i < len; i++) {
           const key = window.localStorage.key(i);
-          if (key && key.startsWith("dr_")) {
+          if (key && key.startsWith("dx_")) {
             try {
               unsafeWindow.localStorage.setItem(
                 key,
@@ -78,7 +78,7 @@
     warning:
       '<img src="https://d35aaqx5ub95lt.cloudfront.net/images/de8acff5e3107d8f89c21786346415b7.svg" style="width: 100%; height: 100%; object-fit: contain; flex-shrink: 0;">',
     chevron:
-      '<svg class="DR_Chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>',
+      '<svg class="DX_Chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>',
     hideBtn:
       '<svg id="hide-icon" width="23" height="16" viewBox="0 0 23 16" fill="#FFF" xmlns="http://www.w3.org/2000/svg"><path d="M17.7266 14.9922L4.1875 1.47656C3.9375 1.22656 3.9375 0.796875 4.1875 0.546875C4.44531 0.289062 4.875 0.289062 5.125 0.546875L18.6562 14.0625C18.9141 14.3203 18.9219 14.7188 18.6562 14.9922C18.3984 15.2578 17.9844 15.25 17.7266 14.9922ZM18.4609 12.4062L15.3281 9.25781C15.5 8.82812 15.5938 8.35938 15.5938 7.875C15.5938 5.57812 13.7266 3.74219 11.4375 3.74219C10.9922 3.74219 10.4922 3.83594 10.0547 3.99219L7.75 1.67969C8.875 1.3125 10.1016 1.09375 11.4297 1.09375C17.8984 1.09375 22.1172 6.28906 22.1172 7.875C22.1172 8.78125 20.7344 10.8438 18.4609 12.4062ZM11.4297 14.6562C5.05469 14.6562 0.75 9.45312 0.75 7.875C0.75 6.96094 2.16406 4.85938 4.54688 3.27344L7.59375 6.32812C7.39062 6.79688 7.27344 7.32812 7.27344 7.875C7.28125 10.1172 9.13281 12.0078 11.4375 12.0078C11.9766 12.0078 12.4922 11.8906 12.9609 11.6875L15.2812 14.0078C14.125 14.4141 12.8281 14.6562 11.4297 14.6562ZM13.9609 7.71094C13.9609 7.77344 13.9609 7.82812 13.9531 7.88281L11.3203 5.25781C11.375 5.25 11.4375 5.25 11.4922 5.25C12.8594 5.25 13.9609 6.35156 13.9609 7.71094ZM8.88281 7.82031C8.88281 7.75781 8.88281 7.6875 8.89062 7.625L11.5391 10.2734C11.4766 10.2812 11.4219 10.2891 11.3594 10.2891C10 10.2891 8.88281 9.17969 8.88281 7.82031Z"></path></svg>',
     showBtn:
@@ -96,12 +96,12 @@
     settingsBtn:
       '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg" style="flex-shrink: 0;"><path d="M 22.76,10.58 L 22.76,13.42 L 19.99,14.60 L 19.48,15.81 L 20.61,18.61 L 18.61,20.61 L 15.81,19.48 L 14.60,19.99 L 13.42,22.76 L 10.58,22.76 L 9.40,19.99 L 8.19,19.48 L 5.39,20.61 L 3.39,18.61 L 4.52,15.81 L 4.01,14.60 L 1.24,13.42 L 1.24,10.58 L 4.01,9.40 L 4.52,8.19 L 3.39,5.39 L 5.39,3.39 L 8.19,4.52 L 9.40,4.01 L 10.58,1.24 L 13.42,1.24 L 14.60,4.01 L 15.81,4.52 L 18.61,3.39 L 20.61,5.39 L 19.48,8.19 L 19.99,9.40 Z" /><circle cx="12" cy="12" r="4.32" /></svg>',
     moreFeatures:
-      '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 234 234" fill="none" stroke="rgb(var(--DR-blue))" stroke-width="20" style="width: 18px; height: 18px; flex-shrink: 0;"><rect x="10" y="10" width="86" height="86" rx="5" /><rect x="138" y="10" width="86" height="86" rx="5" /><rect x="10" y="138" width="86" height="86" rx="5" /><g stroke-linecap="round"><line x1="138" y1="138" x2="224" y2="138" /><line x1="181" y1="181" x2="224" y2="181" /><line x1="138" y1="224" x2="224" y2="224" /></g></svg>',
+      '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 234 234" fill="none" stroke="rgb(var(--DX-blue))" stroke-width="20" style="width: 18px; height: 18px; flex-shrink: 0;"><rect x="10" y="10" width="86" height="86" rx="5" /><rect x="138" y="10" width="86" height="86" rx="5" /><rect x="10" y="138" width="86" height="86" rx="5" /><g stroke-linecap="round"><line x1="138" y1="138" x2="224" y2="138" /><line x1="181" y1="181" x2="224" y2="181" /><line x1="138" y1="224" x2="224" y2="224" /></g></svg>',
     arrowRight:
-      '<svg width="8" height="13" viewBox="0 0 8 13" fill="none" style="flex-shrink: 0;"><path d="M1 1l6 5.5L1 12" stroke="rgb(var(--DR-blue))" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+      '<svg width="8" height="13" viewBox="0 0 8 13" fill="none" style="flex-shrink: 0;"><path d="M1 1l6 5.5L1 12" stroke="rgb(var(--DX-blue))" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>',
     socialNav:
       '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 46" fill="none" style="width: 22px; height: 22px; flex-shrink: 0;"><circle cx="15.5" cy="16" r="6.5" fill="#428ce1"/><path d="M4 39c0-6.4 5.2-10 11.5-10S27 32.6 27 39a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2Z" fill="#428ce1"/><circle cx="30" cy="18" r="7.5" fill="#077aff"/><path d="M16 41c0-7 5.9-11 13-11 6.6 0 12 3.5 12 11a2 2 0 0 1-2 2H18a2 2 0 0 1-2-2Z" fill="#077aff"/></svg>',
-    back: '<svg width="8" height="14" viewBox="0 0 9 16" fill="none"><path d="M8 1L2 8l6 7" stroke="var(--dr-text)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+    back: '<svg width="8" height="14" viewBox="0 0 9 16" fill="none"><path d="M8 1L2 8l6 7" stroke="var(--dx-text)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>',
     hash: '<svg viewBox="0 0 24 24" width="20" height="20" fill="none"><path d="M9.5 3.5 7.7 20.5M16.3 3.5l-1.8 17M4 8.75h16M3 15.25h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>',
     inf: '<svg viewBox="0 0 24 24" width="22" height="22" fill="none"><path d="M6.4 8.2c-2 0-3.4 1.7-3.4 3.8s1.4 3.8 3.4 3.8c3 0 4.2-3.8 5.6-3.8s2.6 3.8 5.6 3.8c2 0 3.4-1.7 3.4-3.8s-1.4-3.8-3.4-3.8c-3 0-4.2 3.8-5.6 3.8S9.4 8.2 6.4 8.2Z" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>',
     shopIcons: {
@@ -124,11 +124,11 @@
       "https://d35aaqx5ub95lt.cloudfront.net/images/icons/398e4298a3b39ce566050e5c041949ef.svg",
   };
 
-  const drVersion = "6.0.0 Beta 03";
-  const drScriptVersion = "6.0.0.BETA.03";
-  const drUpdateMetaUrl =
-    "https://raw.githubusercontent.com/DuoXPy/DuoRain/main/DuoRain.meta.js";
-  const drUpdatePageUrl = "https://github.com/DuoXPy/DuoRain";
+  const dxVersion = "6.0.0 Beta 04";
+  const dxScriptVersion = "6.0.0.BETA.04";
+  const dxUpdateMetaUrl =
+    "https://raw.githubusercontent.com/LibreDuo/DuoXJS/main/DuoXJS.meta.js";
+  const dxUpdatePageUrl = "https://github.com/LibreDuo/DuoXJS";
 
   const config = {
     api: {
@@ -212,14 +212,14 @@
     "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36",
   ];
   function pickUserAgent() {
-    let ua = localStorage.getItem("dr_user_agent");
+    let ua = localStorage.getItem("dx_user_agent");
     if (!ua) {
       ua = userAgents[Math.floor(Math.random() * userAgents.length)];
-      localStorage.setItem("dr_user_agent", ua);
+      localStorage.setItem("dx_user_agent", ua);
     }
     return ua;
   }
-  const drUserAgent = pickUserAgent();
+  const dxUserAgent = pickUserAgent();
 
   const DUO_LEAGUES_CDN =
     "https://d35aaqx5ub95lt.cloudfront.net/images/leagues/";
@@ -260,21 +260,12 @@
     "eef523c872b71178ef5acb2442d453a2",
   ].map((h) => DUO_LEAGUES_CDN + h + ".svg");
 
-  function svgDataIcon(inner) {
-    return (
-      "data:image/svg+xml," +
-      encodeURIComponent(
-        `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">${inner}</svg>`,
-      )
-    );
-  }
-
   const yearInReviewIcons = {
-    top1: "https://raw.githubusercontent.com/DuoXPy/DuoRain/main/assets/top_1.svg",
-    top3: "https://raw.githubusercontent.com/DuoXPy/DuoRain/main/assets/top_3.svg",
-    top5: "https://raw.githubusercontent.com/DuoXPy/DuoRain/main/assets/top_5.svg",
+    top1: "https://raw.githubusercontent.com/LibreDuo/DuoXJS/main/assets/top_1.svg",
+    top3: "https://raw.githubusercontent.com/LibreDuo/DuoXJS/main/assets/top_3.svg",
+    top5: "https://raw.githubusercontent.com/LibreDuo/DuoXJS/main/assets/top_5.svg",
     everyone:
-      "https://raw.githubusercontent.com/DuoXPy/DuoRain/main/assets/everyone.svg",
+      "https://raw.githubusercontent.com/LibreDuo/DuoXJS/main/assets/everyone.svg",
   };
 
   const statusReactions = [
@@ -742,75 +733,75 @@
         }
 
         :root {
-            --DR-blue: 0, 122, 255;
-            --DR-green: 50, 215, 75;
-            --DR-red: 255, 69, 58;
-            --DR-orange: 255, 159, 10;
-            --dr-link-color: rgb(var(--DR-blue));
+            --DX-blue: 0, 122, 255;
+            --DX-green: 50, 215, 75;
+            --DX-red: 255, 69, 58;
+            --DX-orange: 255, 159, 10;
+            --dx-link-color: rgb(var(--DX-blue));
 
-            --DR-s1: 4px;
-            --DR-s2: 8px;
-            --DR-s3: 12px;
-            --DR-s4: 16px;
+            --DX-s1: 4px;
+            --DX-s2: 8px;
+            --DX-s3: 12px;
+            --DX-s4: 16px;
 
-            --DR-ctrl: 40px;
-            --DR-ctrl-lg: 48px;
+            --DX-ctrl: 40px;
+            --DX-ctrl-lg: 48px;
 
-            --DR-r-s: 8px;
-            --DR-r-m: 12px;
-            --DR-r-l: 16px;
-            --DR-r-xl: 22px;
-            --DR-corner: 0;
+            --DX-r-s: 8px;
+            --DX-r-m: 12px;
+            --DX-r-l: 16px;
+            --DX-r-xl: 22px;
+            --DX-corner: 0;
 
-            --DR-ease: cubic-bezier(.16, 1, .32, 1);
-            --DR-motion-fast: 400ms;
-            --DR-motion: 400ms;
-            --DR-motion-page: 400ms;
-            --DR-motion-spin: 1200ms;
+            --DX-ease: cubic-bezier(.16, 1, .32, 1);
+            --DX-motion-fast: 400ms;
+            --DX-motion: 400ms;
+            --DX-motion-page: 400ms;
+            --DX-motion-spin: 1200ms;
 
-            --DR-t-title: 22px;
-            --DR-t-lead: 16px;
-            --DR-t-body: 15px;
-            --DR-t-label: 13px;
-            --DR-t-cap: 11px;
+            --DX-t-title: 22px;
+            --DX-t-lead: 16px;
+            --DX-t-body: 15px;
+            --DX-t-label: 13px;
+            --DX-t-cap: 11px;
         }
 
         @supports (corner-shape: superellipse(1.4)) {
-            :root { --DR-corner: superellipse(1.4); }
+            :root { --DX-corner: superellipse(1.4); }
         }
 
-        .DR_Btn,
-        .DR_Input_Wrap,
-        .DR_Hash_Btn,
-        .DR_Select,
-        .DR_Select_Options,
-        .DR_Set_Input_Wrap,
-        .DR_Search,
-        .DR_Panel_Card,
-        .DR_Shop_Card,
-        .DR_Quest_Item,
-        .DR_Shop_Btn,
-        .DR_Quest_Get_Btn,
-        .DR_Profile_Block,
-        .DR_Modal_Box {
-            corner-shape: var(--DR-corner);
+        .DX_Btn,
+        .DX_Input_Wrap,
+        .DX_Hash_Btn,
+        .DX_Select,
+        .DX_Select_Options,
+        .DX_Set_Input_Wrap,
+        .DX_Search,
+        .DX_Panel_Card,
+        .DX_Shop_Card,
+        .DX_Quest_Item,
+        .DX_Shop_Btn,
+        .DX_Quest_Get_Btn,
+        .DX_Profile_Block,
+        .DX_Modal_Box {
+            corner-shape: var(--DX-corner);
         }
 
-        .DR_Wordmark {
+        .DX_Wordmark {
             display: inline-flex;
             align-items: baseline;
             font-family: 'DuoFeather', 'din-round';
-            font-size: var(--DR-t-title);
+            font-size: var(--DX-t-title);
             font-weight: 900;
             letter-spacing: 0.2px;
             line-height: 1;
         }
 
-        .DR_Wordmark .dr-rain {
+        .DX_Wordmark .dx-xjs {
             background: linear-gradient(
                 135deg,
-                #00f0ff 0%,
-                #0072ff 100%
+                #F7DF1E 0%,
+                #FF8000 100%
             );
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -819,42 +810,42 @@
         }
 
 
-        #DR_Root {
+        #DX_Root {
             user-select: none;
             -webkit-user-select: none;
         }
 
-        #DR_Root * {
+        #DX_Root * {
             box-sizing: border-box;
             -webkit-tap-highlight-color: transparent;
         }
 
-        .DR_Selectable {
+        .DX_Selectable {
             user-select: text !important;
             -webkit-user-select: text !important;
             cursor: text;
         }
 
-        #DR_Root p,
-        #DR_Root span,
-        #DR_Root button,
-        #DR_Root input,
-        #DR_Root label,
-        #DR_Root div {
+        #DX_Root p,
+        #DX_Root span,
+        #DX_Root button,
+        #DX_Root input,
+        #DX_Root label,
+        #DX_Root div {
             font-family: 'din-round', 'DuoFeather' !important;
         }
 
-        #DR_Root p,
-        #DR_Root span {
+        #DX_Root p,
+        #DX_Root span {
             margin: 0;
             padding: 0;
         }
 
-        #DR_Root svg {
+        #DX_Root svg {
             flex-shrink: 0;
         }
 
-        .DR_Main {
+        .DX_Main {
             display: inline-flex;
             flex-direction: column;
             justify-content: flex-start;
@@ -865,24 +856,24 @@
             bottom: calc(16px + env(safe-area-inset-bottom, 0px));
             z-index: 2147483646;
             pointer-events: none;
-            transition: gap var(--DR-motion-page) var(--DR-ease);
+            transition: gap var(--DX-motion-page) var(--DX-ease);
         }
 
-        .DR_Main > * {
+        .DX_Main > * {
             pointer-events: auto;
         }
 
-        .DR_Main.dr-panel-hidden {
+        .DX_Main.dx-panel-hidden {
             gap: 0;
             width: max-content;
             height: auto;
         }
 
-        .DR_Main.dr-panel-hidden .DR_Main_Box {
+        .DX_Main.dx-panel-hidden .DX_Main_Box {
             pointer-events: none !important;
         }
 
-        .DR_Main_Box {
+        .DX_Main_Box {
             display: flex;
             width: 325px;
             max-width: calc(100vw - 16px);
@@ -893,33 +884,33 @@
             align-items: center;
             gap: 8px;
             overflow: hidden;
-            border-radius: var(--DR-r-xl);
-            corner-shape: var(--DR-corner);
+            border-radius: var(--DX-r-xl);
+            corner-shape: var(--DX-corner);
             position: relative;
-            transform-origin: var(--DR-panel-origin, center);
+            transform-origin: var(--DX-panel-origin, center);
             -webkit-transform: translate3d(0, 0, 0) scale3d(1, 1, 1);
             transform: translate3d(0, 0, 0) scale3d(1, 1, 1);
-            -webkit-transition: opacity var(--DR-motion) var(--DR-ease),
-                                -webkit-filter var(--DR-motion) var(--DR-ease),
-                                filter var(--DR-motion) var(--DR-ease),
-                                -webkit-transform var(--DR-motion-page) var(--DR-ease),
-                                transform var(--DR-motion-page) var(--DR-ease);
-            transition: opacity var(--DR-motion) var(--DR-ease),
-                        filter var(--DR-motion) var(--DR-ease),
-                        transform var(--DR-motion-page) var(--DR-ease);
+            -webkit-transition: opacity var(--DX-motion) var(--DX-ease),
+                                -webkit-filter var(--DX-motion) var(--DX-ease),
+                                filter var(--DX-motion) var(--DX-ease),
+                                -webkit-transform var(--DX-motion-page) var(--DX-ease),
+                                transform var(--DX-motion-page) var(--DX-ease);
+            transition: opacity var(--DX-motion) var(--DX-ease),
+                        filter var(--DX-motion) var(--DX-ease),
+                        transform var(--DX-motion-page) var(--DX-ease);
             will-change: opacity, filter, transform;
         }
 
-        .DR_Main_Box.dr-hidden {
+        .DX_Main_Box.dx-hidden {
             opacity: 0 !important;
             -webkit-filter: blur(6px) !important;
             filter: blur(6px) !important;
-            -webkit-transform: translate3d(0, var(--DR-panel-hide-y, 0px), 0) scale3d(0.96, 0.96, 1) !important;
-            transform: translate3d(0, var(--DR-panel-hide-y, 0px), 0) scale3d(0.96, 0.96, 1) !important;
+            -webkit-transform: translate3d(0, var(--DX-panel-hide-y, 0px), 0) scale3d(0.96, 0.96, 1) !important;
+            transform: translate3d(0, var(--DX-panel-hide-y, 0px), 0) scale3d(0.96, 0.96, 1) !important;
             pointer-events: none;
         }
 
-        .DR_Main_Box.dr-collapsed {
+        .DX_Main_Box.dx-collapsed {
             width: 0 !important;
             max-width: 0 !important;
             max-height: 0 !important;
@@ -929,80 +920,80 @@
             overflow: hidden;
         }
 
-        .DR_Main_Box.dr-scroll {
+        .DX_Main_Box.dx-scroll {
             overflow-y: auto;
             overflow-x: hidden;
             justify-content: flex-start;
         }
 
-        .DR_Main_Box.dr-scroll::-webkit-scrollbar {
+        .DX_Main_Box.dx-scroll::-webkit-scrollbar {
             width: 4px;
         }
 
-        .DR_Main_Box.dr-scroll::-webkit-scrollbar-track {
+        .DX_Main_Box.dx-scroll::-webkit-scrollbar-track {
             background: transparent;
         }
 
-        .DR_Main_Box.dr-scroll::-webkit-scrollbar-thumb {
-            background: rgba(var(--DR-blue), 0.4);
+        .DX_Main_Box.dx-scroll::-webkit-scrollbar-thumb {
+            background: rgba(var(--DX-blue), 0.4);
             border-radius: 4px;
         }
 
-        .DR_Main_Box.dr-menu-open {
+        .DX_Main_Box.dx-menu-open {
             overflow: visible;
         }
 
-        .DR_Main_Box.dr-scroll.dr-menu-open {
+        .DX_Main_Box.dx-scroll.dx-menu-open {
             overflow-x: hidden;
             overflow-y: auto;
         }
 
-        .DR_Main_Box.dr-light {
-            --dr-panel-bg: rgba(255, 255, 255, 0.85);
-            background: var(--dr-panel-bg);
+        .DX_Main_Box.dx-light {
+            --dx-panel-bg: rgba(255, 255, 255, 0.85);
+            background: var(--dx-panel-bg);
             backdrop-filter: blur(20px) saturate(1.6);
             -webkit-backdrop-filter: blur(20px) saturate(1.6);
             outline: 2px solid rgba(229, 229, 229, 1);
             outline-offset: -2px;
             box-shadow: 0 18px 50px -12px rgba(17, 32, 46, 0.28), 0 2px 8px rgba(17, 32, 46, 0.06);
-            --dr-bg: rgba(255, 255, 255, 0.95);
-            --dr-text: #333;
-            --dr-card-bg: rgba(0, 0, 0, 0.05);
-            --dr-card-hover: rgba(var(--DR-blue), 0.1);
-            --dr-card-border: rgba(229, 229, 229, 1);
+            --dx-bg: rgba(255, 255, 255, 0.95);
+            --dx-text: #333;
+            --dx-card-bg: rgba(0, 0, 0, 0.05);
+            --dx-card-hover: rgba(var(--DX-blue), 0.1);
+            --dx-card-border: rgba(229, 229, 229, 1);
         }
 
-        .DR_Main_Box.dr-dark {
-            --dr-panel-bg: rgba(32, 47, 54, 0.85);
-            background: var(--dr-panel-bg);
+        .DX_Main_Box.dx-dark {
+            --dx-panel-bg: rgba(32, 47, 54, 0.85);
+            background: var(--dx-panel-bg);
             backdrop-filter: blur(20px) saturate(1.6);
             -webkit-backdrop-filter: blur(20px) saturate(1.6);
             outline: 2px solid rgba(55, 70, 79, 1);
             outline-offset: -2px;
             box-shadow: 0 20px 55px -12px rgba(0, 0, 0, 0.55), 0 2px 8px rgba(0, 0, 0, 0.3);
-            --dr-bg: rgba(32, 47, 54, 0.95);
-            --dr-text: #fff;
-            --dr-card-bg: rgba(255, 255, 255, 0.05);
-            --dr-card-hover: rgba(var(--DR-blue), 0.15);
-            --dr-card-border: rgba(55, 70, 79, 1);
-            --dr-link-color: #58a6ff;
+            --dx-bg: rgba(32, 47, 54, 0.95);
+            --dx-text: #fff;
+            --dx-card-bg: rgba(255, 255, 255, 0.05);
+            --dx-card-hover: rgba(var(--DX-blue), 0.15);
+            --dx-card-border: rgba(55, 70, 79, 1);
+            --dx-link-color: #58a6ff;
         }
 
-        #duorain-hide-button.dr-light {
-            --dr-text: #333;
-            --dr-panel-bg: rgba(255, 255, 255, 0.85);
-            --dr-card-border: rgba(229, 229, 229, 1);
-            --dr-panel-shadow: 0 12px 32px -14px rgba(17, 32, 46, 0.28), 0 2px 8px rgba(17, 32, 46, 0.06);
+        #duoxjs-hide-button.dx-light {
+            --dx-text: #333;
+            --dx-panel-bg: rgba(255, 255, 255, 0.85);
+            --dx-card-border: rgba(229, 229, 229, 1);
+            --dx-panel-shadow: 0 12px 32px -14px rgba(17, 32, 46, 0.28), 0 2px 8px rgba(17, 32, 46, 0.06);
         }
 
-        #duorain-hide-button.dr-dark {
-            --dr-text: #fff;
-            --dr-panel-bg: rgba(32, 47, 54, 0.85);
-            --dr-card-border: rgba(55, 70, 79, 1);
-            --dr-panel-shadow: 0 14px 36px -14px rgba(0, 0, 0, 0.55), 0 2px 8px rgba(0, 0, 0, 0.3);
+        #duoxjs-hide-button.dx-dark {
+            --dx-text: #fff;
+            --dx-panel-bg: rgba(32, 47, 54, 0.85);
+            --dx-card-border: rgba(55, 70, 79, 1);
+            --dx-panel-shadow: 0 14px 36px -14px rgba(0, 0, 0, 0.55), 0 2px 8px rgba(0, 0, 0, 0.3);
         }
 
-        .DR_HStack_Auto {
+        .DX_HStack_Auto {
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -1011,7 +1002,7 @@
             min-width: 0;
         }
 
-        .DR_HStack_8 {
+        .DX_HStack_8 {
             display: flex;
             align-items: center;
             gap: 8px;
@@ -1019,7 +1010,7 @@
             min-width: 0;
         }
 
-        .DR_HStack_4 {
+        .DX_HStack_4 {
             display: flex;
             align-items: center;
             gap: 4px;
@@ -1027,7 +1018,7 @@
             min-width: 0;
         }
 
-        .DR_VStack_8 {
+        .DX_VStack_8 {
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -1036,7 +1027,7 @@
             align-self: stretch;
         }
 
-        .DR_VStack_4 {
+        .DX_VStack_4 {
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -1045,42 +1036,42 @@
             align-self: stretch;
         }
 
-        .DR_NoSel {
+        .DX_NoSel {
             user-select: none;
             -webkit-user-select: none;
         }
 
-        .DR_Divider {
+        .DX_Divider {
             align-self: stretch;
             height: 1px;
             background: rgba(117, 117, 117, 0.2);
             flex-shrink: 0;
         }
 
-        .DR_T1 {
+        .DX_T1 {
             font-size: 14px;
             font-weight: 700;
             line-height: 1.22;
-            color: var(--dr-text);
+            color: var(--dx-text);
             margin: 0;
             min-width: 0;
         }
 
-        .DR_T1:has(+ .DR_T2) {
+        .DX_T1:has(+ .DX_T2) {
             font-weight: 800;
         }
 
-        .DR_T2 {
+        .DX_T2 {
             font-size: 13px;
             font-weight: 600;
             line-height: 1.25;
-            color: var(--dr-text);
+            color: var(--dx-text);
             opacity: 0.6;
             margin: 0;
             min-width: 0;
         }
 
-        .DR_Btn {
+        .DX_Btn {
             display: flex;
             height: 40px;
             padding: 10px 12px 10px 10px;
@@ -1093,54 +1084,54 @@
             border: none;
             cursor: pointer;
             user-select: none;
-            transition: filter var(--DR-motion-fast) ease,
-                        transform var(--DR-motion-fast) ease,
-                        background var(--DR-motion) ease,
-                        color var(--DR-motion) ease;
+            transition: filter var(--DX-motion-fast) ease,
+                        transform var(--DX-motion-fast) ease,
+                        background var(--DX-motion) ease,
+                        color var(--DX-motion) ease;
         }
 
-        .DR_Btn:hover {
+        .DX_Btn:hover {
             filter: brightness(0.9);
             transform: scale(1.05);
         }
 
-        .DR_Btn:active {
+        .DX_Btn:active {
             filter: brightness(0.9);
             transform: scale(0.9);
         }
 
-        .DR_Btn_Blue_Ghost,
-        .DR_Btn_Eel {
-            outline: 2px solid var(--dr-card-border);
+        .DX_Btn_Blue_Ghost,
+        .DX_Btn_Eel {
+            outline: 2px solid var(--dx-card-border);
             outline-offset: -2px;
-            background: var(--dr-card-bg);
+            background: var(--dx-card-bg);
         }
 
-        .DR_Btn_Blue_Ghost .DR_Nav_Title {
-            color: var(--dr-text);
+        .DX_Btn_Blue_Ghost .DX_Nav_Title {
+            color: var(--dx-text);
         }
 
-        .DR_Btn_Blue_Ghost .DR_Nav_Btn_L > svg,
-        .DR_Btn_Blue_Ghost .DR_Nav_Btn_L > svg [stroke],
-        .DR_Btn_Blue_Ghost > svg path {
-            stroke: var(--dr-text);
+        .DX_Btn_Blue_Ghost .DX_Nav_Btn_L > svg,
+        .DX_Btn_Blue_Ghost .DX_Nav_Btn_L > svg [stroke],
+        .DX_Btn_Blue_Ghost > svg path {
+            stroke: var(--dx-text);
         }
 
-        .DR_Btn_Icon {
+        .DX_Btn_Icon {
             flex: none !important;
             width: 40px;
             padding: 10px !important;
             justify-content: center;
         }
 
-        .DR_Nav_Btn {
+        .DX_Nav_Btn {
             align-self: stretch;
             justify-content: space-between;
             height: 40px;
             padding: 10px 12px 10px 10px;
         }
 
-        .DR_Nav_Btn_L {
+        .DX_Nav_Btn_L {
             display: flex;
             align-items: center;
             gap: 8px;
@@ -1148,16 +1139,16 @@
             min-width: 0;
         }
 
-        .DR_Nav_Btn_L > svg:first-child,
-        .DR_Nav_Btn_L > img:first-child {
+        .DX_Nav_Btn_L > svg:first-child,
+        .DX_Nav_Btn_L > img:first-child {
             width: 20px !important;
             height: 20px !important;
             flex-shrink: 0;
             object-fit: contain;
         }
 
-        .DR_Nav_Title {
-            color: rgb(var(--DR-blue));
+        .DX_Nav_Title {
+            color: rgb(var(--DX-blue));
             font-size: 14px;
             font-weight: 800;
             line-height: 1.18;
@@ -1166,7 +1157,7 @@
             text-overflow: ellipsis;
         }
 
-        .DR_Input_Wrap {
+        .DX_Input_Wrap {
             display: flex;
             height: 44px;
             padding: 12px 14px;
@@ -1175,26 +1166,26 @@
             flex: 1 0 0;
             min-width: 0;
             gap: 6px;
-            border-radius: var(--DR-r-s);
-            outline: 2px solid var(--dr-card-border);
+            border-radius: var(--DX-r-s);
+            outline: 2px solid var(--dx-card-border);
             outline-offset: -2px;
-            background: var(--dr-card-bg);
+            background: var(--dx-card-bg);
             position: relative;
             overflow: hidden;
-            transition: flex var(--DR-motion-page) var(--DR-ease),
-                        padding var(--DR-motion-page) var(--DR-ease),
-                        margin var(--DR-motion-page) var(--DR-ease),
-                        opacity var(--DR-motion) ease,
-                        outline-width var(--DR-motion-page) var(--DR-ease),
-                        outline-color var(--DR-motion) ease,
-                        background var(--DR-motion) ease;
+            transition: flex var(--DX-motion-page) var(--DX-ease),
+                        padding var(--DX-motion-page) var(--DX-ease),
+                        margin var(--DX-motion-page) var(--DX-ease),
+                        opacity var(--DX-motion) ease,
+                        outline-width var(--DX-motion-page) var(--DX-ease),
+                        outline-color var(--DX-motion) ease,
+                        background var(--DX-motion) ease;
         }
 
-        .DR_Input_Wrap:focus-within {
-            outline-color: rgba(var(--DR-blue), 0.35);
+        .DX_Input_Wrap:focus-within {
+            outline-color: rgba(var(--DX-blue), 0.35);
         }
 
-        .DR_Input_Wrap.dr-inf-hidden {
+        .DX_Input_Wrap.dx-inf-hidden {
             flex: 0 0 0px;
             padding-left: 0;
             padding-right: 0;
@@ -1204,12 +1195,12 @@
             margin-right: -8px;
         }
 
-        .DR_Hash_Btn {
-            --focus-outline: var(--dr-card-border);
-            background: var(--dr-card-bg);
+        .DX_Hash_Btn {
+            --focus-outline: var(--dx-card-border);
+            background: var(--dx-card-bg);
             border: none;
-            border-radius: var(--DR-r-s);
-            color: var(--dr-text);
+            border-radius: var(--DX-r-s);
+            color: var(--dx-text);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -1219,60 +1210,60 @@
             flex-shrink: 0;
             cursor: pointer;
             overflow: hidden;
-            outline: 2px solid var(--dr-card-border);
+            outline: 2px solid var(--dx-card-border);
             outline-offset: -2px;
-            transition: filter var(--DR-motion-fast) ease,
-                        transform var(--DR-motion-fast) ease,
-                        background var(--DR-motion) ease,
-                        outline-color var(--DR-motion) ease,
-                        box-shadow var(--DR-motion) ease,
-                        flex var(--DR-motion-page) var(--DR-ease),
-                        width var(--DR-motion-page) var(--DR-ease);
+            transition: filter var(--DX-motion-fast) ease,
+                        transform var(--DX-motion-fast) ease,
+                        background var(--DX-motion) ease,
+                        outline-color var(--DX-motion) ease,
+                        box-shadow var(--DX-motion) ease,
+                        flex var(--DX-motion-page) var(--DX-ease),
+                        width var(--DX-motion-page) var(--DX-ease);
         }
 
-        .DR_Hash_Btn svg {
+        .DX_Hash_Btn svg {
             display: block;
             width: 22px;
             height: 22px;
         }
 
-        .DR_Hash_Btn:hover {
+        .DX_Hash_Btn:hover {
             filter: brightness(0.9);
             transform: scale(1.05);
         }
 
-        .DR_Hash_Btn:active {
+        .DX_Hash_Btn:active {
             filter: brightness(0.9);
             transform: scale(0.9);
         }
 
-        .DR_Hash_Btn.dr-inf-active {
+        .DX_Hash_Btn.dx-inf-active {
             flex: 1 0 0;
             width: auto;
         }
 
-        #DR_Root .DR_Hash_Btn:focus,
-        #DR_Root .DR_Hash_Btn:focus-visible,
-        #DR_Root .DR_Hash_Btn:active {
-            outline: 2px solid var(--dr-card-border) !important;
+        #DX_Root .DX_Hash_Btn:focus,
+        #DX_Root .DX_Hash_Btn:focus-visible,
+        #DX_Root .DX_Hash_Btn:active {
+            outline: 2px solid var(--dx-card-border) !important;
             outline-offset: -2px !important;
             box-shadow: none !important;
         }
 
-        .DR_Hash_Lbl {
+        .DX_Hash_Lbl {
             font-weight: 800;
             font-size: 13px;
             white-space: nowrap;
         }
 
-        .DR_Input {
+        .DX_Input {
             border: none !important;
             outline: none !important;
             background: none !important;
             text-align: right;
             font-size: 14px !important;
             font-weight: 600 !important;
-            color: var(--dr-text) !important;
+            color: var(--dx-text) !important;
             font-family: inherit !important;
             width: 100%;
             -webkit-appearance: none;
@@ -1280,18 +1271,18 @@
             -moz-appearance: textfield;
         }
 
-        .DR_Input::placeholder {
-            color: var(--dr-text) !important;
+        .DX_Input::placeholder {
+            color: var(--dx-text) !important;
             opacity: 0.5;
         }
 
-        .DR_Input::-webkit-outer-spin-button,
-        .DR_Input::-webkit-inner-spin-button {
+        .DX_Input::-webkit-outer-spin-button,
+        .DX_Input::-webkit-inner-spin-button {
             -webkit-appearance: none;
             margin: 0;
         }
 
-        .DR_Input_Btn {
+        .DX_Input_Btn {
             display: flex;
             height: 44px;
             width: 66px;
@@ -1299,43 +1290,43 @@
             box-sizing: border-box;
             justify-content: center;
             align-items: center;
-            border-radius: var(--DR-r-s);
-            corner-shape: var(--DR-corner);
+            border-radius: var(--DX-r-s);
+            corner-shape: var(--DX-corner);
             border: none;
             cursor: pointer;
             user-select: none;
             outline: 2px solid rgba(0, 0, 0, 0.2);
             outline-offset: -2px;
-            background: rgb(var(--DR-blue));
+            background: rgb(var(--DX-blue));
             white-space: nowrap;
             flex-shrink: 0;
-            transition: background var(--DR-motion) ease,
-                        outline var(--DR-motion) ease,
-                        filter var(--DR-motion-fast) ease,
-                        transform var(--DR-motion-fast) ease;
+            transition: background var(--DX-motion) ease,
+                        outline var(--DX-motion) ease,
+                        filter var(--DX-motion-fast) ease,
+                        transform var(--DX-motion-fast) ease;
         }
 
-        .DR_Input_Btn:focus,
-        .DR_Input_Btn:focus-visible {
+        .DX_Input_Btn:focus,
+        .DX_Input_Btn:focus-visible {
             outline-color: var(--focus-outline, rgba(0, 0, 0, 0.2)) !important;
         }
 
-        .DR_Input_Btn:hover {
+        .DX_Input_Btn:hover {
             filter: brightness(0.9);
             transform: scale(1.05);
         }
 
-        .DR_Input_Btn:active {
+        .DX_Input_Btn:active {
             filter: brightness(0.9);
             transform: scale(0.9);
         }
 
-        .DR_Input_Btn:disabled {
+        .DX_Input_Btn:disabled {
             opacity: 0.38;
             pointer-events: none;
         }
 
-        .DR_Btn_Label {
+        .DX_Btn_Label {
             font-size: 14px;
             font-weight: 800;
             line-height: 1.1;
@@ -1343,83 +1334,83 @@
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
-            transition: opacity var(--DR-motion) ease,
-                        filter var(--DR-motion) ease,
-                        color var(--DR-motion) ease;
+            transition: opacity var(--DX-motion) ease,
+                        filter var(--DX-motion) ease,
+                        color var(--DX-motion) ease;
         }
 
-        .DR_Sm_Btn {
+        .DX_Sm_Btn {
             display: flex;
-            height: var(--DR-ctrl);
+            height: var(--DX-ctrl);
             padding: 10px 12px;
             min-width: 66px;
             justify-content: center;
             align-items: center;
-            border-radius: var(--DR-r-s);
-            corner-shape: var(--DR-corner);
+            border-radius: var(--DX-r-s);
+            corner-shape: var(--DX-corner);
             border: none;
             cursor: pointer;
             user-select: none;
             flex-shrink: 0;
             outline: 2px solid rgba(0, 0, 0, 0.2);
             outline-offset: -2px;
-            background: rgb(var(--DR-blue));
+            background: rgb(var(--DX-blue));
             white-space: nowrap;
-            transition: background var(--DR-motion) ease,
-                        outline var(--DR-motion) ease,
-                        filter var(--DR-motion-fast) ease,
-                        transform var(--DR-motion-fast) ease;
+            transition: background var(--DX-motion) ease,
+                        outline var(--DX-motion) ease,
+                        filter var(--DX-motion-fast) ease,
+                        transform var(--DX-motion-fast) ease;
         }
 
-        .DR_Sm_Btn:focus,
-        .DR_Sm_Btn:focus-visible {
+        .DX_Sm_Btn:focus,
+        .DX_Sm_Btn:focus-visible {
             outline-color: var(--focus-outline, rgba(0, 0, 0, 0.2)) !important;
         }
 
-        .DR_Sm_Btn:hover {
+        .DX_Sm_Btn:hover {
             filter: brightness(0.9);
             transform: scale(1.05);
         }
 
-        .DR_Sm_Btn:active {
+        .DX_Sm_Btn:active {
             filter: brightness(0.9);
             transform: scale(0.9);
         }
 
-        .DR_Sm_Btn:disabled {
+        .DX_Sm_Btn:disabled {
             opacity: 0.38;
             pointer-events: none;
         }
 
-        .DR_Sm_Btn_Label {
+        .DX_Sm_Btn_Label {
             font-size: 14px;
             font-weight: 800;
             line-height: 1.1;
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
-            transition: opacity var(--DR-motion) ease,
-                        filter var(--DR-motion) ease,
-                        color var(--DR-motion) ease;
+            transition: opacity var(--DX-motion) ease,
+                        filter var(--DX-motion) ease,
+                        color var(--DX-motion) ease;
         }
 
-        .DR_Toggle {
+        .DX_Toggle {
             position: relative;
             width: 52px;
             height: 30px;
             border-radius: 999px;
-            background: var(--dr-card-border);
+            background: var(--dx-card-border);
             cursor: pointer;
             user-select: none;
             flex-shrink: 0;
-            transition: background var(--DR-motion) ease;
+            transition: background var(--DX-motion) ease;
         }
 
-        .DR_Toggle.on {
-            background: rgb(var(--DR-blue));
+        .DX_Toggle.on {
+            background: rgb(var(--DX-blue));
         }
 
-        .DR_Toggle_Knob {
+        .DX_Toggle_Knob {
             position: absolute;
             top: 3px;
             left: 3px;
@@ -1430,42 +1421,42 @@
             box-shadow: 0 1px 3px rgba(0, 0, 0, .3);
             -webkit-transform: translate3d(0, 0, 0);
             transform: translate3d(0, 0, 0);
-            -webkit-transition: -webkit-transform var(--DR-motion) var(--DR-ease);
-            transition: transform var(--DR-motion) var(--DR-ease);
+            -webkit-transition: -webkit-transform var(--DX-motion) var(--DX-ease);
+            transition: transform var(--DX-motion) var(--DX-ease);
         }
 
-        .DR_Toggle.on .DR_Toggle_Knob {
+        .DX_Toggle.on .DX_Toggle_Knob {
             -webkit-transform: translate3d(22px, 0, 0);
             transform: translate3d(22px, 0, 0);
         }
 
-        .DR_Select {
+        .DX_Select {
             position: relative;
             width: 100%;
             min-width: 0;
             height: 40px;
             border-radius: 8px;
-            background: var(--dr-card-bg);
-            outline: 2px solid var(--dr-card-border);
+            background: var(--dx-card-bg);
+            outline: 2px solid var(--dx-card-border);
             outline-offset: -2px;
-            color: var(--dr-text);
+            color: var(--dx-text);
             font-weight: 700;
             font-size: 13px;
             cursor: pointer;
             user-select: none;
-            transition: outline-color var(--DR-motion) ease,
-                        background var(--DR-motion) ease;
+            transition: outline-color var(--DX-motion) ease,
+                        background var(--DX-motion) ease;
         }
 
-        .DR_Select:hover {
-            outline-color: rgba(var(--DR-blue), 0.35);
+        .DX_Select:hover {
+            outline-color: rgba(var(--DX-blue), 0.35);
         }
 
-        .DR_Select.open {
-            outline-color: rgba(var(--DR-blue), 0.35);
+        .DX_Select.open {
+            outline-color: rgba(var(--DX-blue), 0.35);
         }
 
-        .DR_Select_Trigger {
+        .DX_Select_Trigger {
             height: 100%;
             padding: 0 12px;
             display: flex;
@@ -1475,20 +1466,20 @@
             min-width: 0;
         }
 
-        .DR_Select_Text {
+        .DX_Select_Text {
             min-width: 0;
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
         }
 
-        .DR_Select_Options {
+        .DX_Select_Options {
             position: absolute;
             top: calc(100% + 8px);
             left: 0;
             right: 0;
-            background: var(--dr-bg);
-            border: 1px solid var(--dr-card-border);
+            background: var(--dx-bg);
+            border: 1px solid var(--dx-card-border);
             border-radius: 8px;
             box-shadow: 0 10px 40px rgba(0, 0, 0, .2);
             max-height: 0;
@@ -1497,20 +1488,20 @@
             visibility: hidden;
             -webkit-transform: translate3d(0, -8px, 0);
             transform: translate3d(0, -8px, 0);
-            -webkit-transition: max-height var(--DR-motion) var(--DR-ease),
-                                opacity var(--DR-motion) ease,
-                                visibility var(--DR-motion) ease,
-                                -webkit-transform var(--DR-motion) var(--DR-ease),
-                                transform var(--DR-motion) var(--DR-ease);
-            transition: max-height var(--DR-motion) var(--DR-ease),
-                        opacity var(--DR-motion) ease,
-                        visibility var(--DR-motion) ease,
-                        transform var(--DR-motion) var(--DR-ease);
+            -webkit-transition: max-height var(--DX-motion) var(--DX-ease),
+                                opacity var(--DX-motion) ease,
+                                visibility var(--DX-motion) ease,
+                                -webkit-transform var(--DX-motion) var(--DX-ease),
+                                transform var(--DX-motion) var(--DX-ease);
+            transition: max-height var(--DX-motion) var(--DX-ease),
+                        opacity var(--DX-motion) ease,
+                        visibility var(--DX-motion) ease,
+                        transform var(--DX-motion) var(--DX-ease);
             z-index: 100;
             backdrop-filter: blur(20px);
         }
 
-        .DR_Select.open .DR_Select_Options {
+        .DX_Select.open .DX_Select_Options {
             max-height: 128px;
             opacity: 1;
             visibility: visible;
@@ -1518,113 +1509,113 @@
             transform: translate3d(0, 0, 0);
         }
 
-        .DR_Select_Option {
+        .DX_Select_Option {
             padding: 0 12px;
             min-height: 40px;
             display: flex;
             align-items: center;
             box-sizing: border-box;
-            color: var(--dr-text);
+            color: var(--dx-text);
             font-weight: 600;
-            transition: background var(--DR-motion-fast) ease,
-                        color var(--DR-motion-fast) ease;
+            transition: background var(--DX-motion-fast) ease,
+                        color var(--DX-motion-fast) ease;
         }
 
-        .DR_Select_Option:hover {
-            background: var(--dr-card-hover);
-            color: var(--dr-text);
+        .DX_Select_Option:hover {
+            background: var(--dx-card-hover);
+            color: var(--dx-text);
         }
 
-        .DR_Select .DR_Chevron {
+        .DX_Select .DX_Chevron {
             -webkit-transform: rotate3d(0, 0, 1, 0deg);
             transform: rotate3d(0, 0, 1, 0deg);
-            -webkit-transition: -webkit-transform var(--DR-motion) var(--DR-ease);
-            transition: transform var(--DR-motion) var(--DR-ease);
+            -webkit-transition: -webkit-transform var(--DX-motion) var(--DX-ease);
+            transition: transform var(--DX-motion) var(--DX-ease);
             width: 16px;
             height: 16px;
-            stroke: var(--dr-text);
+            stroke: var(--dx-text);
         }
 
-        .DR_Select.open .DR_Chevron {
+        .DX_Select.open .DX_Chevron {
             -webkit-transform: rotate3d(0, 0, 1, 180deg);
             transform: rotate3d(0, 0, 1, 180deg);
         }
 
-        .DR_Select_Options::-webkit-scrollbar {
+        .DX_Select_Options::-webkit-scrollbar {
             width: 4px;
         }
 
-        .DR_Select_Options::-webkit-scrollbar-track {
+        .DX_Select_Options::-webkit-scrollbar-track {
             margin: 8px 0;
             border-radius: 12px;
         }
 
-        .DR_Select_Options::-webkit-scrollbar-thumb {
-            background: rgba(var(--DR-blue), 0.4);
+        .DX_Select_Options::-webkit-scrollbar-thumb {
+            background: rgba(var(--DX-blue), 0.4);
             border-radius: 4px;
         }
 
-        .DR_Farm_Sec {
+        .DX_Farm_Sec {
             display: flex;
             flex-direction: column;
             align-items: stretch;
             align-self: stretch;
         }
 
-        .DR_Farm_Sec > .DR_HStack_8 {
+        .DX_Farm_Sec > .DX_HStack_8 {
             margin-top: 8px;
         }
 
-        .DR_Farm_Sec > .DR_Prog_Wrap.on {
+        .DX_Farm_Sec > .DX_Prog_Wrap.on {
             margin-top: 8px;
         }
 
-        .DR_Task_Group {
+        .DX_Task_Group {
             display: flex;
             flex-direction: column;
             align-items: stretch;
             align-self: stretch;
         }
 
-        .DR_Task_Group > .DR_Prog_Wrap.on {
+        .DX_Task_Group > .DX_Prog_Wrap.on {
             margin-top: 8px;
         }
 
-        .DR_Prog_Wrap {
+        .DX_Prog_Wrap {
             align-self: stretch;
             height: 0;
             border-radius: 3px;
-            background: rgba(var(--DR-blue), 0.1);
+            background: rgba(var(--DX-blue), 0.1);
             overflow: hidden;
-            transition: height var(--DR-motion-page) var(--DR-ease);
+            transition: height var(--DX-motion-page) var(--DX-ease);
         }
 
-        .DR_Prog_Wrap.on {
+        .DX_Prog_Wrap.on {
             height: 4px;
         }
 
-        .DR_Prog_Fill {
+        .DX_Prog_Fill {
             height: 100%;
             border-radius: 3px;
-            background: rgb(var(--DR-blue));
+            background: rgb(var(--DX-blue));
             width: 0%;
-            transition: width var(--DR-motion-page) var(--DR-ease),
-                        background var(--DR-motion) ease,
-                        box-shadow var(--DR-motion) ease;
-            box-shadow: 0 0 6px rgba(var(--DR-blue), 0.35);
+            transition: width var(--DX-motion-page) var(--DX-ease),
+                        background var(--DX-motion) ease,
+                        box-shadow var(--DX-motion) ease;
+            box-shadow: 0 0 6px rgba(var(--DX-blue), 0.35);
         }
 
-        .DR_Prog_Fill.done {
-            background: rgb(var(--DR-green)) !important;
-            box-shadow: 0 0 8px rgba(var(--DR-green), 0.45) !important;
+        .DX_Prog_Fill.done {
+            background: rgb(var(--DX-green)) !important;
+            box-shadow: 0 0 8px rgba(var(--DX-green), 0.45) !important;
         }
 
-        .DR_Avatar {
+        .DX_Avatar {
             width: 32px;
             height: 32px;
             border-radius: 50%;
-            background: rgba(var(--DR-blue), 0.1);
-            color: var(--dr-text);
+            background: rgba(var(--DX-blue), 0.1);
+            color: var(--dx-text);
             overflow: hidden;
             flex-shrink: 0;
             display: flex;
@@ -1632,26 +1623,26 @@
             justify-content: center;
         }
 
-        .DR_Stat_Ico {
+        .DX_Stat_Ico {
             width: 15px;
             height: 15px;
             display: block;
             flex-shrink: 0;
         }
 
-        .DR_Stat_Val {
+        .DX_Stat_Val {
             font-size: 13px !important;
             font-weight: 700 !important;
-            color: var(--dr-text) !important;
+            color: var(--dx-text) !important;
             opacity: 0.8;
         }
 
-        .DR_Page {
+        .DX_Page {
             display: none;
             width: 100%;
         }
 
-        .DR_Page.active {
+        .DX_Page.active {
             display: flex;
             flex-direction: column;
             gap: 8px;
@@ -1659,7 +1650,7 @@
             align-items: center;
         }
 
-        .DR_Notif_Main {
+        .DX_Notif_Main {
             display: flex;
             justify-content: center;
             align-items: center;
@@ -1674,7 +1665,7 @@
             pointer-events: none;
         }
 
-        .DR_Notif_Box {
+        .DX_Notif_Box {
             display: flex;
             align-items: center;
             gap: 12px;
@@ -1688,20 +1679,20 @@
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
             opacity: 0;
             transform: translateY(-20px);
-            transition: transform var(--DR-motion-page) var(--DR-ease),
-                        opacity var(--DR-motion) ease,
-                        margin var(--DR-motion-page) var(--DR-ease);
+            transition: transform var(--DX-motion-page) var(--DX-ease),
+                        opacity var(--DX-motion) ease,
+                        margin var(--DX-motion-page) var(--DX-ease);
             pointer-events: auto;
             width: 100%;
             min-width: 0;
         }
 
-        .DR_Notif_Box .DR_T1,
-        .DR_Notif_Box .DR_T2 {
+        .DX_Notif_Box .DX_T1,
+        .DX_Notif_Box .DX_T2 {
             overflow-wrap: anywhere;
         }
 
-        .DR_Notif_Box > div:last-child {
+        .DX_Notif_Box > div:last-child {
             min-width: 0;
             display: flex;
             flex-direction: column;
@@ -1709,75 +1700,75 @@
             gap: 2px;
         }
 
-        .DR_Notif_Main.dr-light {
-            --dr-text: #333;
+        .DX_Notif_Main.dx-light {
+            --dx-text: #333;
         }
 
-        .DR_Notif_Main.dr-dark {
-            --dr-text: #fff;
+        .DX_Notif_Main.dx-dark {
+            --dx-text: #fff;
         }
 
-        .DR_Notif_Main.dr-dark .DR_Notif_Box {
+        .DX_Notif_Main.dx-dark .DX_Notif_Box {
             background: rgba(32, 47, 54, 0.85);
             outline-color: rgba(55, 70, 79, 1);
         }
 
-        .DR_Notif_Box.show {
+        .DX_Notif_Box.show {
             opacity: 1;
             transform: translateY(0) scale(1) !important;
         }
 
-        .DR_Notif_Box.hide {
+        .DX_Notif_Box.hide {
             opacity: 0 !important;
             transform: translateY(-30px) scale(0.85) !important;
             margin-top: -60px;
             z-index: -1;
         }
 
-        .DR_Notif_Main[data-pos^="bottom"] .DR_Notif_Box {
+        .DX_Notif_Main[data-pos^="bottom"] .DX_Notif_Box {
             transform: translateY(30px) scale(0.9);
         }
 
-        .DR_Notif_Main[data-pos^="bottom"] .DR_Notif_Box.hide {
+        .DX_Notif_Main[data-pos^="bottom"] .DX_Notif_Box.hide {
             transform: translateY(30px) scale(0.85) !important;
             margin-top: 0px;
             margin-bottom: -60px;
             z-index: -1;
         }
 
-        .DR_Notif_Ico {
+        .DX_Notif_Ico {
             width: 24px;
             height: 24px;
             display: flex;
             align-items: center;
-            color: var(--dr-text);
+            color: var(--dx-text);
         }
 
-        .DR_Notif_Ico svg {
+        .DX_Notif_Ico svg {
             width: 100%;
             height: 100%;
         }
 
-        .DR_Notif_Box.warning .DR_Notif_Ico {
+        .DX_Notif_Box.warning .DX_Notif_Ico {
             color: rgb(243, 156, 18);
         }
 
-        .DR_Notif_Box.success .DR_Notif_Ico {
+        .DX_Notif_Box.success .DX_Notif_Ico {
             color: rgb(88, 204, 2);
         }
 
-        .DR_Notif_Box.error .DR_Notif_Ico {
+        .DX_Notif_Box.error .DX_Notif_Ico {
             color: rgb(238, 85, 85);
         }
 
-        .DR_Shop_Grid {
+        .DX_Shop_Grid {
             display: grid;
             grid-template-columns: repeat(2, minmax(0, 1fr));
             gap: 8px;
             align-self: stretch;
         }
 
-        .DR_Shop_Section_Header {
+        .DX_Shop_Section_Header {
             grid-column: 1 / -1;
             display: flex;
             align-items: center;
@@ -1785,22 +1776,22 @@
             margin-top: 4px;
         }
 
-        .DR_Shop_Section_Line {
+        .DX_Shop_Section_Line {
             flex: 1;
             height: 1px;
-            background: var(--dr-card-border);
+            background: var(--dx-card-border);
         }
 
-        .DR_Shop_Section_Title {
+        .DX_Shop_Section_Title {
             font-size: 11px !important;
             font-weight: 800 !important;
-            color: var(--dr-text) !important;
+            color: var(--dx-text) !important;
             text-transform: uppercase;
             letter-spacing: 0;
             opacity: 0.5;
         }
 
-        .DR_Shop_Card {
+        .DX_Shop_Card {
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -1808,31 +1799,31 @@
             padding: 12px 8px;
             box-sizing: border-box;
             border-radius: 12px;
-            outline: 1.5px solid var(--dr-card-border);
+            outline: 1.5px solid var(--dx-card-border);
             outline-offset: -1px;
-            background: var(--dr-card-bg);
-            transition: outline-color var(--DR-motion) ease,
-                        background var(--DR-motion) ease;
+            background: var(--dx-card-bg);
+            transition: outline-color var(--DX-motion) ease,
+                        background var(--DX-motion) ease;
             text-align: center;
             min-width: 0;
         }
 
-        .DR_Shop_Card:hover {
-            outline-color: rgba(var(--DR-blue), 0.3);
-            background: var(--dr-card-hover);
+        .DX_Shop_Card:hover {
+            outline-color: rgba(var(--DX-blue), 0.3);
+            background: var(--dx-card-hover);
         }
 
-        .DR_Shop_Ico {
+        .DX_Shop_Ico {
             width: 36px;
             height: 36px;
             object-fit: contain;
             flex-shrink: 0;
         }
 
-        .DR_Shop_Name {
+        .DX_Shop_Name {
             font-size: 11px;
             font-weight: 700;
-            color: var(--dr-text);
+            color: var(--dx-text);
             opacity: 0.8;
             line-height: 1.3;
             flex: 1;
@@ -1843,63 +1834,63 @@
             overflow-wrap: anywhere;
         }
 
-        .DR_Shop_Btn {
+        .DX_Shop_Btn {
             width: 100%;
             height: 28px;
-            border-radius: var(--DR-r-s);
+            border-radius: var(--DX-r-s);
             border: none;
             cursor: pointer;
             font-size: 11px;
             font-weight: 800;
             color: #fff;
-            background: rgb(var(--DR-blue));
+            background: rgb(var(--DX-blue));
             outline: 2px solid rgba(0, 0, 0, 0.2);
             outline-offset: -2px;
-            transition: filter var(--DR-motion-fast) ease,
-                        transform var(--DR-motion-fast) ease,
-                        background var(--DR-motion) ease;
+            transition: filter var(--DX-motion-fast) ease,
+                        transform var(--DX-motion-fast) ease,
+                        background var(--DX-motion) ease;
         }
 
-        .DR_Shop_Btn:hover {
+        .DX_Shop_Btn:hover {
             filter: brightness(0.9);
             transform: scale(1.05);
         }
 
-        .DR_Shop_Btn:active {
+        .DX_Shop_Btn:active {
             filter: brightness(0.9);
             transform: scale(0.9);
         }
 
-        .DR_Shop_Btn:focus,
-        .DR_Shop_Btn:focus-visible {
+        .DX_Shop_Btn:focus,
+        .DX_Shop_Btn:focus-visible {
             outline-color: var(--focus-outline, rgba(0, 0, 0, 0.2)) !important;
         }
 
-        .DR_Shop_Btn.loading {
-            --focus-outline: var(--dr-card-border);
-            background: var(--dr-card-bg);
-            color: var(--dr-text);
-            outline-color: var(--dr-card-border);
+        .DX_Shop_Btn.loading {
+            --focus-outline: var(--dx-card-border);
+            background: var(--dx-card-bg);
+            color: var(--dx-text);
+            outline-color: var(--dx-card-border);
             pointer-events: none;
         }
 
-        .DR_Shop_Btn.got {
-            --focus-outline: rgba(var(--DR-green), 0.25);
-            background: rgba(var(--DR-green), 0.12);
-            color: rgb(var(--DR-green));
-            outline-color: rgba(var(--DR-green), 0.25);
+        .DX_Shop_Btn.got {
+            --focus-outline: rgba(var(--DX-green), 0.25);
+            background: rgba(var(--DX-green), 0.12);
+            color: rgb(var(--DX-green));
+            outline-color: rgba(var(--DX-green), 0.25);
             pointer-events: none;
         }
 
-        .DR_Shop_Btn.fail {
-            --focus-outline: rgba(var(--DR-red), 0.22);
-            background: rgba(var(--DR-red), 0.10);
-            color: rgb(var(--DR-red));
-            outline-color: rgba(var(--DR-red), 0.22);
+        .DX_Shop_Btn.fail {
+            --focus-outline: rgba(var(--DX-red), 0.22);
+            background: rgba(var(--DX-red), 0.10);
+            color: rgb(var(--DX-red));
+            outline-color: rgba(var(--DX-red), 0.22);
             pointer-events: none;
         }
 
-        .DR_Scroll_Inner {
+        .DX_Scroll_Inner {
             align-self: stretch;
             overflow-y: auto;
             -webkit-overflow-scrolling: touch;
@@ -1911,21 +1902,21 @@
             padding-right: 4px;
         }
 
-        .DR_Scroll_Inner::-webkit-scrollbar {
+        .DX_Scroll_Inner::-webkit-scrollbar {
             width: 4px;
         }
 
-        .DR_Scroll_Inner::-webkit-scrollbar-track {
+        .DX_Scroll_Inner::-webkit-scrollbar-track {
             margin: 8px 0;
             border-radius: 12px;
         }
 
-        .DR_Scroll_Inner::-webkit-scrollbar-thumb {
-            background: rgba(var(--DR-blue), 0.4);
+        .DX_Scroll_Inner::-webkit-scrollbar-thumb {
+            background: rgba(var(--DX-blue), 0.4);
             border-radius: 4px;
         }
 
-        .DR_Search {
+        .DX_Search {
             align-self: stretch;
             height: 40px;
             padding: 0 12px;
@@ -1933,20 +1924,20 @@
             border: none;
             -webkit-appearance: none;
             appearance: none;
-            outline: 2px solid var(--dr-card-border);
+            outline: 2px solid var(--dx-card-border);
             outline-offset: -2px;
-            background: var(--dr-card-bg);
+            background: var(--dx-card-bg);
             font-size: 14px;
             font-weight: 600;
-            color: var(--dr-text);
-            transition: outline-color var(--DR-motion) ease;
+            color: var(--dx-text);
+            transition: outline-color var(--DX-motion) ease;
         }
 
-        .DR_Search:focus {
-            outline-color: rgba(var(--DR-blue), 0.35);
+        .DX_Search:focus {
+            outline-color: rgba(var(--DX-blue), 0.35);
         }
 
-        .DR_Quest_Item {
+        .DX_Quest_Item {
             display: flex;
             align-items: center;
             gap: 8px;
@@ -1955,17 +1946,17 @@
             padding: 8px 10px;
             box-sizing: border-box;
             border-radius: 8px;
-            outline: 1.5px solid var(--dr-card-border);
+            outline: 1.5px solid var(--dx-card-border);
             outline-offset: -1px;
-            background: var(--dr-card-bg);
+            background: var(--dx-card-bg);
         }
 
-        .DR_Quest_Item.done {
-            outline-color: rgba(var(--DR-green), 0.25);
-            background: rgba(var(--DR-green), 0.04);
+        .DX_Quest_Item.done {
+            outline-color: rgba(var(--DX-green), 0.25);
+            background: rgba(var(--DX-green), 0.04);
         }
 
-        .DR_Acc_Card {
+        .DX_Acc_Card {
             display: flex;
             align-items: center;
             gap: 10px;
@@ -1973,67 +1964,67 @@
             padding: 10px 12px;
             box-sizing: border-box;
             border-radius: 12px;
-            outline: 1.5px solid var(--dr-card-border);
+            outline: 1.5px solid var(--dx-card-border);
             outline-offset: -1px;
-            background: var(--dr-card-bg);
-            transition: outline-color var(--DR-motion) ease,
-                        background var(--DR-motion) ease;
+            background: var(--dx-card-bg);
+            transition: outline-color var(--DX-motion) ease,
+                        background var(--DX-motion) ease;
             position: relative;
             overflow: hidden;
         }
-        .DR_Acc_Card:hover {
-            outline-color: rgba(var(--DR-blue), 0.3);
-            background: var(--dr-card-hover);
+        .DX_Acc_Card:hover {
+            outline-color: rgba(var(--DX-blue), 0.3);
+            background: var(--dx-card-hover);
         }
-        .DR_Acc_Avatar {
+        .DX_Acc_Avatar {
             width: 36px;
             height: 36px;
             border-radius: 50%;
             flex-shrink: 0;
-            background: rgba(var(--DR-blue), 0.1);
-            color: var(--dr-text);
+            background: rgba(var(--DX-blue), 0.1);
+            color: var(--dx-text);
             overflow: hidden;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 16px;
         }
-        .DR_Acc_Info {
+        .DX_Acc_Info {
             flex: 1;
             min-width: 0;
             display: flex;
             flex-direction: column;
             gap: 2px;
         }
-        .DR_Acc_Name {
+        .DX_Acc_Name {
             font-size: 13px !important;
             font-weight: 700 !important;
-            color: var(--dr-text) !important;
+            color: var(--dx-text) !important;
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
             margin: 0;
         }
-        .DR_Acc_Sub {
+        .DX_Acc_Sub {
             font-size: 11px !important;
             font-weight: 600 !important;
-            color: var(--dr-text) !important;
+            color: var(--dx-text) !important;
             opacity: 0.5;
             margin: 0;
         }
-        .DR_Acc_Sub.active {
-            color: rgb(var(--DR-green)) !important;
+        .DX_Acc_Sub.active {
+            color: rgb(var(--DX-green)) !important;
             opacity: 1;
             display: flex;
             align-items: center;
             gap: 4px;
         }
-        .DR_Acc_Action_Row {
+        .DX_Acc_Action_Row {
             display: flex;
             gap: 6px;
             flex-shrink: 0;
         }
-        .DR_Acc_Btn {
+        .DX_Acc_Btn {
             height: 28px;
             padding: 0 10px;
             border-radius: 8px;
@@ -2042,38 +2033,38 @@
             font-size: 10px;
             font-weight: 800;
             color: #fff;
-            background: rgb(var(--DR-blue));
+            background: rgb(var(--DX-blue));
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: opacity var(--DR-motion) ease, transform var(--DR-motion) ease;
+            transition: opacity var(--DX-motion) ease, transform var(--DX-motion) ease;
         }
-        .DR_Acc_Btn:hover {
+        .DX_Acc_Btn:hover {
             opacity: 0.9;
             transform: scale(1.05);
         }
-        .DR_Acc_Btn:active {
+        .DX_Acc_Btn:active {
             transform: scale(0.95);
         }
-        .DR_Acc_Btn.del {
+        .DX_Acc_Btn.del {
             width: 28px;
             padding: 0;
-            background: rgba(var(--DR-red), 0.15);
-            color: rgb(var(--DR-red));
+            background: rgba(var(--DX-red), 0.15);
+            color: rgb(var(--DX-red));
         }
-        .DR_Acc_Btn.del:hover {
-            background: rgb(var(--DR-red));
+        .DX_Acc_Btn.del:hover {
+            background: rgb(var(--DX-red));
             color: #fff;
         }
 
-        .DR_Quest_Icon {
+        .DX_Quest_Icon {
             width: 36px;
             height: 36px;
             object-fit: contain;
             flex-shrink: 0;
         }
 
-        .DR_Quest_Info {
+        .DX_Quest_Info {
             flex: 1;
             min-width: 0;
             display: flex;
@@ -2081,65 +2072,65 @@
             gap: 3px;
         }
 
-        .DR_Quest_Title {
+        .DX_Quest_Title {
             font-size: 12px !important;
             font-weight: 700 !important;
-            color: var(--dr-text) !important;
+            color: var(--dx-text) !important;
             opacity: 0.9;
             line-height: 1.25;
             overflow-wrap: anywhere;
         }
 
-        .DR_Quest_Bar_Bg {
+        .DX_Quest_Bar_Bg {
             height: 4px;
             border-radius: 2px;
-            background: rgba(var(--DR-blue), 0.10);
+            background: rgba(var(--DX-blue), 0.10);
             overflow: hidden;
             align-self: stretch;
         }
 
-        .DR_Quest_Bar_Fill {
+        .DX_Quest_Bar_Fill {
             height: 100%;
-            background: rgb(var(--DR-blue));
+            background: rgb(var(--DX-blue));
             border-radius: 2px;
-            transition: width var(--DR-motion-page) var(--DR-ease);
+            transition: width var(--DX-motion-page) var(--DX-ease);
         }
 
-        .DR_Quest_Item.done .DR_Quest_Bar_Fill {
-            background: rgb(var(--DR-green));
+        .DX_Quest_Item.done .DX_Quest_Bar_Fill {
+            background: rgb(var(--DX-green));
         }
 
-        .DR_Quest_Get_Btn {
+        .DX_Quest_Get_Btn {
             height: 28px;
             min-width: 52px;
             padding: 0 8px;
             flex-shrink: 0;
-            border-radius: var(--DR-r-s);
+            border-radius: var(--DX-r-s);
             border: none;
             cursor: pointer;
             font-size: 10px;
             font-weight: 800;
             white-space: nowrap;
-            background: rgb(var(--DR-blue));
+            background: rgb(var(--DX-blue));
             color: #fff;
-            transition: filter var(--DR-motion-fast) ease,
-                        transform var(--DR-motion-fast) ease,
-                        background var(--DR-motion) ease;
+            transition: filter var(--DX-motion-fast) ease,
+                        transform var(--DX-motion-fast) ease,
+                        background var(--DX-motion) ease;
         }
 
-        .DR_Quest_Get_Btn:hover {
+        .DX_Quest_Get_Btn:hover {
             filter: brightness(0.9);
             transform: scale(1.05);
         }
 
-        .DR_Quest_Get_Btn:active {
+        .DX_Quest_Get_Btn:active {
             filter: brightness(0.9);
             transform: scale(0.9);
         }
 
-        .DR_Field_Row,
-        .DR_Setting_Row,
-        .DR_Compact_Task {
+        .DX_Field_Row,
+        .DX_Setting_Row,
+        .DX_Compact_Task {
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -2148,7 +2139,7 @@
             min-width: 0;
         }
 
-        .DR_Stack_Section {
+        .DX_Stack_Section {
             display: flex;
             flex-direction: column;
             gap: 8px;
@@ -2156,7 +2147,7 @@
             min-width: 0;
         }
 
-        .DR_Row_Text {
+        .DX_Row_Text {
             display: flex;
             flex-direction: column;
             gap: 2px;
@@ -2164,21 +2155,21 @@
             min-width: 0;
         }
 
-        .DR_Row_Text .DR_T1,
-        .DR_Row_Text .DR_T2 {
+        .DX_Row_Text .DX_T1,
+        .DX_Row_Text .DX_T2 {
             overflow-wrap: anywhere;
         }
 
-        .DR_Row_Text .DR_T1 {
+        .DX_Row_Text .DX_T1 {
             line-height: 1.12;
         }
 
-        .DR_Row_Text .DR_T2 {
+        .DX_Row_Text .DX_T2 {
             font-size: 11px;
             line-height: 1.25;
         }
 
-        .DR_Set_Input_Wrap {
+        .DX_Set_Input_Wrap {
             display: flex;
             align-items: center;
             height: 40px;
@@ -2187,22 +2178,22 @@
             box-sizing: border-box;
             gap: 6px;
             border-radius: 8px;
-            outline: 2px solid var(--dr-card-border);
+            outline: 2px solid var(--dx-card-border);
             outline-offset: -2px;
-            transition: outline-color var(--DR-motion) ease;
-            background: var(--dr-card-bg);
+            transition: outline-color var(--DX-motion) ease;
+            background: var(--dx-card-bg);
         }
 
-        .DR_Set_Input_Wrap:focus-within {
-            outline-color: rgba(var(--DR-blue), 0.35);
+        .DX_Set_Input_Wrap:focus-within {
+            outline-color: rgba(var(--DX-blue), 0.35);
         }
 
-        .DR_Set_Input_Wrap .DR_Input {
+        .DX_Set_Input_Wrap .DX_Input {
             text-align: left;
             font-size: 14px !important;
         }
 
-        .DR_Back_Btn {
+        .DX_Back_Btn {
             align-self: flex-start;
             width: auto;
             opacity: 0.62;
@@ -2210,10 +2201,10 @@
             padding: 2px 0;
         }
 
-        .DR_Panel_Card {
+        .DX_Panel_Card {
             align-self: stretch;
-            background: var(--dr-card-bg);
-            outline: 2px solid var(--dr-card-border);
+            background: var(--dx-card-bg);
+            outline: 2px solid var(--dx-card-border);
             outline-offset: -2px;
             border-radius: 8px;
             padding: 12px;
@@ -2222,7 +2213,7 @@
             gap: 8px;
         }
 
-        .DR_Update_Banner {
+        .DX_Update_Banner {
             align-self: stretch;
             display: none;
             align-items: center;
@@ -2235,41 +2226,41 @@
             margin: 0;
             overflow: hidden;
             border-radius: 8px;
-            corner-shape: var(--DR-corner);
-            background: var(--dr-card-bg);
-            outline: 1.5px solid var(--dr-card-border);
+            corner-shape: var(--DX-corner);
+            background: var(--dx-card-bg);
+            outline: 1.5px solid var(--dx-card-border);
             outline-offset: -1.5px;
-            transition: max-height var(--DR-motion-page) var(--DR-ease),
-                        opacity var(--DR-motion) ease,
-                        padding var(--DR-motion-page) var(--DR-ease);
+            transition: max-height var(--DX-motion-page) var(--DX-ease),
+                        opacity var(--DX-motion) ease,
+                        padding var(--DX-motion-page) var(--DX-ease);
         }
 
-        .DR_Update_Banner.on {
+        .DX_Update_Banner.on {
             display: flex;
             max-height: 56px;
             opacity: 1;
             padding: 10px 12px;
         }
 
-        .DR_Quest_Get_Btn.done {
-            background: rgba(var(--DR-green), 0.10);
-            color: rgb(var(--DR-green));
+        .DX_Quest_Get_Btn.done {
+            background: rgba(var(--DX-green), 0.10);
+            color: rgb(var(--DX-green));
             pointer-events: none;
         }
 
         @media (max-width: 480px) {
-            .DR_Main_Box {
+            .DX_Main_Box {
                 padding: 14px;
             }
         }
 
         @media (max-width: 360px) {
-            .DR_Main_Box {
+            .DX_Main_Box {
                 padding: 12px;
             }
 
-            .DR_Input_Btn,
-            .DR_Sm_Btn {
+            .DX_Input_Btn,
+            .DX_Sm_Btn {
                 min-width: 60px;
                 width: 60px;
                 padding-left: 8px;
@@ -2277,7 +2268,7 @@
             }
         }
 
-        #duorain-hide-button {
+        #duoxjs-hide-button {
             cursor: grab;
             touch-action: none;
             flex: none;
@@ -2287,26 +2278,26 @@
             justify-content: center;
             align-items: center;
             gap: 6px;
-            color: var(--dr-text);
-            background: var(--dr-panel-bg) !important;
-            outline: 2px solid var(--dr-card-border);
+            color: var(--dx-text);
+            background: var(--dx-panel-bg) !important;
+            outline: 2px solid var(--dx-card-border);
             outline-offset: -2px;
-            box-shadow: var(--dr-panel-shadow);
+            box-shadow: var(--dx-panel-shadow);
             backdrop-filter: blur(20px) saturate(1.6);
             -webkit-backdrop-filter: blur(20px) saturate(1.6);
-            transition: background var(--DR-motion) ease,
-                        outline var(--DR-motion) ease,
-                        box-shadow var(--DR-motion) ease,
-                        color var(--DR-motion) ease,
-                        filter var(--DR-motion-fast) ease,
-                        transform var(--DR-motion-fast) ease;
+            transition: background var(--DX-motion) ease,
+                        outline var(--DX-motion) ease,
+                        box-shadow var(--DX-motion) ease,
+                        color var(--DX-motion) ease,
+                        filter var(--DX-motion-fast) ease,
+                        transform var(--DX-motion-fast) ease;
         }
 
-        #duorain-hide-button:active {
+        #duoxjs-hide-button:active {
             cursor: grabbing;
         }
 
-        #duorain-hide-button .DR_Hide_Icon_Stack {
+        #duoxjs-hide-button .DX_Hide_Icon_Stack {
             display: grid;
             place-items: center;
             width: 24px;
@@ -2314,72 +2305,72 @@
             flex: 0 0 24px;
         }
 
-        #duorain-hide-button svg {
+        #duoxjs-hide-button svg {
             display: block !important;
             grid-area: 1 / 1;
             color: inherit;
             fill: currentColor !important;
-            transition: color var(--DR-motion) ease,
-                        opacity var(--DR-motion) ease,
-                        filter var(--DR-motion) ease,
-                        transform var(--DR-motion) ease;
+            transition: color var(--DX-motion) ease,
+                        opacity var(--DX-motion) ease,
+                        filter var(--DX-motion) ease,
+                        transform var(--DX-motion) ease;
         }
 
-        #duorain-hide-button svg path {
+        #duoxjs-hide-button svg path {
             fill: currentColor !important;
         }
 
-        #duorain-hide-button #hide-icon {
+        #duoxjs-hide-button #hide-icon {
             opacity: 1;
             transform: scale(1);
         }
 
-        #duorain-hide-button #show-icon {
+        #duoxjs-hide-button #show-icon {
             opacity: 0;
             transform: scale(0.85);
         }
 
-        #duorain-hide-button.duorain-show-mode #hide-icon {
+        #duoxjs-hide-button.duoxjs-show-mode #hide-icon {
             opacity: 0;
             transform: scale(0.85);
         }
 
-        #duorain-hide-button.duorain-show-mode #show-icon {
+        #duoxjs-hide-button.duoxjs-show-mode #show-icon {
             opacity: 1;
             transform: scale(1);
         }
 
-        #duorain-hide-button.duorain-show-mode {
-            background: var(--dr-panel-bg) !important;
-            outline-color: var(--dr-card-border);
-            color: var(--dr-text);
+        #duoxjs-hide-button.duoxjs-show-mode {
+            background: var(--dx-panel-bg) !important;
+            outline-color: var(--dx-card-border);
+            color: var(--dx-text);
         }
 
-        #DR_Main_Content {
-            transition: opacity var(--DR-motion) ease,
-                        filter var(--DR-motion) ease;
+        #DX_Main_Content {
+            transition: opacity var(--DX-motion) ease,
+                        filter var(--DX-motion) ease;
         }
 
-        #DR_Main_Content.dr-disabled > *:not(#DR_User_Row):not(#DR_User_Row_Divider):not(#DR_Page_AccountManager) {
+        #DX_Main_Content.dx-disabled > *:not(#DX_User_Row):not(#DX_User_Row_Divider):not(#DX_Page_AccountManager) {
             pointer-events: none;
             opacity: 0.5;
             filter: grayscale(1);
         }
 
-        #DR_Root button {
+        #DX_Root button {
             -webkit-tap-highlight-color: transparent;
         }
 
-        #DR_Root button:focus,
-        #DR_Root button:focus-visible,
-        #DR_Root button:active {
+        #DX_Root button:focus,
+        #DX_Root button:focus-visible,
+        #DX_Root button:active {
             outline-style: solid !important;
             outline-width: 2px !important;
-            outline-color: var(--focus-outline, var(--dr-card-border)) !important;
+            outline-color: var(--focus-outline, var(--dx-card-border)) !important;
             outline-offset: -2px !important;
         }
 
-        .DR_Modal_Overlay {
+        .DX_Modal_Overlay {
             position: absolute;
             top: 0; left: 0; right: 0; bottom: 0;
             background: rgba(0, 0, 0, 0.4);
@@ -2392,19 +2383,19 @@
             justify-content: center;
             opacity: 0;
             visibility: hidden;
-            transition: opacity var(--DR-motion-page) var(--DR-ease),
-                        visibility var(--DR-motion-page) var(--DR-ease),
-                        backdrop-filter var(--DR-motion-page) var(--DR-ease);
+            transition: opacity var(--DX-motion-page) var(--DX-ease),
+                        visibility var(--DX-motion-page) var(--DX-ease),
+                        backdrop-filter var(--DX-motion-page) var(--DX-ease);
         }
 
-        .DR_Modal_Overlay.show {
+        .DX_Modal_Overlay.show {
             opacity: 1;
             visibility: visible;
         }
 
-        .DR_Modal_Box {
-            background: var(--dr-bg);
-            border: 1px solid var(--dr-card-border);
+        .DX_Modal_Box {
+            background: var(--dx-bg);
+            border: 1px solid var(--dx-card-border);
             border-radius: 16px;
             padding: 20px;
             width: 270px;
@@ -2414,11 +2405,11 @@
             text-align: center;
             gap: 8px;
             transform: scale(0.9);
-            transition: transform var(--DR-motion-page) var(--DR-ease);
+            transition: transform var(--DX-motion-page) var(--DX-ease);
             box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
         }
 
-        .DR_Modal_Overlay.show .DR_Modal_Box {
+        .DX_Modal_Overlay.show .DX_Modal_Box {
             transform: scale(1);
         }
 
@@ -2472,1063 +2463,1063 @@
             padding-bottom: 0px !important;
         }
 
-        #DR_User_Row {
+        #DX_User_Row {
             cursor: pointer;
-            transition: filter var(--DR-motion-fast) ease,
-                        transform var(--DR-motion-fast) ease,
-                        background var(--DR-motion) ease,
-                        border-color var(--DR-motion) ease;
+            transition: filter var(--DX-motion-fast) ease,
+                        transform var(--DX-motion-fast) ease,
+                        background var(--DX-motion) ease,
+                        border-color var(--DX-motion) ease;
         }
 
-        #DR_User_Row:hover {
+        #DX_User_Row:hover {
             filter: brightness(0.9);
             transform: scale(1.02);
-            background: var(--dr-card-bg-hover, var(--dr-card-bg));
-            border-color: rgb(var(--DR-blue));
+            background: var(--dx-card-bg-hover, var(--dx-card-bg));
+            border-color: rgb(var(--DX-blue));
         }
-        #DR_User_Row:active {
+        #DX_User_Row:active {
             transform: scale(0.98);
         }
 
         @media (hover: none) {
-            .DR_Btn:hover,
-            .DR_Hash_Btn:hover,
-            .DR_Input_Btn:hover,
-            .DR_Sm_Btn:hover,
-            .DR_Shop_Btn:hover,
-            .DR_Acc_Btn:hover,
-            .DR_Quest_Get_Btn:hover,
+            .DX_Btn:hover,
+            .DX_Hash_Btn:hover,
+            .DX_Input_Btn:hover,
+            .DX_Sm_Btn:hover,
+            .DX_Shop_Btn:hover,
+            .DX_Acc_Btn:hover,
+            .DX_Quest_Get_Btn:hover,
             .auto-solver-btn:hover,
-            #DR_User_Row:hover {
+            #DX_User_Row:hover {
                 filter: none !important;
                 transform: none !important;
                 opacity: 1 !important;
             }
-            .DR_Select:hover {
-                outline-color: var(--dr-card-border) !important;
+            .DX_Select:hover {
+                outline-color: var(--dx-card-border) !important;
             }
-            .DR_Select_Option:hover {
+            .DX_Select_Option:hover {
                 background: transparent !important;
-                color: var(--dr-text) !important;
+                color: var(--dx-text) !important;
             }
-            .DR_Shop_Card:hover,
-            .DR_Acc_Card:hover {
-                outline-color: var(--dr-card-border) !important;
-                background: var(--dr-card-bg) !important;
+            .DX_Shop_Card:hover,
+            .DX_Acc_Card:hover {
+                outline-color: var(--dx-card-border) !important;
+                background: var(--dx-card-bg) !important;
             }
         }
     `;
 
   const loadCss = `
-        .dr-spinner {
+        .dx-spinner {
             width: 20px;
             height: 20px;
-            border: 2px solid rgba(var(--DR-blue), 0.15);
-            border-top-color: rgb(var(--DR-blue));
+            border: 2px solid rgba(var(--DX-blue), 0.15);
+            border-top-color: rgb(var(--DX-blue));
             border-radius: 50%;
-            -webkit-animation: dr-spin 0.65s linear infinite;
-            animation: dr-spin 0.65s linear infinite;
+            -webkit-animation: dx-spin 0.65s linear infinite;
+            animation: dx-spin 0.65s linear infinite;
             box-sizing: border-box;
         }
 
-        @-webkit-keyframes dr-spin {
+        @-webkit-keyframes dx-spin {
             to { -webkit-transform: rotate3d(0, 0, 1, 360deg); }
         }
-        @keyframes dr-spin {
+        @keyframes dx-spin {
             to { transform: rotate3d(0, 0, 1, 360deg); }
         }
     `;
 
   const uiHtml = `
-        <div class="DR_Notif_Main dr-light" id="DR_Notif_Main"></div>
-        <div class="DR_Main" id="DR_Main">
-            <div class="DR_HStack_8" style="align-self: flex-end;">
-                <button type="button" class="DR_Btn DR_Btn_Eel DR_NoSel dr-light" id="duorain-hide-button">
-                    <span class="DR_Hide_Icon_Stack">${icons.hideBtn}${icons.showBtn}</span>
-                    <span id="hide-show-text" class="DR_T1 DR_NoSel" style="font-size: 14px; line-height: 1; color: inherit;">Hide</span>
+        <div class="DX_Notif_Main dx-light" id="DX_Notif_Main"></div>
+        <div class="DX_Main" id="DX_Main">
+            <div class="DX_HStack_8" style="align-self: flex-end;">
+                <button type="button" class="DX_Btn DX_Btn_Eel DX_NoSel dx-light" id="duoxjs-hide-button">
+                    <span class="DX_Hide_Icon_Stack">${icons.hideBtn}${icons.showBtn}</span>
+                    <span id="hide-show-text" class="DX_T1 DX_NoSel" style="font-size: 14px; line-height: 1; color: inherit;">Hide</span>
                 </button>
             </div>
-            <div class="DR_Main_Box dr-light" id="DR_Main_Box">
-                <div class="DR_Modal_Overlay" id="DR_Confirm_Modal">
-                    <div class="DR_Modal_Box">
-                        <div class="DR_Notif_Ico" style="color: rgb(243, 156, 18); width: 32px; height: 32px; margin-bottom: 4px;">
+            <div class="DX_Main_Box dx-light" id="DX_Main_Box">
+                <div class="DX_Modal_Overlay" id="DX_Confirm_Modal">
+                    <div class="DX_Modal_Box">
+                        <div class="DX_Notif_Ico" style="color: rgb(243, 156, 18); width: 32px; height: 32px; margin-bottom: 4px;">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
                         </div>
-                        <p class="DR_T1 DR_NoSel">Action Required</p>
-                        <p class="DR_T2 DR_NoSel" style="font-size: 12px; margin-bottom: 6px;">XP Farm is currently running. Do you want to stop it to run Auto League?</p>
-                        <div class="DR_HStack_8" style="margin-top: 4px;">
-                            <button class="DR_Sm_Btn DR_Btn_Eel DR_NoSel" id="DR_Modal_Cancel" style="flex: 1; outline-color: transparent;">
-                                <span class="DR_Sm_Btn_Label" style="color: var(--dr-text);">CANCEL</span>
+                        <p class="DX_T1 DX_NoSel">Action Required</p>
+                        <p class="DX_T2 DX_NoSel" style="font-size: 12px; margin-bottom: 6px;">XP Farm is currently running. Do you want to stop it to run Auto League?</p>
+                        <div class="DX_HStack_8" style="margin-top: 4px;">
+                            <button class="DX_Sm_Btn DX_Btn_Eel DX_NoSel" id="DX_Modal_Cancel" style="flex: 1; outline-color: transparent;">
+                                <span class="DX_Sm_Btn_Label" style="color: var(--dx-text);">CANCEL</span>
                             </button>
-                            <button class="DR_Sm_Btn DR_NoSel" id="DR_Modal_Confirm" style="flex: 1;">
-                                <span class="DR_Sm_Btn_Label" style="color: #fff;">STOP & RUN</span>
+                            <button class="DX_Sm_Btn DX_NoSel" id="DX_Modal_Confirm" style="flex: 1;">
+                                <span class="DX_Sm_Btn_Label" style="color: #fff;">STOP & RUN</span>
                             </button>
                         </div>
                     </div>
                 </div>
-                <div class="DR_Page active" id="DR_Page_1">
-                    <div class="DR_HStack_Auto" id="DR_Header_Row" style="align-self: stretch;">
-                        <div class="DR_NoSel" style="display: flex; flex-direction: column; justify-content: center; gap: 2px;">
-                            <div class="DR_Wordmark DR_NoSel">
-                                <span style="color: var(--dr-text);">Duo</span>
-                                <span class="dr-rain">Rain</span>
+                <div class="DX_Page active" id="DX_Page_1">
+                    <div class="DX_HStack_Auto" id="DX_Header_Row" style="align-self: stretch;">
+                        <div class="DX_NoSel" style="display: flex; flex-direction: column; justify-content: center; gap: 2px;">
+                            <div class="DX_Wordmark DX_NoSel">
+                                <span style="color: var(--dx-text);">Duo</span>
+                                <span class="dx-xjs">XJS</span>
                             </div>
-                            <span class="DR_T2 DR_Hover_1" id="DR_Version_Btn" style="font-size: 11px; font-weight: 700; letter-spacing: 0.4px; opacity: 0.6; cursor: pointer; align-self: flex-start; line-height: 1;">v${drVersion}</span>
+                            <span class="DX_T2 DX_Hover_1" id="DX_Version_Btn" style="font-size: 11px; font-weight: 700; letter-spacing: 0.4px; opacity: 0.6; cursor: pointer; align-self: flex-start; line-height: 1;">v${dxVersion}</span>
                         </div>
-                        <div class="DR_HStack_8" style="width: auto;">
-                            <div class="DR_Btn DR_Btn_Icon DR_NoSel" id="DR_Web_Btn" style="background: rgb(var(--DR-blue)); outline: 2px solid rgba(255, 255, 255, .18); outline-offset: -2px;">
+                        <div class="DX_HStack_8" style="width: auto;">
+                            <div class="DX_Btn DX_Btn_Icon DX_NoSel" id="DX_Web_Btn" style="background: rgb(var(--DX-blue)); outline: 2px solid rgba(255, 255, 255, .18); outline-offset: -2px;">
                                 ${icons.webBtn}
                             </div>
-                            <div class="DR_Btn DR_Btn_Icon DR_NoSel" id="DR_Discord_Btn" style="background: rgb(88, 101, 242); outline: 2px solid rgba(0, 0, 0, .18); outline-offset: -2px;">
+                            <div class="DX_Btn DX_Btn_Icon DX_NoSel" id="DX_Discord_Btn" style="background: rgb(88, 101, 242); outline: 2px solid rgba(0, 0, 0, .18); outline-offset: -2px;">
                                 ${icons.discordBtn}
                             </div>
-                            <div class="DR_Btn DR_Btn_Icon DR_NoSel" id="DR_GitHub_Btn" style="background: #24292e; outline: 2px solid rgba(255, 255, 255, .18); outline-offset: -2px;">
+                            <div class="DX_Btn DX_Btn_Icon DX_NoSel" id="DX_GitHub_Btn" style="background: #24292e; outline: 2px solid rgba(255, 255, 255, .18); outline-offset: -2px;">
                                 ${icons.githubBtn}
                             </div>
                         </div>
                     </div>
 
-                    <div class="DR_Update_Banner" id="DR_Update_Banner">
+                    <div class="DX_Update_Banner" id="DX_Update_Banner">
                         <div style="display: flex; align-items: center; gap: 8px; min-width: 0; flex: 1 1 auto;">
-                            <div style="width: 26px; height: 26px; border-radius: 50%; background: rgb(var(--DR-blue)); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                            <div style="width: 26px; height: 26px; border-radius: 50%; background: rgb(var(--DX-blue)); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
                                 <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5"></path><path d="M5 12l7-7 7 7"></path></svg>
                             </div>
                             <div style="min-width: 0; display: flex; flex-direction: column; gap: 1px;">
-                                <p class="DR_T1 DR_NoSel" style="font-size: 12px; line-height: 1.2;">Update available</p>
-                                <p class="DR_T2 DR_NoSel" id="DR_Update_Version_Text" style="font-size: 11px; line-height: 1.2;"></p>
+                                <p class="DX_T1 DX_NoSel" style="font-size: 12px; line-height: 1.2;">Update available</p>
+                                <p class="DX_T2 DX_NoSel" id="DX_Update_Version_Text" style="font-size: 11px; line-height: 1.2;"></p>
                             </div>
                         </div>
-                        <button type="button" class="DR_Sm_Btn DR_NoSel" id="DR_Update_Btn" style="flex-shrink: 0; min-width: 66px;">
-                            <span class="DR_Sm_Btn_Label" style="color: #fff;">UPDATE</span>
+                        <button type="button" class="DX_Sm_Btn DX_NoSel" id="DX_Update_Btn" style="flex-shrink: 0; min-width: 66px;">
+                            <span class="DX_Sm_Btn_Label" style="color: #fff;">UPDATE</span>
                         </button>
                     </div>
-                    <div id="DR_Main_Content" class="dr-disabled" style="display: flex; flex-direction: column; gap: 8px; width: 100%; transition: opacity var(--DR-motion) ease, filter var(--DR-motion) ease;">
-                        <div class="DR_Divider" id="DR_User_Row_Divider" style="display: none;"></div>
-                        <div class="DR_Profile_Block" id="DR_User_Row" style="display: none; position: relative; background: var(--dr-card-bg); border: 1.5px solid var(--dr-card-border); border-radius: 8px; padding: 10px; align-items: center; gap: 8px; cursor: pointer;">
-                            <div class="DR_Avatar" id="DR_Avatar">${icons.avatar}</div>
-                            <div class="DR_VStack_4" style="flex: 1 0 0; min-width: 0; align-items: flex-start;">
-                                <p class="DR_T1 DR_NoSel" id="DR_UName" style="font-size: 14px; align-self: stretch; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; padding-right: 16px;"></p>
-                                <span class="DR_T2 DR_NoSel" id="DR_UAccCount" style="display: none; font-size: 11px; opacity: 0.75;"></span>
-                                <div class="DR_HStack_4" id="DR_User_Stats_Row" style="gap: 8px; flex-wrap: wrap;">
-                                    <div class="DR_HStack_4" style="gap: 3px;">
-                                        <img class="DR_Stat_Ico" src="${icons.xpIcon}">
-                                        <span class="DR_Stat_Val DR_NoSel" id="DR_UXP">0</span>
+                    <div id="DX_Main_Content" class="dx-disabled" style="display: flex; flex-direction: column; gap: 8px; width: 100%; transition: opacity var(--DX-motion) ease, filter var(--DX-motion) ease;">
+                        <div class="DX_Divider" id="DX_User_Row_Divider" style="display: none;"></div>
+                        <div class="DX_Profile_Block" id="DX_User_Row" style="display: none; position: relative; background: var(--dx-card-bg); border: 1.5px solid var(--dx-card-border); border-radius: 8px; padding: 10px; align-items: center; gap: 8px; cursor: pointer;">
+                            <div class="DX_Avatar" id="DX_Avatar">${icons.avatar}</div>
+                            <div class="DX_VStack_4" style="flex: 1 0 0; min-width: 0; align-items: flex-start;">
+                                <p class="DX_T1 DX_NoSel" id="DX_UName" style="font-size: 14px; align-self: stretch; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; padding-right: 16px;"></p>
+                                <span class="DX_T2 DX_NoSel" id="DX_UAccCount" style="display: none; font-size: 11px; opacity: 0.75;"></span>
+                                <div class="DX_HStack_4" id="DX_User_Stats_Row" style="gap: 8px; flex-wrap: wrap;">
+                                    <div class="DX_HStack_4" style="gap: 3px;">
+                                        <img class="DX_Stat_Ico" src="${icons.xpIcon}">
+                                        <span class="DX_Stat_Val DX_NoSel" id="DX_UXP">0</span>
                                     </div>
-                                    <div class="DR_HStack_4" style="gap: 3px;">
-                                        <img class="DR_Stat_Ico" src="${icons.gemIcon}">
-                                        <span class="DR_Stat_Val DR_NoSel" id="DR_UGems">0</span>
+                                    <div class="DX_HStack_4" style="gap: 3px;">
+                                        <img class="DX_Stat_Ico" src="${icons.gemIcon}">
+                                        <span class="DX_Stat_Val DX_NoSel" id="DX_UGems">0</span>
                                     </div>
-                                    <div class="DR_HStack_4" style="gap: 3px;">
-                                        <img class="DR_Stat_Ico" src="${icons.streakIcon}">
-                                        <span class="DR_Stat_Val DR_NoSel" id="DR_UStreak">0</span>
+                                    <div class="DX_HStack_4" style="gap: 3px;">
+                                        <img class="DX_Stat_Ico" src="${icons.streakIcon}">
+                                        <span class="DX_Stat_Val DX_NoSel" id="DX_UStreak">0</span>
                                     </div>
-                                    <div class="DR_HStack_4" id="DR_ULeague_Wrap" style="gap: 3px; display: none;">
-                                        <img class="DR_Stat_Ico" id="DR_ULeague_Ico" src="${leagueBadgeUrl()}">
-                                        <span class="DR_Stat_Val DR_NoSel" id="DR_ULeague_Rank">#0</span>
+                                    <div class="DX_HStack_4" id="DX_ULeague_Wrap" style="gap: 3px; display: none;">
+                                        <img class="DX_Stat_Ico" id="DX_ULeague_Ico" src="${leagueBadgeUrl()}">
+                                        <span class="DX_Stat_Val DX_NoSel" id="DX_ULeague_Rank">#0</span>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="DR_HStack_8" style="align-self: stretch; align-items: center;">
-                            <div class="DR_Btn DR_Btn_Icon DR_Btn_Eel DR_NoSel" id="DR_Conn_Btn" style="transition: background var(--DR-motion) ease, outline var(--DR-motion) ease, color var(--DR-motion) ease; pointer-events: none;">
-                                <span id="DR_Conn_Ico" style="display: flex; align-items: center; justify-content: center; flex-shrink: 0; width: 20px; height: 20px;"></span>
+                        <div class="DX_HStack_8" style="align-self: stretch; align-items: center;">
+                            <div class="DX_Btn DX_Btn_Icon DX_Btn_Eel DX_NoSel" id="DX_Conn_Btn" style="transition: background var(--DX-motion) ease, outline var(--DX-motion) ease, color var(--DX-motion) ease; pointer-events: none;">
+                                <span id="DX_Conn_Ico" style="display: flex; align-items: center; justify-content: center; flex-shrink: 0; width: 20px; height: 20px;"></span>
                             </div>
-                            <div class="DR_Btn DR_Btn_Eel DR_NoSel" id="DR_Mode_Toggle_Btn" style="display: flex; align-items: center; justify-content: center; gap: 6px; font-size: 13px; font-weight: 700; border-radius: 8px; flex: 1; color: var(--dr-text); cursor: pointer; padding: 0 8px; white-space: nowrap;">
-                                <span id="DR_Mode_Toggle_Ico" style="display: flex; align-items: center; justify-content: center; flex-shrink: 0; width: 20px; height: 20px;"></span>
-                                <span id="DR_Mode_Toggle_Lbl">Native Mode</span>
+                            <div class="DX_Btn DX_Btn_Eel DX_NoSel" id="DX_Mode_Toggle_Btn" style="display: flex; align-items: center; justify-content: center; gap: 6px; font-size: 13px; font-weight: 700; border-radius: 8px; flex: 1; color: var(--dx-text); cursor: pointer; padding: 0 8px; white-space: nowrap;">
+                                <span id="DX_Mode_Toggle_Ico" style="display: flex; align-items: center; justify-content: center; flex-shrink: 0; width: 20px; height: 20px;"></span>
+                                <span id="DX_Mode_Toggle_Lbl">Native Mode</span>
                             </div>
-                            <div class="DR_Btn DR_Btn_Icon DR_Btn_Eel DR_NoSel" id="DR_TopSettings_Btn" title="Settings" style="color: var(--dr-text); cursor: pointer;">
+                            <div class="DX_Btn DX_Btn_Icon DX_Btn_Eel DX_NoSel" id="DX_TopSettings_Btn" title="Settings" style="color: var(--dx-text); cursor: pointer;">
                                 ${icons.settingsBtn}
                             </div>
                         </div>
-                        <div class="DR_Divider"></div>
-                        <div id="DR_Native_Sections" style="display: flex; flex-direction: column; gap: 8px; width: 100%;">
-                            <div class="DR_Farm_Sec">
-                                <div class="DR_HStack_4" style="align-self: stretch; min-width: 0;">
-                                    <p class="DR_T1 DR_NoSel" style="font-size: 14px; font-weight: 600;">How much XP would you like to get?</p>
+                        <div class="DX_Divider"></div>
+                        <div id="DX_Native_Sections" style="display: flex; flex-direction: column; gap: 8px; width: 100%;">
+                            <div class="DX_Farm_Sec">
+                                <div class="DX_HStack_4" style="align-self: stretch; min-width: 0;">
+                                    <p class="DX_T1 DX_NoSel" style="font-size: 14px; font-weight: 600;">How much XP would you like to get?</p>
                                 </div>
-                                <div class="DR_HStack_8">
-                                    <button class="DR_Hash_Btn" id="DR_XP_Hash" data-inf="false" title="Toggle infinite loops">${icons.hash}</button>
-                                    <div class="DR_Input_Wrap">
-                                        <input type="number" class="DR_Input DR_NoSel" id="DR_XP_Input" placeholder="0" min="30">
+                                <div class="DX_HStack_8">
+                                    <button class="DX_Hash_Btn" id="DX_XP_Hash" data-inf="false" title="Toggle infinite loops">${icons.hash}</button>
+                                    <div class="DX_Input_Wrap">
+                                        <input type="number" class="DX_Input DX_NoSel" id="DX_XP_Input" placeholder="0" min="30">
                                     </div>
-                                    <button class="DR_Input_Btn DR_NoSel" id="DR_XP_Btn" disabled>
-                                        <span class="DR_Btn_Label" id="DR_XP_Lbl" style="color: #fff;">RUN</span>
+                                    <button class="DX_Input_Btn DX_NoSel" id="DX_XP_Btn" disabled>
+                                        <span class="DX_Btn_Label" id="DX_XP_Lbl" style="color: #fff;">RUN</span>
                                     </button>
                                 </div>
-                                <div class="DR_Prog_Wrap" id="DR_XP_Prog">
-                                    <div class="DR_Prog_Fill" id="DR_XP_Fill"></div>
+                                <div class="DX_Prog_Wrap" id="DX_XP_Prog">
+                                    <div class="DX_Prog_Fill" id="DX_XP_Fill"></div>
                                 </div>
                             </div>
-                            <div class="DR_Divider"></div>
-                            <div class="DR_Farm_Sec">
-                                <div class="DR_HStack_4" style="align-self: stretch; min-width: 0;">
-                                    <p class="DR_T1 DR_NoSel" style="font-size: 14px; font-weight: 600;">How many Gems would you like to get?</p>
+                            <div class="DX_Divider"></div>
+                            <div class="DX_Farm_Sec">
+                                <div class="DX_HStack_4" style="align-self: stretch; min-width: 0;">
+                                    <p class="DX_T1 DX_NoSel" style="font-size: 14px; font-weight: 600;">How many Gems would you like to get?</p>
                                 </div>
-                                <div class="DR_HStack_8">
-                                    <button class="DR_Hash_Btn dr-inf-active" id="DR_Gem_Hash" data-inf="true" title="Toggle infinite loops">${icons.inf}<span class="DR_Hash_Lbl">Infinite</span></button>
-                                    <div class="DR_Input_Wrap dr-inf-hidden">
-                                        <input type="number" class="DR_Input DR_NoSel" id="DR_Gem_Input" placeholder="Loops" min="1" disabled value="Infinity">
+                                <div class="DX_HStack_8">
+                                    <button class="DX_Hash_Btn dx-inf-active" id="DX_Gem_Hash" data-inf="true" title="Toggle infinite loops">${icons.inf}<span class="DX_Hash_Lbl">Infinite</span></button>
+                                    <div class="DX_Input_Wrap dx-inf-hidden">
+                                        <input type="number" class="DX_Input DX_NoSel" id="DX_Gem_Input" placeholder="Loops" min="1" disabled value="Infinity">
                                     </div>
-                                    <button class="DR_Input_Btn DR_NoSel" id="DR_Gem_Btn" disabled>
-                                        <span class="DR_Btn_Label" id="DR_Gem_Lbl" style="color: #fff;">RUN</span>
+                                    <button class="DX_Input_Btn DX_NoSel" id="DX_Gem_Btn" disabled>
+                                        <span class="DX_Btn_Label" id="DX_Gem_Lbl" style="color: #fff;">RUN</span>
                                     </button>
                                 </div>
-                                <div class="DR_Prog_Wrap" id="DR_Gem_Prog">
-                                    <div class="DR_Prog_Fill" id="DR_Gem_Fill"></div>
+                                <div class="DX_Prog_Wrap" id="DX_Gem_Prog">
+                                    <div class="DX_Prog_Fill" id="DX_Gem_Fill"></div>
                                 </div>
                             </div>
-                            <div class="DR_Divider"></div>
-                            <div class="DR_Farm_Sec">
-                                <div class="DR_HStack_4" style="align-self: stretch; min-width: 0;">
-                                    <p class="DR_T1 DR_NoSel" style="font-size: 14px; font-weight: 600;">How many Streak Days to restore?</p>
+                            <div class="DX_Divider"></div>
+                            <div class="DX_Farm_Sec">
+                                <div class="DX_HStack_4" style="align-self: stretch; min-width: 0;">
+                                    <p class="DX_T1 DX_NoSel" style="font-size: 14px; font-weight: 600;">How many Streak Days to restore?</p>
                                 </div>
-                                <div class="DR_HStack_8">
-                                    <button class="DR_Hash_Btn" id="DR_Streak_Hash" data-inf="false" title="Toggle infinite loops">${icons.hash}</button>
-                                    <div class="DR_Input_Wrap">
-                                        <input type="number" class="DR_Input DR_NoSel" id="DR_Streak_Input" placeholder="Days" min="1">
+                                <div class="DX_HStack_8">
+                                    <button class="DX_Hash_Btn" id="DX_Streak_Hash" data-inf="false" title="Toggle infinite loops">${icons.hash}</button>
+                                    <div class="DX_Input_Wrap">
+                                        <input type="number" class="DX_Input DX_NoSel" id="DX_Streak_Input" placeholder="Days" min="1">
                                     </div>
-                                    <button class="DR_Input_Btn DR_NoSel" id="DR_Streak_Btn" disabled>
-                                        <span class="DR_Btn_Label" id="DR_Streak_Lbl" style="color: #fff;">RUN</span>
+                                    <button class="DX_Input_Btn DX_NoSel" id="DX_Streak_Btn" disabled>
+                                        <span class="DX_Btn_Label" id="DX_Streak_Lbl" style="color: #fff;">RUN</span>
                                     </button>
                                 </div>
-                                <div class="DR_Prog_Wrap" id="DR_Streak_Prog">
-                                    <div class="DR_Prog_Fill" id="DR_Streak_Fill"></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div id="DR_Solver_Sections" style="display: none; flex-direction: column; gap: 8px; width: 100%;">
-                            <div class="DR_Farm_Sec">
-                                <div class="DR_HStack_4" style="align-self: stretch; min-width: 0;">
-                                    <p class="DR_T1 DR_NoSel" style="font-size: 14px; font-weight: 600;">How many Path lessons to solve?</p>
-                                </div>
-                                <div class="DR_HStack_8">
-                                    <button class="DR_Hash_Btn dr-inf-active" id="DR_Path_Hash" data-inf="true" title="Toggle infinite loops">${icons.inf}<span class="DR_Hash_Lbl">Infinite</span></button>
-                                    <div class="DR_Input_Wrap dr-inf-hidden">
-                                        <input type="number" class="DR_Input DR_NoSel" id="DR_Path_Input" placeholder="Lessons" min="1" disabled value="Infinity">
-                                    </div>
-                                    <button class="DR_Input_Btn DR_NoSel" id="DR_AutoPath_Btn" disabled>
-                                        <span class="DR_Btn_Label" id="DR_AutoPath_Lbl" style="color: #fff;">RUN</span>
-                                    </button>
-                                </div>
-                                <div class="DR_Prog_Wrap" id="DR_Path_Prog">
-                                    <div class="DR_Prog_Fill" id="DR_Path_Fill"></div>
-                                </div>
-                            </div>
-                            <div class="DR_Divider"></div>
-                            <div class="DR_Farm_Sec">
-                                <div class="DR_HStack_4" style="align-self: stretch; min-width: 0;">
-                                    <p class="DR_T1 DR_NoSel" style="font-size: 14px; font-weight: 600;">How many Practice lessons to solve?</p>
-                                </div>
-                                <div class="DR_HStack_8">
-                                    <button class="DR_Hash_Btn dr-inf-active" id="DR_Practice_Hash" data-inf="true" title="Toggle infinite loops">${icons.inf}<span class="DR_Hash_Lbl">Infinite</span></button>
-                                    <div class="DR_Input_Wrap dr-inf-hidden">
-                                        <input type="number" class="DR_Input DR_NoSel" id="DR_Practice_Input" placeholder="Lessons" min="1" disabled value="Infinity">
-                                    </div>
-                                    <button class="DR_Input_Btn DR_NoSel" id="DR_AutoPractice_Btn" disabled>
-                                        <span class="DR_Btn_Label" id="DR_AutoPractice_Lbl" style="color: #fff;">RUN</span>
-                                    </button>
-                                </div>
-                                <div class="DR_Prog_Wrap" id="DR_Practice_Prog">
-                                    <div class="DR_Prog_Fill" id="DR_Practice_Fill"></div>
+                                <div class="DX_Prog_Wrap" id="DX_Streak_Prog">
+                                    <div class="DX_Prog_Fill" id="DX_Streak_Fill"></div>
                                 </div>
                             </div>
                         </div>
-                        <div class="DR_Divider"></div>
-                        <div class="DR_Btn DR_Btn_Blue_Ghost DR_NoSel DR_Nav_Btn" id="DR_Extra_Btn">
-                            <div class="DR_Nav_Btn_L">
-                                <img class="DR_NoSel" src="https://d35aaqx5ub95lt.cloudfront.net/vendor/7159c0b5d4250a5aea4f396d53f17f0c.svg" alt="" style="width: 22px; height: 22px; object-fit: contain; flex-shrink: 0;">
-                                <p class="DR_Nav_Title DR_NoSel">Extra</p>
+                        <div id="DX_Solver_Sections" style="display: none; flex-direction: column; gap: 8px; width: 100%;">
+                            <div class="DX_Farm_Sec">
+                                <div class="DX_HStack_4" style="align-self: stretch; min-width: 0;">
+                                    <p class="DX_T1 DX_NoSel" style="font-size: 14px; font-weight: 600;">How many Path lessons to solve?</p>
+                                </div>
+                                <div class="DX_HStack_8">
+                                    <button class="DX_Hash_Btn dx-inf-active" id="DX_Path_Hash" data-inf="true" title="Toggle infinite loops">${icons.inf}<span class="DX_Hash_Lbl">Infinite</span></button>
+                                    <div class="DX_Input_Wrap dx-inf-hidden">
+                                        <input type="number" class="DX_Input DX_NoSel" id="DX_Path_Input" placeholder="Lessons" min="1" disabled value="Infinity">
+                                    </div>
+                                    <button class="DX_Input_Btn DX_NoSel" id="DX_AutoPath_Btn" disabled>
+                                        <span class="DX_Btn_Label" id="DX_AutoPath_Lbl" style="color: #fff;">RUN</span>
+                                    </button>
+                                </div>
+                                <div class="DX_Prog_Wrap" id="DX_Path_Prog">
+                                    <div class="DX_Prog_Fill" id="DX_Path_Fill"></div>
+                                </div>
+                            </div>
+                            <div class="DX_Divider"></div>
+                            <div class="DX_Farm_Sec">
+                                <div class="DX_HStack_4" style="align-self: stretch; min-width: 0;">
+                                    <p class="DX_T1 DX_NoSel" style="font-size: 14px; font-weight: 600;">How many Practice lessons to solve?</p>
+                                </div>
+                                <div class="DX_HStack_8">
+                                    <button class="DX_Hash_Btn dx-inf-active" id="DX_Practice_Hash" data-inf="true" title="Toggle infinite loops">${icons.inf}<span class="DX_Hash_Lbl">Infinite</span></button>
+                                    <div class="DX_Input_Wrap dx-inf-hidden">
+                                        <input type="number" class="DX_Input DX_NoSel" id="DX_Practice_Input" placeholder="Lessons" min="1" disabled value="Infinity">
+                                    </div>
+                                    <button class="DX_Input_Btn DX_NoSel" id="DX_AutoPractice_Btn" disabled>
+                                        <span class="DX_Btn_Label" id="DX_AutoPractice_Lbl" style="color: #fff;">RUN</span>
+                                    </button>
+                                </div>
+                                <div class="DX_Prog_Wrap" id="DX_Practice_Prog">
+                                    <div class="DX_Prog_Fill" id="DX_Practice_Fill"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="DX_Divider"></div>
+                        <div class="DX_Btn DX_Btn_Blue_Ghost DX_NoSel DX_Nav_Btn" id="DX_Extra_Btn">
+                            <div class="DX_Nav_Btn_L">
+                                <img class="DX_NoSel" src="https://d35aaqx5ub95lt.cloudfront.net/vendor/7159c0b5d4250a5aea4f396d53f17f0c.svg" alt="" style="width: 22px; height: 22px; object-fit: contain; flex-shrink: 0;">
+                                <p class="DX_Nav_Title DX_NoSel">Extra</p>
                             </div>
                             ${icons.arrowRight}
                         </div>
                     </div>
                 </div>
-                <div class="DR_Page" id="DR_Page_Extra">
-                    <div class="DR_HStack_4 DR_NoSel DR_Back_Btn" id="DR_Extra_Back_Btn">
+                <div class="DX_Page" id="DX_Page_Extra">
+                    <div class="DX_HStack_4 DX_NoSel DX_Back_Btn" id="DX_Extra_Back_Btn">
                         ${icons.back}
-                        <p class="DR_T1">Back</p>
+                        <p class="DX_T1">Back</p>
                     </div>
-                    <div class="DR_HStack_4 DR_NoSel" style="align-self: stretch; gap: 8px; margin-bottom: 8px;">
-                        <img class="DR_NoSel" src="https://d35aaqx5ub95lt.cloudfront.net/vendor/7159c0b5d4250a5aea4f396d53f17f0c.svg" alt="" style="width: 34px; height: 34px; object-fit: contain; flex-shrink: 0;">
-                        <div class="DR_Row_Text">
-                            <p class="DR_T1 DR_NoSel" style="font-size: 14px; font-weight: 600;">Extra Features</p>
-                            <p class="DR_T2 DR_NoSel">Additional utilities and statistics</p>
+                    <div class="DX_HStack_4 DX_NoSel" style="align-self: stretch; gap: 8px; margin-bottom: 8px;">
+                        <img class="DX_NoSel" src="https://d35aaqx5ub95lt.cloudfront.net/vendor/7159c0b5d4250a5aea4f396d53f17f0c.svg" alt="" style="width: 34px; height: 34px; object-fit: contain; flex-shrink: 0;">
+                        <div class="DX_Row_Text">
+                            <p class="DX_T1 DX_NoSel" style="font-size: 14px; font-weight: 600;">Extra Features</p>
+                            <p class="DX_T2 DX_NoSel">Additional utilities and statistics</p>
                         </div>
                     </div>
-                    <div class="DR_Btn DR_Btn_Blue_Ghost DR_NoSel DR_Nav_Btn" id="DR_Shop_Btn">
-                        <div class="DR_Nav_Btn_L">
-                            <img class="DR_NoSel" src="https://d35aaqx5ub95lt.cloudfront.net/vendor/0e58a94dda219766d98c7796b910beee.svg" alt="" style="width: 22px; height: 22px; object-fit: contain; flex-shrink: 0;">
-                            <p class="DR_Nav_Title DR_NoSel">Shop Items</p>
-                        </div>
-                        ${icons.arrowRight}
-                    </div>
-                    <div class="DR_Btn DR_Btn_Blue_Ghost DR_NoSel DR_Nav_Btn" id="DR_Quest_Nav_Btn">
-                        <div class="DR_Nav_Btn_L">
-                            <img class="DR_NoSel" src="https://d35aaqx5ub95lt.cloudfront.net/vendor/7ef36bae3f9d68fc763d3451b5167836.svg" alt="" style="width: 22px; height: 22px; object-fit: contain; flex-shrink: 0;">
-                            <p class="DR_Nav_Title DR_NoSel">Quests Center</p>
+                    <div class="DX_Btn DX_Btn_Blue_Ghost DX_NoSel DX_Nav_Btn" id="DX_Shop_Btn">
+                        <div class="DX_Nav_Btn_L">
+                            <img class="DX_NoSel" src="https://d35aaqx5ub95lt.cloudfront.net/vendor/0e58a94dda219766d98c7796b910beee.svg" alt="" style="width: 22px; height: 22px; object-fit: contain; flex-shrink: 0;">
+                            <p class="DX_Nav_Title DX_NoSel">Shop Items</p>
                         </div>
                         ${icons.arrowRight}
                     </div>
-                    <div class="DR_Btn DR_Btn_Blue_Ghost DR_NoSel DR_Nav_Btn" id="DR_Tools_Nav_Btn">
-                        <div class="DR_Nav_Btn_L">
-                            <img class="DR_NoSel" src="${DUO_LEAGUES_CDN}a8e5c18e80054228b2c61168846ff643.svg" alt="" style="width: 22px; height: 22px; object-fit: contain; flex-shrink: 0;">
-                            <p class="DR_Nav_Title DR_NoSel">Social Tools</p>
+                    <div class="DX_Btn DX_Btn_Blue_Ghost DX_NoSel DX_Nav_Btn" id="DX_Quest_Nav_Btn">
+                        <div class="DX_Nav_Btn_L">
+                            <img class="DX_NoSel" src="https://d35aaqx5ub95lt.cloudfront.net/vendor/7ef36bae3f9d68fc763d3451b5167836.svg" alt="" style="width: 22px; height: 22px; object-fit: contain; flex-shrink: 0;">
+                            <p class="DX_Nav_Title DX_NoSel">Quests Center</p>
                         </div>
                         ${icons.arrowRight}
                     </div>
-                    <div class="DR_Btn DR_Btn_Blue_Ghost DR_NoSel DR_Nav_Btn" id="DR_Feed_Nav_Btn">
-                        <div class="DR_Nav_Btn_L">
-                            <img class="DR_NoSel" src="${DUO_LEAGUES_CDN}2ceb401cae52712705b66a77df83ce40.svg" alt="" style="width: 22px; height: 22px; object-fit: contain; flex-shrink: 0;">
-                            <p class="DR_Nav_Title DR_NoSel">Activity Feed</p>
+                    <div class="DX_Btn DX_Btn_Blue_Ghost DX_NoSel DX_Nav_Btn" id="DX_Tools_Nav_Btn">
+                        <div class="DX_Nav_Btn_L">
+                            <img class="DX_NoSel" src="${DUO_LEAGUES_CDN}a8e5c18e80054228b2c61168846ff643.svg" alt="" style="width: 22px; height: 22px; object-fit: contain; flex-shrink: 0;">
+                            <p class="DX_Nav_Title DX_NoSel">Social Tools</p>
                         </div>
                         ${icons.arrowRight}
                     </div>
-                    <div class="DR_Btn DR_Btn_Blue_Ghost DR_NoSel DR_Nav_Btn" id="DR_XPSummaries_Btn">
-                        <div class="DR_Nav_Btn_L">
-                            <img class="DR_NoSel" src="${icons.xpIcon}" alt="" style="width: 22px; height: 22px; object-fit: contain; flex-shrink: 0;">
-                            <p class="DR_Nav_Title DR_NoSel">XP Summaries</p>
+                    <div class="DX_Btn DX_Btn_Blue_Ghost DX_NoSel DX_Nav_Btn" id="DX_Feed_Nav_Btn">
+                        <div class="DX_Nav_Btn_L">
+                            <img class="DX_NoSel" src="${DUO_LEAGUES_CDN}2ceb401cae52712705b66a77df83ce40.svg" alt="" style="width: 22px; height: 22px; object-fit: contain; flex-shrink: 0;">
+                            <p class="DX_Nav_Title DX_NoSel">Activity Feed</p>
                         </div>
                         ${icons.arrowRight}
                     </div>
-                    <div class="DR_Btn DR_Btn_Blue_Ghost DR_NoSel DR_Nav_Btn" id="DR_Board_Nav_Btn">
-                        <div class="DR_Nav_Btn_L">
-                            <img id="DR_Board_Nav_Ico" src="${leagueBadgeUrl()}" alt="" style="width: 22px; height: 22px; flex-shrink: 0; object-fit: contain;">
-                            <p class="DR_Nav_Title DR_NoSel">Leaderboard</p>
+                    <div class="DX_Btn DX_Btn_Blue_Ghost DX_NoSel DX_Nav_Btn" id="DX_XPSummaries_Btn">
+                        <div class="DX_Nav_Btn_L">
+                            <img class="DX_NoSel" src="${icons.xpIcon}" alt="" style="width: 22px; height: 22px; object-fit: contain; flex-shrink: 0;">
+                            <p class="DX_Nav_Title DX_NoSel">XP Summaries</p>
                         </div>
                         ${icons.arrowRight}
                     </div>
-                    <div class="DR_Divider"></div>
-                    <div class="DR_Farm_Sec">
-                        <div class="DR_Compact_Task">
-                            <div class="DR_Row_Text">
-                                <p class="DR_T1 DR_NoSel">Remove Hearts</p>
-                                <p class="DR_T2 DR_NoSel">Drain hearts from this account</p>
+                    <div class="DX_Btn DX_Btn_Blue_Ghost DX_NoSel DX_Nav_Btn" id="DX_Board_Nav_Btn">
+                        <div class="DX_Nav_Btn_L">
+                            <img id="DX_Board_Nav_Ico" src="${leagueBadgeUrl()}" alt="" style="width: 22px; height: 22px; flex-shrink: 0; object-fit: contain;">
+                            <p class="DX_Nav_Title DX_NoSel">Leaderboard</p>
+                        </div>
+                        ${icons.arrowRight}
+                    </div>
+                    <div class="DX_Divider"></div>
+                    <div class="DX_Farm_Sec">
+                        <div class="DX_Compact_Task">
+                            <div class="DX_Row_Text">
+                                <p class="DX_T1 DX_NoSel">Remove Hearts</p>
+                                <p class="DX_T2 DX_NoSel">Drain hearts from this account</p>
                             </div>
-                            <div class="DR_HStack_8" style="width: auto; flex-shrink: 0;">
-                                <div class="DR_Set_Input_Wrap" style="width: 80px; flex-shrink: 0;">
-                                    <input type="number" class="DR_Input DR_NoSel" id="DR_Hearts_Input" placeholder="1-5" min="1" max="5">
+                            <div class="DX_HStack_8" style="width: auto; flex-shrink: 0;">
+                                <div class="DX_Set_Input_Wrap" style="width: 80px; flex-shrink: 0;">
+                                    <input type="number" class="DX_Input DX_NoSel" id="DX_Hearts_Input" placeholder="1-5" min="1" max="5">
                                 </div>
-                                <button class="DR_Sm_Btn DR_NoSel" id="DR_Hearts_Btn" disabled>
-                                    <span class="DR_Sm_Btn_Label" style="color: #fff;">RUN</span>
+                                <button class="DX_Sm_Btn DX_NoSel" id="DX_Hearts_Btn" disabled>
+                                    <span class="DX_Sm_Btn_Label" style="color: #fff;">RUN</span>
                                 </button>
                             </div>
                         </div>
-                        <div class="DR_Prog_Wrap" id="DR_Hearts_Prog" style="align-self: stretch;">
-                            <div class="DR_Prog_Fill" id="DR_Hearts_Fill"></div>
+                        <div class="DX_Prog_Wrap" id="DX_Hearts_Prog" style="align-self: stretch;">
+                            <div class="DX_Prog_Fill" id="DX_Hearts_Fill"></div>
                         </div>
                     </div>
-                    <div class="DR_Divider"></div>
-                    <div class="DR_Farm_Sec">
-                        <div class="DR_Compact_Task">
-                            <div class="DR_Row_Text">
-                                <p class="DR_T1 DR_NoSel">Auto League</p>
-                                <p class="DR_T2 DR_NoSel">Target specific rank position</p>
+                    <div class="DX_Divider"></div>
+                    <div class="DX_Farm_Sec">
+                        <div class="DX_Compact_Task">
+                            <div class="DX_Row_Text">
+                                <p class="DX_T1 DX_NoSel">Auto League</p>
+                                <p class="DX_T2 DX_NoSel">Target specific rank position</p>
                             </div>
-                            <div class="DR_HStack_8" style="width: auto; flex-shrink: 0;">
-                                <div class="DR_Select" id="DR_League_Select" data-value="1" style="width: 80px; flex-shrink: 0;">
-                                    <div class="DR_Select_Trigger">
-                                        <span class="DR_Select_Text"># 1</span>${icons.chevron}
+                            <div class="DX_HStack_8" style="width: auto; flex-shrink: 0;">
+                                <div class="DX_Select" id="DX_League_Select" data-value="1" style="width: 80px; flex-shrink: 0;">
+                                    <div class="DX_Select_Trigger">
+                                        <span class="DX_Select_Text"># 1</span>${icons.chevron}
                                     </div>
-                                    <div class="DR_Select_Options"></div>
+                                    <div class="DX_Select_Options"></div>
                                 </div>
-                                <button class="DR_Sm_Btn DR_NoSel" id="DR_League_Btn" disabled>
-                                    <span class="DR_Sm_Btn_Label" id="DR_League_Lbl" style="color: #fff;">RUN</span>
+                                <button class="DX_Sm_Btn DX_NoSel" id="DX_League_Btn" disabled>
+                                    <span class="DX_Sm_Btn_Label" id="DX_League_Lbl" style="color: #fff;">RUN</span>
                                 </button>
                             </div>
                         </div>
-                        <div class="DR_Prog_Wrap" id="DR_League_Prog" style="align-self: stretch;">
-                            <div class="DR_Prog_Fill" id="DR_League_Fill"></div>
+                        <div class="DX_Prog_Wrap" id="DX_League_Prog" style="align-self: stretch;">
+                            <div class="DX_Prog_Fill" id="DX_League_Fill"></div>
                         </div>
                     </div>
                 </div>
-                <div class="DR_Page" id="DR_Page_Settings">
-                    <div class="DR_HStack_4 DR_NoSel DR_Back_Btn" id="DR_Settings_Back_Btn">
+                <div class="DX_Page" id="DX_Page_Settings">
+                    <div class="DX_HStack_4 DX_NoSel DX_Back_Btn" id="DX_Settings_Back_Btn">
                         ${icons.back}
-                        <p class="DR_T1">Back</p>
+                        <p class="DX_T1">Back</p>
                     </div>
-                    <div class="DR_HStack_4 DR_NoSel" style="align-self: stretch; gap: 8px; margin-bottom: 8px;">
-                        <span style="color: var(--dr-text); width: 34px; height: 34px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                    <div class="DX_HStack_4 DX_NoSel" style="align-self: stretch; gap: 8px; margin-bottom: 8px;">
+                        <span style="color: var(--dx-text); width: 34px; height: 34px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
                             <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg" style="flex-shrink: 0;">
                                 <path d="M 22.76,10.58 L 22.76,13.42 L 19.99,14.60 L 19.48,15.81 L 20.61,18.61 L 18.61,20.61 L 15.81,19.48 L 14.60,19.99 L 13.42,22.76 L 10.58,22.76 L 9.40,19.99 L 8.19,19.48 L 5.39,20.61 L 3.39,18.61 L 4.52,15.81 L 4.01,14.60 L 1.24,13.42 L 1.24,10.58 L 4.01,9.40 L 4.52,8.19 L 3.39,5.39 L 5.39,3.39 L 8.19,4.52 L 9.40,4.01 L 10.58,1.24 L 13.42,1.24 L 14.60,4.01 L 15.81,4.52 L 18.61,3.39 L 20.61,5.39 L 19.48,8.19 L 19.99,9.40 Z" /><circle cx="12" cy="12" r="4.32" />
                             </svg>
                         </span>
-                        <div class="DR_Row_Text">
-                            <p class="DR_T1 DR_NoSel" style="font-size: 14px; font-weight: 600;">Settings</p>
-                            <p class="DR_T2 DR_NoSel">Configure script preferences</p>
+                        <div class="DX_Row_Text">
+                            <p class="DX_T1 DX_NoSel" style="font-size: 14px; font-weight: 600;">Settings</p>
+                            <p class="DX_T2 DX_NoSel">Configure script preferences</p>
                         </div>
                     </div>
                     <div style="align-self: stretch; display: flex; flex-direction: column; width: 100%; gap: 8px;">
                         <style>
-                            .DR_Select.dropup .DR_Select_Options { top: auto; bottom: calc(100% + 8px); transform: translateY(10px); }
-                            .DR_Select.dropup.open .DR_Select_Options { transform: translateY(0); }
-                            .DR_Select_Option { border-left: 3px solid transparent; transition: background var(--DR-motion-fast) ease, border-color var(--DR-motion-fast) ease; }
-                            .DR_Select_Option.selected {
-                                background: linear-gradient(90deg, rgba(var(--DR-blue), 0.1) 0%, transparent 100%);
-                                color: var(--dr-text);
-                                border-left: 3px solid rgba(var(--DR-blue), 0.5);
+                            .DX_Select.dropup .DX_Select_Options { top: auto; bottom: calc(100% + 8px); transform: translateY(10px); }
+                            .DX_Select.dropup.open .DX_Select_Options { transform: translateY(0); }
+                            .DX_Select_Option { border-left: 3px solid transparent; transition: background var(--DX-motion-fast) ease, border-color var(--DX-motion-fast) ease; }
+                            .DX_Select_Option.selected {
+                                background: linear-gradient(90deg, rgba(var(--DX-blue), 0.1) 0%, transparent 100%);
+                                color: var(--dx-text);
+                                border-left: 3px solid rgba(var(--DX-blue), 0.5);
                             }
-                            #DR_Page_Settings .DR_HStack_Auto { margin: 0 !important; }
-                            #DR_Page_Settings .DR_VStack_8 { gap: 8px; }
-                            #DR_Page_Settings .DR_Select, #DR_Page_Settings .DR_Select_Options { border-radius: 8px !important; }
+                            #DX_Page_Settings .DX_HStack_Auto { margin: 0 !important; }
+                            #DX_Page_Settings .DX_VStack_8 { gap: 8px; }
+                            #DX_Page_Settings .DX_Select, #DX_Page_Settings .DX_Select_Options { border-radius: 8px !important; }
                         </style>
-                        <div class="DR_VStack_8" style="align-self: stretch;">
-                            <div class="DR_Setting_Row">
-                                <div class="DR_Row_Text">
-                                    <p class="DR_T1 DR_NoSel">Loop Interval</p>
-                                    <p class="DR_T2 DR_NoSel">Interval between loops</p>
+                        <div class="DX_VStack_8" style="align-self: stretch;">
+                            <div class="DX_Setting_Row">
+                                <div class="DX_Row_Text">
+                                    <p class="DX_T1 DX_NoSel">Loop Interval</p>
+                                    <p class="DX_T2 DX_NoSel">Interval between loops</p>
                                 </div>
-                                <div class="DR_HStack_8" style="width: auto;">
-                                    <div class="DR_Set_Input_Wrap" style="width: 116px;">
-                                        <input type="number" class="DR_Input DR_NoSel" id="DR_Delay_Input" placeholder="500">
-                                        <p class="DR_T1 DR_NoSel" style="color: var(--dr-text); font-size: 13px; flex-shrink: 0; opacity: 0.8; margin-left: 6px;">ms</p>
+                                <div class="DX_HStack_8" style="width: auto;">
+                                    <div class="DX_Set_Input_Wrap" style="width: 116px;">
+                                        <input type="number" class="DX_Input DX_NoSel" id="DX_Delay_Input" placeholder="500">
+                                        <p class="DX_T1 DX_NoSel" style="color: var(--dx-text); font-size: 13px; flex-shrink: 0; opacity: 0.8; margin-left: 6px;">ms</p>
                                     </div>
                                 </div>
                             </div>
-                            <div class="DR_Divider"></div>
-                            <div class="DR_Setting_Row">
-                                <div class="DR_Row_Text">
-                                    <p class="DR_T1 DR_NoSel">XP Overshoot</p>
-                                    <p class="DR_T2 DR_NoSel">Extra XP above target (30-500, 0 off)</p>
+                            <div class="DX_Divider"></div>
+                            <div class="DX_Setting_Row">
+                                <div class="DX_Row_Text">
+                                    <p class="DX_T1 DX_NoSel">XP Overshoot</p>
+                                    <p class="DX_T2 DX_NoSel">Extra XP above target (30-500, 0 off)</p>
                                 </div>
-                                <div class="DR_HStack_8" style="width: auto;">
-                                    <div class="DR_Set_Input_Wrap" style="width: 116px;">
-                                        <input type="number" class="DR_Input DR_NoSel" id="DR_XpRoom_Input" placeholder="0">
-                                        <p class="DR_T1 DR_NoSel" style="color: var(--dr-text); font-size: 13px; flex-shrink: 0; opacity: 0.8; margin-left: 6px;">xp</p>
+                                <div class="DX_HStack_8" style="width: auto;">
+                                    <div class="DX_Set_Input_Wrap" style="width: 116px;">
+                                        <input type="number" class="DX_Input DX_NoSel" id="DX_XpRoom_Input" placeholder="0">
+                                        <p class="DX_T1 DX_NoSel" style="color: var(--dx-text); font-size: 13px; flex-shrink: 0; opacity: 0.8; margin-left: 6px;">xp</p>
                                     </div>
                                 </div>
                             </div>
-                            <div class="DR_Divider"></div>
-                            <div class="DR_Setting_Row">
-                                <div class="DR_Row_Text">
-                                    <p class="DR_T1 DR_NoSel">Notification Position</p>
-                                    <p class="DR_T2 DR_NoSel">Set where alerts should appear</p>
+                            <div class="DX_Divider"></div>
+                            <div class="DX_Setting_Row">
+                                <div class="DX_Row_Text">
+                                    <p class="DX_T1 DX_NoSel">Notification Position</p>
+                                    <p class="DX_T2 DX_NoSel">Set where alerts should appear</p>
                                 </div>
-                                <div class="DR_HStack_8" style="width: auto;">
-                                    <div class="DR_Select" id="DR_Notif_Select" data-value="bottom_center" style="width: 146px; font-size: 13px;">
-                                        <div class="DR_Select_Trigger">
-                                            <span class="DR_Select_Text">Bottom Center</span>${icons.chevron}
+                                <div class="DX_HStack_8" style="width: auto;">
+                                    <div class="DX_Select" id="DX_Notif_Select" data-value="bottom_center" style="width: 146px; font-size: 13px;">
+                                        <div class="DX_Select_Trigger">
+                                            <span class="DX_Select_Text">Bottom Center</span>${icons.chevron}
                                         </div>
-                                        <div class="DR_Select_Options">
-                                            <div class="DR_Select_Option" data-value="top_left">Top Left</div>
-                                            <div class="DR_Select_Option" data-value="top_center">Top Center</div>
-                                            <div class="DR_Select_Option" data-value="top_right">Top Right</div>
-                                            <div class="DR_Select_Option" data-value="bottom_left">Bottom Left</div>
-                                            <div class="DR_Select_Option selected" data-value="bottom_center">Bottom Center</div>
-                                            <div class="DR_Select_Option" data-value="bottom_right">Bottom Right</div>
+                                        <div class="DX_Select_Options">
+                                            <div class="DX_Select_Option" data-value="top_left">Top Left</div>
+                                            <div class="DX_Select_Option" data-value="top_center">Top Center</div>
+                                            <div class="DX_Select_Option" data-value="top_right">Top Right</div>
+                                            <div class="DX_Select_Option" data-value="bottom_left">Bottom Left</div>
+                                            <div class="DX_Select_Option selected" data-value="bottom_center">Bottom Center</div>
+                                            <div class="DX_Select_Option" data-value="bottom_right">Bottom Right</div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="DR_Divider"></div>
-                            <div class="DR_Setting_Row">
-                                <div class="DR_Row_Text">
-                                    <p class="DR_T1 DR_NoSel">On-Client Duolingo Max</p>
-                                    <p class="DR_T2 DR_NoSel">Unlock Max on client side</p>
+                            <div class="DX_Divider"></div>
+                            <div class="DX_Setting_Row">
+                                <div class="DX_Row_Text">
+                                    <p class="DX_T1 DX_NoSel">On-Client Duolingo Max</p>
+                                    <p class="DX_T2 DX_NoSel">Unlock Max on client side</p>
                                 </div>
-                                <div class="DR_HStack_8" style="width: auto;">
-                                    <div class="DR_Toggle" id="DR_LocalMax_Toggle"><div class="DR_Toggle_Knob"></div></div>
-                                </div>
-                            </div>
-                            <div class="DR_Divider"></div>
-                            <div class="DR_Setting_Row">
-                                <div class="DR_Row_Text">
-                                    <p class="DR_T1 DR_NoSel">Safe Streak Farming</p>
-                                    <p class="DR_T2 DR_NoSel">Prevent streak exceeding account age</p>
-                                </div>
-                                <div class="DR_HStack_8" style="width: auto;">
-                                    <div class="DR_Toggle" id="DR_SafeStreak_Toggle"><div class="DR_Toggle_Knob"></div></div>
+                                <div class="DX_HStack_8" style="width: auto;">
+                                    <div class="DX_Toggle" id="DX_LocalMax_Toggle"><div class="DX_Toggle_Knob"></div></div>
                                 </div>
                             </div>
-                            <div class="DR_Divider"></div>
-                            <div class="DR_Setting_Row">
-                                <div class="DR_Row_Text">
-                                    <p class="DR_T1 DR_NoSel">EZ Quiz</p>
-                                    <p class="DR_T2 DR_NoSel">Enable custom lesson &amp; instant story</p>
+                            <div class="DX_Divider"></div>
+                            <div class="DX_Setting_Row">
+                                <div class="DX_Row_Text">
+                                    <p class="DX_T1 DX_NoSel">Safe Streak Farming</p>
+                                    <p class="DX_T2 DX_NoSel">Prevent streak exceeding account age</p>
                                 </div>
-                                <div class="DR_HStack_8" style="width: auto;">
-                                    <div class="DR_Toggle" id="DR_EZQuiz_Toggle"><div class="DR_Toggle_Knob"></div></div>
+                                <div class="DX_HStack_8" style="width: auto;">
+                                    <div class="DX_Toggle" id="DX_SafeStreak_Toggle"><div class="DX_Toggle_Knob"></div></div>
                                 </div>
                             </div>
-                            <div class="DR_Divider"></div>
-                            <div class="DR_Setting_Row">
-                                <div class="DR_Row_Text">
-                                    <p class="DR_T1 DR_NoSel">EZ Quiz Question Count</p>
-                                    <p class="DR_T2 DR_NoSel">Set the number of questions for custom lessons</p>
+                            <div class="DX_Divider"></div>
+                            <div class="DX_Setting_Row">
+                                <div class="DX_Row_Text">
+                                    <p class="DX_T1 DX_NoSel">EZ Quiz</p>
+                                    <p class="DX_T2 DX_NoSel">Enable custom lesson &amp; instant story</p>
                                 </div>
-                                <div class="DR_HStack_8" style="width: auto;">
-                                    <div class="DR_Select dropup" id="DR_EZQuizLength_Select" data-value="5" style="width: 146px; font-size: 13px;">
-                                        <div class="DR_Select_Trigger">
-                                            <span class="DR_Select_Text">5</span>${icons.chevron}
+                                <div class="DX_HStack_8" style="width: auto;">
+                                    <div class="DX_Toggle" id="DX_EZQuiz_Toggle"><div class="DX_Toggle_Knob"></div></div>
+                                </div>
+                            </div>
+                            <div class="DX_Divider"></div>
+                            <div class="DX_Setting_Row">
+                                <div class="DX_Row_Text">
+                                    <p class="DX_T1 DX_NoSel">EZ Quiz Question Count</p>
+                                    <p class="DX_T2 DX_NoSel">Set the number of questions for custom lessons</p>
+                                </div>
+                                <div class="DX_HStack_8" style="width: auto;">
+                                    <div class="DX_Select dropup" id="DX_EZQuizLength_Select" data-value="5" style="width: 146px; font-size: 13px;">
+                                        <div class="DX_Select_Trigger">
+                                            <span class="DX_Select_Text">5</span>${icons.chevron}
                                         </div>
-                                        <div class="DR_Select_Options">
-                                            <div class="DR_Select_Option" data-value="default">Default</div>
-                                            <div class="DR_Select_Option" data-value="1">1</div>
-                                            <div class="DR_Select_Option" data-value="2">2</div>
-                                            <div class="DR_Select_Option" data-value="3">3</div>
-                                            <div class="DR_Select_Option" data-value="4">4</div>
-                                            <div class="DR_Select_Option selected" data-value="5">5</div>
-                                            <div class="DR_Select_Option" data-value="6">6</div>
-                                            <div class="DR_Select_Option" data-value="7">7</div>
-                                            <div class="DR_Select_Option" data-value="8">8</div>
-                                            <div class="DR_Select_Option" data-value="9">9</div>
-                                            <div class="DR_Select_Option" data-value="10">10</div>
-                                            <div class="DR_Select_Option" data-value="11">11</div>
-                                            <div class="DR_Select_Option" data-value="12">12</div>
-                                            <div class="DR_Select_Option" data-value="13">13</div>
-                                            <div class="DR_Select_Option" data-value="14">14</div>
-                                            <div class="DR_Select_Option" data-value="15">15</div>
-                                            <div class="DR_Select_Option" data-value="16">16</div>
-                                            <div class="DR_Select_Option" data-value="17">17</div>
-                                            <div class="DR_Select_Option" data-value="18">18</div>
-                                            <div class="DR_Select_Option" data-value="19">19</div>
-                                            <div class="DR_Select_Option" data-value="20">20</div>
-                                            <div class="DR_Select_Option" data-value="21">21</div>
-                                            <div class="DR_Select_Option" data-value="22">22</div>
-                                            <div class="DR_Select_Option" data-value="23">23</div>
-                                            <div class="DR_Select_Option" data-value="24">24</div>
-                                            <div class="DR_Select_Option" data-value="25">25</div>
-                                            <div class="DR_Select_Option" data-value="26">26</div>
-                                            <div class="DR_Select_Option" data-value="27">27</div>
-                                            <div class="DR_Select_Option" data-value="28">28</div>
-                                            <div class="DR_Select_Option" data-value="29">29</div>
-                                            <div class="DR_Select_Option" data-value="30">30</div>
+                                        <div class="DX_Select_Options">
+                                            <div class="DX_Select_Option" data-value="default">Default</div>
+                                            <div class="DX_Select_Option" data-value="1">1</div>
+                                            <div class="DX_Select_Option" data-value="2">2</div>
+                                            <div class="DX_Select_Option" data-value="3">3</div>
+                                            <div class="DX_Select_Option" data-value="4">4</div>
+                                            <div class="DX_Select_Option selected" data-value="5">5</div>
+                                            <div class="DX_Select_Option" data-value="6">6</div>
+                                            <div class="DX_Select_Option" data-value="7">7</div>
+                                            <div class="DX_Select_Option" data-value="8">8</div>
+                                            <div class="DX_Select_Option" data-value="9">9</div>
+                                            <div class="DX_Select_Option" data-value="10">10</div>
+                                            <div class="DX_Select_Option" data-value="11">11</div>
+                                            <div class="DX_Select_Option" data-value="12">12</div>
+                                            <div class="DX_Select_Option" data-value="13">13</div>
+                                            <div class="DX_Select_Option" data-value="14">14</div>
+                                            <div class="DX_Select_Option" data-value="15">15</div>
+                                            <div class="DX_Select_Option" data-value="16">16</div>
+                                            <div class="DX_Select_Option" data-value="17">17</div>
+                                            <div class="DX_Select_Option" data-value="18">18</div>
+                                            <div class="DX_Select_Option" data-value="19">19</div>
+                                            <div class="DX_Select_Option" data-value="20">20</div>
+                                            <div class="DX_Select_Option" data-value="21">21</div>
+                                            <div class="DX_Select_Option" data-value="22">22</div>
+                                            <div class="DX_Select_Option" data-value="23">23</div>
+                                            <div class="DX_Select_Option" data-value="24">24</div>
+                                            <div class="DX_Select_Option" data-value="25">25</div>
+                                            <div class="DX_Select_Option" data-value="26">26</div>
+                                            <div class="DX_Select_Option" data-value="27">27</div>
+                                            <div class="DX_Select_Option" data-value="28">28</div>
+                                            <div class="DX_Select_Option" data-value="29">29</div>
+                                            <div class="DX_Select_Option" data-value="30">30</div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="DR_Divider"></div>
-                        <div class="DR_Btn DR_Btn_Blue_Ghost DR_NoSel DR_Nav_Btn" id="DR_Automations_Btn">
-                            <div class="DR_Nav_Btn_L">
-                                <img class="DR_NoSel" src="https://d35aaqx5ub95lt.cloudfront.net/images/goals/62bb241121ae018b28240eebffb9fc4a.svg" alt="" style="width: 22px; height: 22px; object-fit: contain; flex-shrink: 0;">
-                                <p class="DR_Nav_Title DR_NoSel">Automations</p>
+                        <div class="DX_Divider"></div>
+                        <div class="DX_Btn DX_Btn_Blue_Ghost DX_NoSel DX_Nav_Btn" id="DX_Automations_Btn">
+                            <div class="DX_Nav_Btn_L">
+                                <img class="DX_NoSel" src="https://d35aaqx5ub95lt.cloudfront.net/images/goals/62bb241121ae018b28240eebffb9fc4a.svg" alt="" style="width: 22px; height: 22px; object-fit: contain; flex-shrink: 0;">
+                                <p class="DX_Nav_Title DX_NoSel">Automations</p>
                             </div>
                             ${icons.arrowRight}
                         </div>
-                        <div class="DR_Btn DR_Btn_Blue_Ghost DR_NoSel DR_Nav_Btn" id="DR_AutoSolver_Btn">
-                            <div class="DR_Nav_Btn_L">
-                                <img class="DR_NoSel" src="https://d35aaqx5ub95lt.cloudfront.net/images/goals/39f13d2de304cad2ac2f88b31a7e2ff4.svg" alt="" style="width: 22px; height: 22px; object-fit: contain; flex-shrink: 0;">
-                                <p class="DR_Nav_Title DR_NoSel">Auto Solver</p>
+                        <div class="DX_Btn DX_Btn_Blue_Ghost DX_NoSel DX_Nav_Btn" id="DX_AutoSolver_Btn">
+                            <div class="DX_Nav_Btn_L">
+                                <img class="DX_NoSel" src="https://d35aaqx5ub95lt.cloudfront.net/images/goals/39f13d2de304cad2ac2f88b31a7e2ff4.svg" alt="" style="width: 22px; height: 22px; object-fit: contain; flex-shrink: 0;">
+                                <p class="DX_Nav_Title DX_NoSel">Auto Solver</p>
                             </div>
                             ${icons.arrowRight}
                         </div>
                     </div>
                 </div>
-                <div class="DR_Page" id="DR_Page_Automations">
-                    <div class="DR_HStack_4 DR_NoSel DR_Back_Btn" id="DR_Automations_Back_Btn">
+                <div class="DX_Page" id="DX_Page_Automations">
+                    <div class="DX_HStack_4 DX_NoSel DX_Back_Btn" id="DX_Automations_Back_Btn">
                         ${icons.back}
-                        <p class="DR_T1">Back</p>
+                        <p class="DX_T1">Back</p>
                     </div>
-                    <div class="DR_HStack_4 DR_NoSel" style="align-self: stretch; gap: 8px; margin-bottom: 8px;">
-                        <img class="DR_NoSel" src="https://d35aaqx5ub95lt.cloudfront.net/images/goals/62bb241121ae018b28240eebffb9fc4a.svg" alt="" style="width: 34px; height: 34px; object-fit: contain; flex-shrink: 0;">
-                        <div class="DR_Row_Text">
-                            <p class="DR_T1 DR_NoSel" style="font-size: 14px; font-weight: 600;">Automations</p>
-                            <p class="DR_T2 DR_NoSel">Configure automated background tasks</p>
+                    <div class="DX_HStack_4 DX_NoSel" style="align-self: stretch; gap: 8px; margin-bottom: 8px;">
+                        <img class="DX_NoSel" src="https://d35aaqx5ub95lt.cloudfront.net/images/goals/62bb241121ae018b28240eebffb9fc4a.svg" alt="" style="width: 34px; height: 34px; object-fit: contain; flex-shrink: 0;">
+                        <div class="DX_Row_Text">
+                            <p class="DX_T1 DX_NoSel" style="font-size: 14px; font-weight: 600;">Automations</p>
+                            <p class="DX_T2 DX_NoSel">Configure automated background tasks</p>
                         </div>
                     </div>
                     <div style="align-self: stretch; display: flex; flex-direction: column; width: 100%;">
-                        <div class="DR_VStack_8" style="align-self: stretch;">
-                            <div class="DR_Setting_Row">
-                                <div class="DR_Row_Text">
-                                    <p class="DR_T1 DR_NoSel">Auto Join League</p>
-                                    <p class="DR_T2 DR_NoSel">Joins a league for you on launch</p>
+                        <div class="DX_VStack_8" style="align-self: stretch;">
+                            <div class="DX_Setting_Row">
+                                <div class="DX_Row_Text">
+                                    <p class="DX_T1 DX_NoSel">Auto Join League</p>
+                                    <p class="DX_T2 DX_NoSel">Joins a league for you on launch</p>
                                 </div>
-                                <div class="DR_HStack_8" style="width: auto;">
-                                    <div class="DR_Toggle" id="DR_AutoJoin_Toggle"><div class="DR_Toggle_Knob"></div></div>
-                                </div>
-                            </div>
-                            <div class="DR_Divider"></div>
-                            <div class="DR_Setting_Row">
-                                <div class="DR_Row_Text">
-                                    <p class="DR_T1 DR_NoSel">Auto Block League</p>
-                                    <p class="DR_T2 DR_NoSel">Blocks league users for you on launch</p>
-                                </div>
-                                <div class="DR_HStack_8" style="width: auto;">
-                                    <div class="DR_Toggle" id="DR_AutoBlock_Toggle"><div class="DR_Toggle_Knob"></div></div>
+                                <div class="DX_HStack_8" style="width: auto;">
+                                    <div class="DX_Toggle" id="DX_AutoJoin_Toggle"><div class="DX_Toggle_Knob"></div></div>
                                 </div>
                             </div>
-                            <div class="DR_Divider"></div>
-                            <div class="DR_Setting_Row">
-                                <div class="DR_Row_Text">
-                                    <p class="DR_T1 DR_NoSel">Auto Reach Rank</p>
-                                    <p class="DR_T2 DR_NoSel">Farms to your saved rank on launch</p>
+                            <div class="DX_Divider"></div>
+                            <div class="DX_Setting_Row">
+                                <div class="DX_Row_Text">
+                                    <p class="DX_T1 DX_NoSel">Auto Block League</p>
+                                    <p class="DX_T2 DX_NoSel">Blocks league users for you on launch</p>
                                 </div>
-                                <div class="DR_HStack_8" style="width: auto;">
-                                    <div class="DR_Toggle" id="DR_AutoReach_Toggle"><div class="DR_Toggle_Knob"></div></div>
-                                </div>
-                            </div>
-                            <div class="DR_Divider"></div>
-                            <div class="DR_Setting_Row">
-                                <div class="DR_Row_Text">
-                                    <p class="DR_T1 DR_NoSel">Auto Keep Streak</p>
-                                    <p class="DR_T2 DR_NoSel">Keeps your streak for you on launch</p>
-                                </div>
-                                <div class="DR_HStack_8" style="width: auto;">
-                                    <div class="DR_Toggle" id="DR_AutoStreak_Toggle"><div class="DR_Toggle_Knob"></div></div>
+                                <div class="DX_HStack_8" style="width: auto;">
+                                    <div class="DX_Toggle" id="DX_AutoBlock_Toggle"><div class="DX_Toggle_Knob"></div></div>
                                 </div>
                             </div>
-                            <div class="DR_Divider"></div>
-                            <div class="DR_Setting_Row">
-                                <div class="DR_Row_Text">
-                                    <p class="DR_T1 DR_NoSel">Auto Quest Saver</p>
-                                    <p class="DR_T2 DR_NoSel">Saves your quests for you on launch</p>
+                            <div class="DX_Divider"></div>
+                            <div class="DX_Setting_Row">
+                                <div class="DX_Row_Text">
+                                    <p class="DX_T1 DX_NoSel">Auto Reach Rank</p>
+                                    <p class="DX_T2 DX_NoSel">Farms to your saved rank on launch</p>
                                 </div>
-                                <div class="DR_HStack_8" style="width: auto;">
-                                    <div class="DR_Toggle" id="DR_AutoQuest_Toggle"><div class="DR_Toggle_Knob"></div></div>
+                                <div class="DX_HStack_8" style="width: auto;">
+                                    <div class="DX_Toggle" id="DX_AutoReach_Toggle"><div class="DX_Toggle_Knob"></div></div>
+                                </div>
+                            </div>
+                            <div class="DX_Divider"></div>
+                            <div class="DX_Setting_Row">
+                                <div class="DX_Row_Text">
+                                    <p class="DX_T1 DX_NoSel">Auto Keep Streak</p>
+                                    <p class="DX_T2 DX_NoSel">Keeps your streak for you on launch</p>
+                                </div>
+                                <div class="DX_HStack_8" style="width: auto;">
+                                    <div class="DX_Toggle" id="DX_AutoStreak_Toggle"><div class="DX_Toggle_Knob"></div></div>
+                                </div>
+                            </div>
+                            <div class="DX_Divider"></div>
+                            <div class="DX_Setting_Row">
+                                <div class="DX_Row_Text">
+                                    <p class="DX_T1 DX_NoSel">Auto Quest Saver</p>
+                                    <p class="DX_T2 DX_NoSel">Saves your quests for you on launch</p>
+                                </div>
+                                <div class="DX_HStack_8" style="width: auto;">
+                                    <div class="DX_Toggle" id="DX_AutoQuest_Toggle"><div class="DX_Toggle_Knob"></div></div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="DR_Page" id="DR_Page_Stats">
-                    <div class="DR_HStack_4 DR_NoSel DR_Back_Btn" id="DR_Stats_Back_Btn">
+                <div class="DX_Page" id="DX_Page_Stats">
+                    <div class="DX_HStack_4 DX_NoSel DX_Back_Btn" id="DX_Stats_Back_Btn">
                         ${icons.back}
-                        <p class="DR_T1">Back</p>
+                        <p class="DX_T1">Back</p>
                     </div>
-                    <div class="DR_HStack_4 DR_NoSel" style="align-self: stretch; gap: 8px; margin-bottom: 8px;">
-                        <img class="DR_NoSel" src="https://d35aaqx5ub95lt.cloudfront.net/vendor/3390675b86eeeab0b4119ccfcb5b186e.svg" alt="" style="width: 34px; height: 34px; object-fit: contain; flex-shrink: 0;">
-                        <div class="DR_Row_Text">
-                            <p class="DR_T1 DR_NoSel" style="font-size: 14px; font-weight: 600;">About DuoRain</p>
-                            <p class="DR_T2 DR_NoSel">Your session metrics and credits</p>
-                        </div>
-                    </div>
-                    <div class="DR_Panel_Card" id="DR_Changelog_Card" style="margin-bottom: 8px; display: none;">
-                        <p class="DR_T1 DR_NoSel" style="font-weight: 800; margin-bottom: 6px;">Changelog</p>
-                        <div id="DR_Changelog" class="DR_Scroll_Inner" style="max-height: 300px; width: 100%;">
-                            <p class="DR_T2 DR_NoSel" style="text-align: center;">Loading changelog...</p>
+                    <div class="DX_HStack_4 DX_NoSel" style="align-self: stretch; gap: 8px; margin-bottom: 8px;">
+                        <img class="DX_NoSel" src="https://d35aaqx5ub95lt.cloudfront.net/vendor/3390675b86eeeab0b4119ccfcb5b186e.svg" alt="" style="width: 34px; height: 34px; object-fit: contain; flex-shrink: 0;">
+                        <div class="DX_Row_Text">
+                            <p class="DX_T1 DX_NoSel" style="font-size: 14px; font-weight: 600;">About DuoXJS</p>
+                            <p class="DX_T2 DX_NoSel">Your session metrics and credits</p>
                         </div>
                     </div>
-                    <div class="DR_Panel_Card">
-                        <div class="DR_HStack_Auto" style="align-self: stretch;">
-                            <p class="DR_T1 DR_NoSel" style="font-weight: 800;">v${drVersion} Stats</p>
-                            <span class="DR_T2 DR_NoSel" id="DR_Stats_Reset" style="font-size: 11px; cursor: pointer; opacity: 0.6;">Reset</span>
+                    <div class="DX_Panel_Card" id="DX_Changelog_Card" style="margin-bottom: 8px; display: none;">
+                        <p class="DX_T1 DX_NoSel" style="font-weight: 800; margin-bottom: 6px;">Changelog</p>
+                        <div id="DX_Changelog" class="DX_Scroll_Inner" style="max-height: 300px; width: 100%;">
+                            <p class="DX_T2 DX_NoSel" style="text-align: center;">Loading changelog...</p>
                         </div>
-                        <div class="DR_HStack_Auto" style="align-self: stretch;">
-                            <p class="DR_T2 DR_NoSel">XP Gained</p>
-                            <p class="DR_T1 DR_NoSel" id="DR_Stat_XP">0</p>
+                    </div>
+                    <div class="DX_Panel_Card">
+                        <div class="DX_HStack_Auto" style="align-self: stretch;">
+                            <p class="DX_T1 DX_NoSel" style="font-weight: 800;">v${dxVersion} Stats</p>
+                            <span class="DX_T2 DX_NoSel" id="DX_Stats_Reset" style="font-size: 11px; cursor: pointer; opacity: 0.6;">Reset</span>
                         </div>
-                        <div class="DR_HStack_Auto" style="align-self: stretch;">
-                            <p class="DR_T2 DR_NoSel">Gems Gained</p>
-                            <p class="DR_T1 DR_NoSel" id="DR_Stat_Gems">0</p>
+                        <div class="DX_HStack_Auto" style="align-self: stretch;">
+                            <p class="DX_T2 DX_NoSel">XP Gained</p>
+                            <p class="DX_T1 DX_NoSel" id="DX_Stat_XP">0</p>
                         </div>
-                        <div class="DR_HStack_Auto" style="align-self: stretch;">
-                            <p class="DR_T2 DR_NoSel">Streak Gained</p>
-                            <p class="DR_T1 DR_NoSel" id="DR_Stat_Streak">0</p>
+                        <div class="DX_HStack_Auto" style="align-self: stretch;">
+                            <p class="DX_T2 DX_NoSel">Gems Gained</p>
+                            <p class="DX_T1 DX_NoSel" id="DX_Stat_Gems">0</p>
                         </div>
-                        <div class="DR_Divider" style="margin: 2px 0;"></div>
-                        <div class="DR_HStack_Auto" style="align-self: stretch;">
-                            <p class="DR_T2 DR_NoSel">Since</p>
-                            <p class="DR_T2 DR_NoSel" id="DR_Stat_Since" style="opacity: 1;">—</p>
+                        <div class="DX_HStack_Auto" style="align-self: stretch;">
+                            <p class="DX_T2 DX_NoSel">Streak Gained</p>
+                            <p class="DX_T1 DX_NoSel" id="DX_Stat_Streak">0</p>
                         </div>
-                        <div class="DR_Divider" style="margin: 2px 0;"></div>
+                        <div class="DX_Divider" style="margin: 2px 0;"></div>
+                        <div class="DX_HStack_Auto" style="align-self: stretch;">
+                            <p class="DX_T2 DX_NoSel">Since</p>
+                            <p class="DX_T2 DX_NoSel" id="DX_Stat_Since" style="opacity: 1;">—</p>
+                        </div>
+                        <div class="DX_Divider" style="margin: 2px 0;"></div>
                         <div style="display: flex; flex-direction: column; align-items: center; gap: 3px; margin-top: 2px; align-self: stretch;">
-                            <p class="DR_T2 DR_NoSel" style="text-align: center; font-size: 11px; line-height: 1.4; opacity: 1; margin: 0;">Created by <span class="DR_Hover_1" id="DR_Credit_Oracle" style="color: var(--dr-link-color); font-weight: 700; cursor: pointer;">OracleMythix</span> & <span class="DR_Hover_1" id="DR_Credit_Gorou" style="color: var(--dr-link-color); font-weight: 700; cursor: pointer;">oxGorou</span> under <a href="https://github.com/DuoXPy/DuoRain/blob/main/LICENSE" target="_blank" style="color: var(--dr-link-color); font-weight: 700; text-decoration: none;" class="DR_Hover_1">MIT license</a></p>
-                            <span class="DR_Hover_1" id="DR_Open_Terms_Btn" style="color: var(--dr-link-color); font-size: 11px; font-weight: 700; cursor: pointer;">EULA & TOS</span>
+                            <p class="DX_T2 DX_NoSel" style="text-align: center; font-size: 11px; line-height: 1.4; opacity: 1; margin: 0;">Created by <span class="DX_Hover_1" id="DX_Credit_LibreDuo" style="color: var(--dx-link-color); font-weight: 700; cursor: pointer;">LibreDuo</span> under <a href="https://github.com/LibreDuo/DuoXJS/blob/main/LICENSE" target="_blank" style="color: var(--dx-link-color); font-weight: 700; text-decoration: none;" class="DX_Hover_1">MIT license</a></p>
+                            <span class="DX_Hover_1" id="DX_Open_Terms_Btn" style="color: var(--dx-link-color); font-size: 11px; font-weight: 700; cursor: pointer;">EULA & TOS</span>
                         </div>
                     </div>
                 </div>
-                <div class="DR_Page" id="DR_Page_XPSummaries">
-                    <div class="DR_HStack_4 DR_NoSel DR_Back_Btn" id="DR_XPSummaries_Back_Btn">
+                <div class="DX_Page" id="DX_Page_XPSummaries">
+                    <div class="DX_HStack_4 DX_NoSel DX_Back_Btn" id="DX_XPSummaries_Back_Btn">
                         ${icons.back}
-                        <p class="DR_T1">Back</p>
+                        <p class="DX_T1">Back</p>
                     </div>
-                    <div class="DR_HStack_4 DR_NoSel" style="align-self: stretch; gap: 8px; margin-bottom: 8px;">
+                    <div class="DX_HStack_4 DX_NoSel" style="align-self: stretch; gap: 8px; margin-bottom: 8px;">
                         <img src="${icons.xpIcon}" alt="" style="width: 34px; height: 34px; flex-shrink: 0; object-fit: contain;">
-                        <div class="DR_Row_Text">
-                            <p class="DR_T1 DR_NoSel" style="font-size: 14px; font-weight: 600;">XP Summaries</p>
-                            <p class="DR_T2 DR_NoSel">Your recent XP history</p>
+                        <div class="DX_Row_Text">
+                            <p class="DX_T1 DX_NoSel" style="font-size: 14px; font-weight: 600;">XP Summaries</p>
+                            <p class="DX_T2 DX_NoSel">Your recent XP history</p>
                         </div>
                     </div>
-                    <div class="DR_Panel_Card" style="display: flex; flex-direction: column; width: 100%; box-sizing: border-box;">
-                        <div id="DR_XPHistory" class="DR_Scroll_Inner" style="max-height: 300px; width: 100%;">
-                            <p class="DR_T2 DR_NoSel" style="text-align: center;">Loading...</p>
+                    <div class="DX_Panel_Card" style="display: flex; flex-direction: column; width: 100%; box-sizing: border-box;">
+                        <div id="DX_XPHistory" class="DX_Scroll_Inner" style="max-height: 300px; width: 100%;">
+                            <p class="DX_T2 DX_NoSel" style="text-align: center;">Loading...</p>
                         </div>
                     </div>
                 </div>
-                <div class="DR_Page" id="DR_Page_Status">
-                    <div class="DR_HStack_4 DR_NoSel DR_Back_Btn" id="DR_Status_Back_Btn">
+                <div class="DX_Page" id="DX_Page_Status">
+                    <div class="DX_HStack_4 DX_NoSel DX_Back_Btn" id="DX_Status_Back_Btn">
                         ${icons.back}
-                        <p class="DR_T1">Back</p>
+                        <p class="DX_T1">Back</p>
                     </div>
-                    <div class="DR_HStack_4 DR_NoSel" style="align-self: stretch; gap: 8px; margin-bottom: 8px;">
-                        <img class="DR_NoSel" src="${DUO_LEAGUES_CDN + "6df6337370e45c1b9a5029e78211d114.svg"}" alt="" style="width: 34px; height: 34px; object-fit: contain; flex-shrink: 0;">
-                        <div class="DR_Row_Text">
-                            <p class="DR_T1 DR_NoSel" style="font-size: 14px; font-weight: 600;">Status Manager</p>
-                            <p class="DR_T2 DR_NoSel">Set your active Duolingo status emoji</p>
+                    <div class="DX_HStack_4 DX_NoSel" style="align-self: stretch; gap: 8px; margin-bottom: 8px;">
+                        <img class="DX_NoSel" src="${DUO_LEAGUES_CDN + "6df6337370e45c1b9a5029e78211d114.svg"}" alt="" style="width: 34px; height: 34px; object-fit: contain; flex-shrink: 0;">
+                        <div class="DX_Row_Text">
+                            <p class="DX_T1 DX_NoSel" style="font-size: 14px; font-weight: 600;">Status Manager</p>
+                            <p class="DX_T2 DX_NoSel">Set your active Duolingo status emoji</p>
                         </div>
                     </div>
-                    <input type="text" class="DR_Search DR_NoSel" id="DR_Status_Search" placeholder="Search statuses..." style="">
-                    <div class="DR_Scroll_Inner" id="DR_Status_Container" style="max-height: 300px;">
-                        <p class="DR_T2 DR_NoSel" style="text-align: center; padding: 8px 0;">Loading...</p>
+                    <input type="text" class="DX_Search DX_NoSel" id="DX_Status_Search" placeholder="Search statuses..." style="">
+                    <div class="DX_Scroll_Inner" id="DX_Status_Container" style="max-height: 300px;">
+                        <p class="DX_T2 DX_NoSel" style="text-align: center; padding: 8px 0;">Loading...</p>
                     </div>
                 </div>
-                <div class="DR_Page" id="DR_Page_Shop">
-                    <div class="DR_HStack_4 DR_NoSel DR_Back_Btn" id="DR_Shop_Back_Btn">
+                <div class="DX_Page" id="DX_Page_Shop">
+                    <div class="DX_HStack_4 DX_NoSel DX_Back_Btn" id="DX_Shop_Back_Btn">
                         ${icons.back}
-                        <p class="DR_T1">Back</p>
+                        <p class="DX_T1">Back</p>
                     </div>
-                    <div class="DR_HStack_4 DR_NoSel" style="align-self: stretch; gap: 8px; margin-bottom: 8px;">
-                        <img class="DR_NoSel" src="https://d35aaqx5ub95lt.cloudfront.net/vendor/0e58a94dda219766d98c7796b910beee.svg" alt="" style="width: 34px; height: 34px; object-fit: contain; flex-shrink: 0;">
-                        <div class="DR_Row_Text">
-                            <p class="DR_T1 DR_NoSel" style="font-size: 14px; font-weight: 600;">Shop Items</p>
-                            <p class="DR_T2 DR_NoSel">Purchase boosts and powerups</p>
+                    <div class="DX_HStack_4 DX_NoSel" style="align-self: stretch; gap: 8px; margin-bottom: 8px;">
+                        <img class="DX_NoSel" src="https://d35aaqx5ub95lt.cloudfront.net/vendor/0e58a94dda219766d98c7796b910beee.svg" alt="" style="width: 34px; height: 34px; object-fit: contain; flex-shrink: 0;">
+                        <div class="DX_Row_Text">
+                            <p class="DX_T1 DX_NoSel" style="font-size: 14px; font-weight: 600;">Shop Items</p>
+                            <p class="DX_T2 DX_NoSel">Purchase boosts and powerups</p>
                         </div>
                     </div>
-                    <input type="text" class="DR_Search DR_NoSel" id="DR_Shop_Search" placeholder="Search items..." style="">
-                    <div class="DR_Scroll_Inner" id="DR_Shop_Container" style="max-height: 300px;">
-                        <p class="DR_T2 DR_NoSel" style="text-align: center; padding: 8px 0;">Loading...</p>
+                    <input type="text" class="DX_Search DX_NoSel" id="DX_Shop_Search" placeholder="Search items..." style="">
+                    <div class="DX_Scroll_Inner" id="DX_Shop_Container" style="max-height: 300px;">
+                        <p class="DX_T2 DX_NoSel" style="text-align: center; padding: 8px 0;">Loading...</p>
                     </div>
                 </div>
-                <div class="DR_Page" id="DR_Page_Quests">
-                    <div class="DR_HStack_4 DR_NoSel DR_Back_Btn" id="DR_Quests_Back_Btn">
+                <div class="DX_Page" id="DX_Page_Quests">
+                    <div class="DX_HStack_4 DX_NoSel DX_Back_Btn" id="DX_Quests_Back_Btn">
                         ${icons.back}
-                        <p class="DR_T1">Back</p>
+                        <p class="DX_T1">Back</p>
                     </div>
-                    <div class="DR_HStack_4 DR_NoSel" style="align-self: stretch; gap: 8px; margin-bottom: 8px;">
-                        <img class="DR_NoSel" src="https://d35aaqx5ub95lt.cloudfront.net/vendor/7ef36bae3f9d68fc763d3451b5167836.svg" alt="" style="width: 34px; height: 34px; flex-shrink: 0; object-fit: contain;">
-                        <div class="DR_Row_Text">
-                            <p class="DR_T1 DR_NoSel" style="font-size: 14px; font-weight: 600;">Quest Center</p>
-                            <p class="DR_T2 DR_NoSel">Manage and view your quests</p>
+                    <div class="DX_HStack_4 DX_NoSel" style="align-self: stretch; gap: 8px; margin-bottom: 8px;">
+                        <img class="DX_NoSel" src="https://d35aaqx5ub95lt.cloudfront.net/vendor/7ef36bae3f9d68fc763d3451b5167836.svg" alt="" style="width: 34px; height: 34px; flex-shrink: 0; object-fit: contain;">
+                        <div class="DX_Row_Text">
+                            <p class="DX_T1 DX_NoSel" style="font-size: 14px; font-weight: 600;">Quest Center</p>
+                            <p class="DX_T2 DX_NoSel">Manage and view your quests</p>
                         </div>
                     </div>
-                    <div class="DR_Farm_Sec">
-                        <div class="DR_HStack_Auto" style="align-self: stretch;">
-                            <p class="DR_T1 DR_NoSel" style="font-size: 14px; font-weight: 600;">Quest Operations</p>
-                            <button class="DR_Sm_Btn DR_NoSel" id="DR_Quest_Force_Btn" disabled style="height: 28px; padding: 0 10px; min-width: 66px;">
-                                <span class="DR_Sm_Btn_Label" style="color: #fff; font-size: 11px;">FORCE ALL</span>
+                    <div class="DX_Farm_Sec">
+                        <div class="DX_HStack_Auto" style="align-self: stretch;">
+                            <p class="DX_T1 DX_NoSel" style="font-size: 14px; font-weight: 600;">Quest Operations</p>
+                            <button class="DX_Sm_Btn DX_NoSel" id="DX_Quest_Force_Btn" disabled style="height: 28px; padding: 0 10px; min-width: 66px;">
+                                <span class="DX_Sm_Btn_Label" style="color: #fff; font-size: 11px;">FORCE ALL</span>
                             </button>
                         </div>
-                        <div class="DR_Prog_Wrap" id="DR_QuestForce_Prog" style="align-self: stretch;">
-                            <div class="DR_Prog_Fill" id="DR_QuestForce_Fill"></div>
+                        <div class="DX_Prog_Wrap" id="DX_QuestForce_Prog" style="align-self: stretch;">
+                            <div class="DX_Prog_Fill" id="DX_QuestForce_Fill"></div>
                         </div>
                     </div>
-                    <input type="text" class="DR_Search DR_NoSel" id="DR_Quest_Search" placeholder="Search quests..." style="">
-                    <div id="DR_Quest_Container" class="DR_Scroll_Inner" style="max-height: 300px; width: 100%;">
-                        <p class="DR_T2 DR_NoSel" style="text-align: center; padding: 8px 0;">Loading...</p>
+                    <input type="text" class="DX_Search DX_NoSel" id="DX_Quest_Search" placeholder="Search quests..." style="">
+                    <div id="DX_Quest_Container" class="DX_Scroll_Inner" style="max-height: 300px; width: 100%;">
+                        <p class="DX_T2 DX_NoSel" style="text-align: center; padding: 8px 0;">Loading...</p>
                     </div>
                 </div>
-                <div class="DR_Page" id="DR_Page_AccountManager">
-                    <div class="DR_HStack_4 DR_NoSel DR_Back_Btn" id="DR_AccMgr_Back_Btn">
+                <div class="DX_Page" id="DX_Page_AccountManager">
+                    <div class="DX_HStack_4 DX_NoSel DX_Back_Btn" id="DX_AccMgr_Back_Btn">
                         ${icons.back}
-                        <p class="DR_T1">Back</p>
+                        <p class="DX_T1">Back</p>
                     </div>
-                    <div class="DR_HStack_4 DR_NoSel" style="align-self: stretch; gap: 8px; margin-bottom: 8px;">
-                        <img class="DR_NoSel" src="https://d35aaqx5ub95lt.cloudfront.net/images/super/11db6cd6f69cb2e3c5046b915be8e669.svg" alt="" style="width: 34px; height: 34px; object-fit: contain; flex-shrink: 0;">
-                        <div class="DR_Row_Text">
-                            <p class="DR_T1 DR_NoSel" style="font-size: 14px; font-weight: 600;">Account Manager</p>
-                            <p class="DR_T2 DR_NoSel">Switch profiles and manage accounts</p>
+                    <div class="DX_HStack_4 DX_NoSel" style="align-self: stretch; gap: 8px; margin-bottom: 8px;">
+                        <img class="DX_NoSel" src="https://d35aaqx5ub95lt.cloudfront.net/images/super/11db6cd6f69cb2e3c5046b915be8e669.svg" alt="" style="width: 34px; height: 34px; object-fit: contain; flex-shrink: 0;">
+                        <div class="DX_Row_Text">
+                            <p class="DX_T1 DX_NoSel" style="font-size: 14px; font-weight: 600;">Account Manager</p>
+                            <p class="DX_T2 DX_NoSel">Switch profiles and manage accounts</p>
                         </div>
                     </div>
-                    <div class="DR_Farm_Sec">
-                        <div class="DR_HStack_Auto" style="align-self: stretch;">
-                            <p class="DR_T1 DR_NoSel" style="font-size: 14px; font-weight: 600;">Manage Accounts</p>
-                            <button class="DR_Sm_Btn DR_NoSel" id="DR_AccSave_Btn" style="height: 28px; padding: 0 10px; min-width: auto; border-radius: 6px;">
-                                <span class="DR_Sm_Btn_Label" style="color: #fff; font-size: 10px;">SAVE CURRENT</span>
+                    <div class="DX_Farm_Sec">
+                        <div class="DX_HStack_Auto" style="align-self: stretch;">
+                            <p class="DX_T1 DX_NoSel" style="font-size: 14px; font-weight: 600;">Manage Accounts</p>
+                            <button class="DX_Sm_Btn DX_NoSel" id="DX_AccSave_Btn" style="height: 28px; padding: 0 10px; min-width: auto; border-radius: 6px;">
+                                <span class="DX_Sm_Btn_Label" style="color: #fff; font-size: 10px;">SAVE CURRENT</span>
                             </button>
                         </div>
                     </div>
-                    <div class="DR_Divider"></div>
-                    <div id="DR_AccList_Wrap" class="DR_Scroll_Inner" style="max-height: 300px; width: 100%; display: flex; flex-direction: column; gap: 8px;">
-                        <p class="DR_T2 DR_NoSel" style="text-align: center; padding: 8px 0;">No saved accounts.</p>
+                    <div class="DX_Divider"></div>
+                    <div id="DX_AccList_Wrap" class="DX_Scroll_Inner" style="max-height: 300px; width: 100%; display: flex; flex-direction: column; gap: 8px;">
+                        <p class="DX_T2 DX_NoSel" style="text-align: center; padding: 8px 0;">No saved accounts.</p>
                     </div>
                 </div>
-                <div class="DR_Page" id="DR_Page_Terms">
-                    <div class="DR_HStack_Auto" style="align-self: stretch; margin-bottom: 4px;">
-                        <div class="DR_NoSel" style="display: flex; flex-direction: column; justify-content: center; gap: 2px;">
-                            <div class="DR_Wordmark DR_NoSel">
-                                <span style="color: var(--dr-text);">Duo</span>
-                                <span class="dr-rain">Rain</span>
+                <div class="DX_Page" id="DX_Page_Terms">
+                    <div class="DX_HStack_Auto" style="align-self: stretch; margin-bottom: 4px;">
+                        <div class="DX_NoSel" style="display: flex; flex-direction: column; justify-content: center; gap: 2px;">
+                            <div class="DX_Wordmark DX_NoSel">
+                                <span style="color: var(--dx-text);">Duo</span>
+                                <span class="dx-xjs">XJS</span>
                             </div>
-                            <span class="DR_T2" style="font-size: 11px; font-weight: 700; letter-spacing: 0.4px; opacity: 0.6; line-height: 1;">v${drVersion}</span>
+                            <span class="DX_T2" style="font-size: 11px; font-weight: 700; letter-spacing: 0.4px; opacity: 0.6; line-height: 1;">v${dxVersion}</span>
                         </div>
-                        <div class="DR_Row_Text" style="text-align: right;">
-                            <p class="DR_T1 DR_NoSel" style="font-size: 13px; font-weight: 700; color: var(--dr-text);">EULA & TOS</p>
-                            <p class="DR_T2 DR_NoSel" id="DR_Terms_Status" style="font-size: 10px;">Please read and accept</p>
+                        <div class="DX_Row_Text" style="text-align: right;">
+                            <p class="DX_T1 DX_NoSel" style="font-size: 13px; font-weight: 700; color: var(--dx-text);">EULA & TOS</p>
+                            <p class="DX_T2 DX_NoSel" id="DX_Terms_Status" style="font-size: 10px;">Please read and accept</p>
                         </div>
                     </div>
-                    <div class="DR_Divider"></div>
-                    <div id="DR_Terms_Content" class="DR_Scroll_Inner DR_Selectable" style="max-height: 250px; font-size: 11px; line-height: 1.5; color: var(--dr-text); white-space: pre-wrap; padding: 10px; background: var(--dr-card-bg); border: 1.5px solid var(--dr-card-border); border-radius: var(--DR-r-s); align-self: stretch; text-align: left;">Loading terms...</div>
-                    <div class="DR_Divider"></div>
-                    <div class="DR_HStack_8" style="margin-top: 4px;">
-                        <button class="DR_Sm_Btn DR_Btn_Eel DR_NoSel" id="DR_Terms_Decline_Btn" style="flex: 1; outline-color: transparent;">
-                            <span class="DR_Sm_Btn_Label" style="color: var(--dr-text);">DECLINE</span>
+                    <div class="DX_Divider"></div>
+                    <div id="DX_Terms_Content" class="DX_Scroll_Inner DX_Selectable" style="max-height: 250px; font-size: 11px; line-height: 1.5; color: var(--dx-text); white-space: pre-wrap; padding: 10px; background: var(--dx-card-bg); border: 1.5px solid var(--dx-card-border); border-radius: var(--DX-r-s); align-self: stretch; text-align: left;">Loading terms...</div>
+                    <div class="DX_Divider"></div>
+                    <div class="DX_HStack_8" style="margin-top: 4px;">
+                        <button class="DX_Sm_Btn DX_Btn_Eel DX_NoSel" id="DX_Terms_Decline_Btn" style="flex: 1; outline-color: transparent;">
+                            <span class="DX_Sm_Btn_Label" style="color: var(--dx-text);">DECLINE</span>
                         </button>
-                        <button class="DR_Sm_Btn DR_NoSel" id="DR_Terms_Accept_Btn" style="flex: 1;">
-                            <span class="DR_Sm_Btn_Label" style="color: #fff;">ACCEPT</span>
+                        <button class="DX_Sm_Btn DX_NoSel" id="DX_Terms_Accept_Btn" style="flex: 1;">
+                            <span class="DX_Sm_Btn_Label" style="color: #fff;">ACCEPT</span>
                         </button>
                     </div>
                 </div>
-                <div class="DR_Page" id="DR_Page_Tools">
-                    <div class="DR_HStack_4 DR_NoSel DR_Back_Btn" id="DR_Tools_Back_Btn">
+                <div class="DX_Page" id="DX_Page_Tools">
+                    <div class="DX_HStack_4 DX_NoSel DX_Back_Btn" id="DX_Tools_Back_Btn">
                         ${icons.back}
-                        <p class="DR_T1">Back</p>
+                        <p class="DX_T1">Back</p>
                     </div>
-                    <div class="DR_HStack_4 DR_NoSel" style="align-self: stretch; gap: 8px; margin-bottom: 8px;">
-                        <img class="DR_NoSel" src="${DUO_LEAGUES_CDN}a8e5c18e80054228b2c61168846ff643.svg" alt="" style="width: 34px; height: 34px; object-fit: contain; flex-shrink: 0;">
-                        <div class="DR_Row_Text">
-                            <p class="DR_T1 DR_NoSel" style="font-size: 14px; font-weight: 600;">Social Tools</p>
-                            <p class="DR_T2 DR_NoSel">Interact with other users</p>
+                    <div class="DX_HStack_4 DX_NoSel" style="align-self: stretch; gap: 8px; margin-bottom: 8px;">
+                        <img class="DX_NoSel" src="${DUO_LEAGUES_CDN}a8e5c18e80054228b2c61168846ff643.svg" alt="" style="width: 34px; height: 34px; object-fit: contain; flex-shrink: 0;">
+                        <div class="DX_Row_Text">
+                            <p class="DX_T1 DX_NoSel" style="font-size: 14px; font-weight: 600;">Social Tools</p>
+                            <p class="DX_T2 DX_NoSel">Interact with other users</p>
                         </div>
                     </div>
-                    <div class="DR_VStack_8" style="align-self: stretch;">
-                        <div class="DR_Set_Input_Wrap" style="align-self: stretch;">
-                            <input type="text" class="DR_Input DR_NoSel" id="DR_Tools_User" placeholder="Target username">
+                    <div class="DX_VStack_8" style="align-self: stretch;">
+                        <div class="DX_Set_Input_Wrap" style="align-self: stretch;">
+                            <input type="text" class="DX_Input DX_NoSel" id="DX_Tools_User" placeholder="Target username">
                         </div>
-                        <div class="DR_Compact_Task">
-                            <div class="DR_Row_Text">
-                                <p class="DR_T1 DR_NoSel">Block / Unblock</p>
-                                <p class="DR_T2 DR_NoSel">Block or unblock the user above</p>
+                        <div class="DX_Compact_Task">
+                            <div class="DX_Row_Text">
+                                <p class="DX_T1 DX_NoSel">Block / Unblock</p>
+                                <p class="DX_T2 DX_NoSel">Block or unblock the user above</p>
                             </div>
-                            <div class="DR_Select" id="DR_Block_Select" data-value="block" style="width: 98px; flex-shrink: 0;">
-                                <div class="DR_Select_Trigger">
-                                    <span class="DR_Select_Text">Block</span>${icons.chevron}
+                            <div class="DX_Select" id="DX_Block_Select" data-value="block" style="width: 98px; flex-shrink: 0;">
+                                <div class="DX_Select_Trigger">
+                                    <span class="DX_Select_Text">Block</span>${icons.chevron}
                                 </div>
-                                <div class="DR_Select_Options">
-                                    <div class="DR_Select_Option selected" data-value="block">Block</div>
-                                    <div class="DR_Select_Option" data-value="unblock">Unblock</div>
+                                <div class="DX_Select_Options">
+                                    <div class="DX_Select_Option selected" data-value="block">Block</div>
+                                    <div class="DX_Select_Option" data-value="unblock">Unblock</div>
                                 </div>
                             </div>
-                            <button class="DR_Sm_Btn DR_NoSel" id="DR_Block_Btn" disabled>
-                                <span class="DR_Sm_Btn_Label" style="color: #fff;">RUN</span>
+                            <button class="DX_Sm_Btn DX_NoSel" id="DX_Block_Btn" disabled>
+                                <span class="DX_Sm_Btn_Label" style="color: #fff;">RUN</span>
                             </button>
                         </div>
-                        <div class="DR_Compact_Task">
-                            <div class="DR_Row_Text">
-                                <p class="DR_T1 DR_NoSel">Follow / Unfollow</p>
-                                <p class="DR_T2 DR_NoSel">Follow or unfollow the user above</p>
+                        <div class="DX_Compact_Task">
+                            <div class="DX_Row_Text">
+                                <p class="DX_T1 DX_NoSel">Follow / Unfollow</p>
+                                <p class="DX_T2 DX_NoSel">Follow or unfollow the user above</p>
                             </div>
-                            <div class="DR_Select" id="DR_FollowSingle_Select" data-value="follow" style="width: 98px; flex-shrink: 0;">
-                                <div class="DR_Select_Trigger">
-                                    <span class="DR_Select_Text">Follow</span>${icons.chevron}
+                            <div class="DX_Select" id="DX_FollowSingle_Select" data-value="follow" style="width: 98px; flex-shrink: 0;">
+                                <div class="DX_Select_Trigger">
+                                    <span class="DX_Select_Text">Follow</span>${icons.chevron}
                                 </div>
-                                <div class="DR_Select_Options">
-                                    <div class="DR_Select_Option selected" data-value="follow">Follow</div>
-                                    <div class="DR_Select_Option" data-value="unfollow">Unfollow</div>
+                                <div class="DX_Select_Options">
+                                    <div class="DX_Select_Option selected" data-value="follow">Follow</div>
+                                    <div class="DX_Select_Option" data-value="unfollow">Unfollow</div>
                                 </div>
                             </div>
-                            <button class="DR_Sm_Btn DR_NoSel" id="DR_FollowSingle_Btn" disabled>
-                                <span class="DR_Sm_Btn_Label" style="color: #fff;">RUN</span>
+                            <button class="DX_Sm_Btn DX_NoSel" id="DX_FollowSingle_Btn" disabled>
+                                <span class="DX_Sm_Btn_Label" style="color: #fff;">RUN</span>
                             </button>
                         </div>
-                        <div class="DR_Compact_Task">
-                            <div class="DR_Row_Text">
-                                <p class="DR_T1 DR_NoSel">Send Gift</p>
-                                <p class="DR_T2 DR_NoSel">Gift an item to the user above</p>
+                        <div class="DX_Compact_Task">
+                            <div class="DX_Row_Text">
+                                <p class="DX_T1 DX_NoSel">Send Gift</p>
+                                <p class="DX_T2 DX_NoSel">Gift an item to the user above</p>
                             </div>
-                            <div class="DR_Select" id="DR_Gift_Select" data-value="streak_freeze_gift" style="width: 98px; flex-shrink: 0;">
-                                <div class="DR_Select_Trigger">
-                                    <span class="DR_Select_Text">Freeze</span>${icons.chevron}
+                            <div class="DX_Select" id="DX_Gift_Select" data-value="streak_freeze_gift" style="width: 98px; flex-shrink: 0;">
+                                <div class="DX_Select_Trigger">
+                                    <span class="DX_Select_Text">Freeze</span>${icons.chevron}
                                 </div>
-                                <div class="DR_Select_Options">
-                                    <div class="DR_Select_Option selected" data-value="streak_freeze_gift">Freeze</div>
-                                    <div class="DR_Select_Option" data-value="xp_boost_15_gift">XP Boost</div>
+                                <div class="DX_Select_Options">
+                                    <div class="DX_Select_Option selected" data-value="streak_freeze_gift">Freeze</div>
+                                    <div class="DX_Select_Option" data-value="xp_boost_15_gift">XP Boost</div>
                                 </div>
                             </div>
-                            <button class="DR_Sm_Btn DR_NoSel" id="DR_Gift_Btn" disabled>
-                                <span class="DR_Sm_Btn_Label" style="color: #fff;">RUN</span>
+                            <button class="DX_Sm_Btn DX_NoSel" id="DX_Gift_Btn" disabled>
+                                <span class="DX_Sm_Btn_Label" style="color: #fff;">RUN</span>
                             </button>
                         </div>
-                        <div class="DR_Compact_Task">
-                            <div class="DR_Row_Text">
-                                <p class="DR_T1 DR_NoSel">Friend Streak / Quest</p>
-                                <p class="DR_T2 DR_NoSel">Start a streak or quest with them</p>
+                        <div class="DX_Compact_Task">
+                            <div class="DX_Row_Text">
+                                <p class="DX_T1 DX_NoSel">Friend Streak / Quest</p>
+                                <p class="DX_T2 DX_NoSel">Start a streak or quest with them</p>
                             </div>
-                            <div class="DR_Select" id="DR_Friend_Select" data-value="streak" style="width: 98px; flex-shrink: 0;">
-                                <div class="DR_Select_Trigger">
-                                    <span class="DR_Select_Text">Streak</span>${icons.chevron}
+                            <div class="DX_Select" id="DX_Friend_Select" data-value="streak" style="width: 98px; flex-shrink: 0;">
+                                <div class="DX_Select_Trigger">
+                                    <span class="DX_Select_Text">Streak</span>${icons.chevron}
                                 </div>
-                                <div class="DR_Select_Options">
-                                    <div class="DR_Select_Option selected" data-value="streak">Streak</div>
-                                    <div class="DR_Select_Option" data-value="quest">Quest</div>
+                                <div class="DX_Select_Options">
+                                    <div class="DX_Select_Option selected" data-value="streak">Streak</div>
+                                    <div class="DX_Select_Option" data-value="quest">Quest</div>
                                 </div>
                             </div>
-                            <button class="DR_Sm_Btn DR_NoSel" id="DR_Friend_Btn" disabled>
-                                <span class="DR_Sm_Btn_Label" style="color: #fff;">RUN</span>
+                            <button class="DX_Sm_Btn DX_NoSel" id="DX_Friend_Btn" disabled>
+                                <span class="DX_Sm_Btn_Label" style="color: #fff;">RUN</span>
                             </button>
                         </div>
-                        <div class="DR_Divider"></div>
-                        <div class="DR_Task_Group">
-                            <div class="DR_Compact_Task">
-                                <div class="DR_Row_Text">
-                                    <p class="DR_T1 DR_NoSel">Mass Follow</p>
-                                    <p class="DR_T2 DR_NoSel">Follow or unfollow in bulk</p>
+                        <div class="DX_Divider"></div>
+                        <div class="DX_Task_Group">
+                            <div class="DX_Compact_Task">
+                                <div class="DX_Row_Text">
+                                    <p class="DX_T1 DX_NoSel">Mass Follow</p>
+                                    <p class="DX_T2 DX_NoSel">Follow or unfollow in bulk</p>
                                 </div>
-                                <div class="DR_Select" id="DR_Follow_Select" data-value="follow" style="width: 98px; flex-shrink: 0;">
-                                    <div class="DR_Select_Trigger">
-                                        <span class="DR_Select_Text">Follow</span>${icons.chevron}
+                                <div class="DX_Select" id="DX_Follow_Select" data-value="follow" style="width: 98px; flex-shrink: 0;">
+                                    <div class="DX_Select_Trigger">
+                                        <span class="DX_Select_Text">Follow</span>${icons.chevron}
                                     </div>
-                                    <div class="DR_Select_Options">
-                                        <div class="DR_Select_Option selected" data-value="follow">Follow</div>
-                                        <div class="DR_Select_Option" data-value="unfollow">Unfollow</div>
+                                    <div class="DX_Select_Options">
+                                        <div class="DX_Select_Option selected" data-value="follow">Follow</div>
+                                        <div class="DX_Select_Option" data-value="unfollow">Unfollow</div>
                                     </div>
                                 </div>
-                                <button class="DR_Sm_Btn DR_NoSel" id="DR_Follow_Btn" disabled>
-                                    <span class="DR_Sm_Btn_Label" style="color: #fff;">RUN</span>
+                                <button class="DX_Sm_Btn DX_NoSel" id="DX_Follow_Btn" disabled>
+                                    <span class="DX_Sm_Btn_Label" style="color: #fff;">RUN</span>
                                 </button>
                             </div>
-                            <div class="DR_Prog_Wrap" id="DR_Follow_Prog">
-                                <div class="DR_Prog_Fill" id="DR_Follow_Fill"></div>
+                            <div class="DX_Prog_Wrap" id="DX_Follow_Prog">
+                                <div class="DX_Prog_Fill" id="DX_Follow_Fill"></div>
                             </div>
                         </div>
-                        <div class="DR_Task_Group">
-                            <div class="DR_Compact_Task">
-                                <div class="DR_Row_Text">
-                                    <p class="DR_T1 DR_NoSel">Mass Block</p>
-                                    <p class="DR_T2 DR_NoSel">Block or unblock your league</p>
+                        <div class="DX_Task_Group">
+                            <div class="DX_Compact_Task">
+                                <div class="DX_Row_Text">
+                                    <p class="DX_T1 DX_NoSel">Mass Block</p>
+                                    <p class="DX_T2 DX_NoSel">Block or unblock your league</p>
                                 </div>
-                                <div class="DR_Select" id="DR_BlockMass_Select" data-value="block" style="width: 98px; flex-shrink: 0;">
-                                    <div class="DR_Select_Trigger">
-                                        <span class="DR_Select_Text">Block</span>${icons.chevron}
+                                <div class="DX_Select" id="DX_BlockMass_Select" data-value="block" style="width: 98px; flex-shrink: 0;">
+                                    <div class="DX_Select_Trigger">
+                                        <span class="DX_Select_Text">Block</span>${icons.chevron}
                                     </div>
-                                    <div class="DR_Select_Options">
-                                        <div class="DR_Select_Option selected" data-value="block">Block</div>
-                                        <div class="DR_Select_Option" data-value="unblock">Unblock</div>
+                                    <div class="DX_Select_Options">
+                                        <div class="DX_Select_Option selected" data-value="block">Block</div>
+                                        <div class="DX_Select_Option" data-value="unblock">Unblock</div>
                                     </div>
                                 </div>
-                                <button class="DR_Sm_Btn DR_NoSel" id="DR_Block_Mass_Btn" disabled>
-                                    <span class="DR_Sm_Btn_Label" style="color: #fff;">RUN</span>
+                                <button class="DX_Sm_Btn DX_NoSel" id="DX_Block_Mass_Btn" disabled>
+                                    <span class="DX_Sm_Btn_Label" style="color: #fff;">RUN</span>
                                 </button>
                             </div>
-                            <div class="DR_Prog_Wrap" id="DR_Block_Mass_Prog">
-                                <div class="DR_Prog_Fill" id="DR_Block_Mass_Fill"></div>
+                            <div class="DX_Prog_Wrap" id="DX_Block_Mass_Prog">
+                                <div class="DX_Prog_Fill" id="DX_Block_Mass_Fill"></div>
                             </div>
                         </div>
-                        <div class="DR_Divider"></div>
-                        <div class="DR_Compact_Task">
-                            <div class="DR_Row_Text">
-                                <p class="DR_T1 DR_NoSel">Privacy Status</p>
-                                <p class="DR_T2 DR_NoSel">Change privacy status</p>
+                        <div class="DX_Divider"></div>
+                        <div class="DX_Compact_Task">
+                            <div class="DX_Row_Text">
+                                <p class="DX_T1 DX_NoSel">Privacy Status</p>
+                                <p class="DX_T2 DX_NoSel">Change privacy status</p>
                             </div>
-                            <div class="DR_Select" id="DR_Privacy_Select" data-value="public" style="width: 98px; flex-shrink: 0;">
-                                <div class="DR_Select_Trigger">
-                                    <span class="DR_Select_Text">Public</span>${icons.chevron}
+                            <div class="DX_Select" id="DX_Privacy_Select" data-value="public" style="width: 98px; flex-shrink: 0;">
+                                <div class="DX_Select_Trigger">
+                                    <span class="DX_Select_Text">Public</span>${icons.chevron}
                                 </div>
-                                <div class="DR_Select_Options">
-                                    <div class="DR_Select_Option selected" data-value="public">Public</div>
-                                    <div class="DR_Select_Option" data-value="private">Private</div>
+                                <div class="DX_Select_Options">
+                                    <div class="DX_Select_Option selected" data-value="public">Public</div>
+                                    <div class="DX_Select_Option" data-value="private">Private</div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="DR_Page" id="DR_Page_Board">
-                    <div class="DR_HStack_4 DR_NoSel DR_Back_Btn" id="DR_Board_Back_Btn">
+                <div class="DX_Page" id="DX_Page_Board">
+                    <div class="DX_HStack_4 DX_NoSel DX_Back_Btn" id="DX_Board_Back_Btn">
                         ${icons.back}
-                        <p class="DR_T1">Back</p>
+                        <p class="DX_T1">Back</p>
                     </div>
-                    <div class="DR_HStack_4 DR_NoSel" style="align-self: stretch; gap: 8px; margin-bottom: 8px;">
-                        <img id="DR_Board_Tier_Ico" src="${leagueBadgeUrl()}" alt="" style="width: 34px; height: 34px; flex-shrink: 0; object-fit: contain;">
-                        <div class="DR_Row_Text">
-                            <p id="DR_Board_Tier_Name" class="DR_T1 DR_NoSel" style="font-size: 14px; font-weight: 600;">Leaderboard</p>
-                            <p class="DR_T2 DR_NoSel">Your current league</p>
+                    <div class="DX_HStack_4 DX_NoSel" style="align-self: stretch; gap: 8px; margin-bottom: 8px;">
+                        <img id="DX_Board_Tier_Ico" src="${leagueBadgeUrl()}" alt="" style="width: 34px; height: 34px; flex-shrink: 0; object-fit: contain;">
+                        <div class="DX_Row_Text">
+                            <p id="DX_Board_Tier_Name" class="DX_T1 DX_NoSel" style="font-size: 14px; font-weight: 600;">Leaderboard</p>
+                            <p class="DX_T2 DX_NoSel">Your current league</p>
                         </div>
                     </div>
-                    <div class="DR_Btn DR_Btn_Blue_Ghost DR_NoSel DR_Nav_Btn" id="DR_Board_Status_Btn" style="align-self: stretch;">
-                        <div class="DR_Nav_Btn_L">
-                            <span id="DR_Board_Status_Ico" style="width: 22px; height: 22px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 15px; line-height: 1; overflow: hidden;">
+                    <div class="DX_Btn DX_Btn_Blue_Ghost DX_NoSel DX_Nav_Btn" id="DX_Board_Status_Btn" style="align-self: stretch;">
+                        <div class="DX_Nav_Btn_L">
+                            <span id="DX_Board_Status_Ico" style="width: 22px; height: 22px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 15px; line-height: 1; overflow: hidden;">
                                 <img src="${DUO_LEAGUES_CDN + "6df6337370e45c1b9a5029e78211d114.svg"}" alt="" style="width: 22px; height: 22px; object-fit: contain;">
                             </span>
-                            <p class="DR_Nav_Title DR_NoSel">Set your status</p>
+                            <p class="DX_Nav_Title DX_NoSel">Set your status</p>
                         </div>
                         ${icons.arrowRight}
                     </div>
-                    <div class="DR_Divider" style=""></div>
-                    <div id="DR_Board_Container" class="DR_Scroll_Inner" style="max-height: 300px; width: 100%;"></div>
+                    <div class="DX_Divider" style=""></div>
+                    <div id="DX_Board_Container" class="DX_Scroll_Inner" style="max-height: 300px; width: 100%;"></div>
                 </div>
-                <div class="DR_Page" id="DR_Page_Feed">
-                    <div class="DR_HStack_4 DR_NoSel DR_Back_Btn" id="DR_Feed_Back_Btn">
+                <div class="DX_Page" id="DX_Page_Feed">
+                    <div class="DX_HStack_4 DX_NoSel DX_Back_Btn" id="DX_Feed_Back_Btn">
                         ${icons.back}
-                        <p class="DR_T1">Back</p>
+                        <p class="DX_T1">Back</p>
                     </div>
-                    <div class="DR_HStack_4 DR_NoSel" style="align-self: stretch; gap: 8px;">
-                        <img class="DR_NoSel" src="${DUO_LEAGUES_CDN}2ceb401cae52712705b66a77df83ce40.svg" alt="" style="width: 34px; height: 34px; object-fit: contain; flex-shrink: 0;">
-                        <div class="DR_Row_Text">
-                            <p class="DR_T1 DR_NoSel" style="font-size: 14px; font-weight: 600;">Activity Feed</p>
-                            <p class="DR_T2 DR_NoSel">Recent activity from your friends</p>
+                    <div class="DX_HStack_4 DX_NoSel" style="align-self: stretch; gap: 8px;">
+                        <img class="DX_NoSel" src="${DUO_LEAGUES_CDN}2ceb401cae52712705b66a77df83ce40.svg" alt="" style="width: 34px; height: 34px; object-fit: contain; flex-shrink: 0;">
+                        <div class="DX_Row_Text">
+                            <p class="DX_T1 DX_NoSel" style="font-size: 14px; font-weight: 600;">Activity Feed</p>
+                            <p class="DX_T2 DX_NoSel">Recent activity from your friends</p>
                         </div>
                     </div>
-                    <div id="DR_Feed_Container" class="DR_Scroll_Inner" style="max-height: 300px; width: 100%;"></div>
+                    <div id="DX_Feed_Container" class="DX_Scroll_Inner" style="max-height: 300px; width: 100%;"></div>
                 </div>
-                <div class="DR_Page" id="DR_Page_AutoSolver">
-                    <div class="DR_HStack_4 DR_NoSel DR_Back_Btn" id="DR_AutoSolver_Back_Btn">
+                <div class="DX_Page" id="DX_Page_AutoSolver">
+                    <div class="DX_HStack_4 DX_NoSel DX_Back_Btn" id="DX_AutoSolver_Back_Btn">
                         ${icons.back}
-                        <p class="DR_T1">Back</p>
+                        <p class="DX_T1">Back</p>
                     </div>
-                    <div class="DR_HStack_4 DR_NoSel" style="align-self: stretch; gap: 8px; margin-bottom: 8px;">
-                        <img class="DR_NoSel" src="https://d35aaqx5ub95lt.cloudfront.net/images/goals/39f13d2de304cad2ac2f88b31a7e2ff4.svg" alt="" style="width: 34px; height: 34px; object-fit: contain; flex-shrink: 0;">
-                        <div class="DR_Row_Text">
-                            <p class="DR_T1 DR_NoSel" style="font-size: 14px; font-weight: 600;">Auto Solver</p>
-                            <p class="DR_T2 DR_NoSel">Configure question auto-solving settings</p>
+                    <div class="DX_HStack_4 DX_NoSel" style="align-self: stretch; gap: 8px; margin-bottom: 8px;">
+                        <img class="DX_NoSel" src="https://d35aaqx5ub95lt.cloudfront.net/images/goals/39f13d2de304cad2ac2f88b31a7e2ff4.svg" alt="" style="width: 34px; height: 34px; object-fit: contain; flex-shrink: 0;">
+                        <div class="DX_Row_Text">
+                            <p class="DX_T1 DX_NoSel" style="font-size: 14px; font-weight: 600;">Auto Solver</p>
+                            <p class="DX_T2 DX_NoSel">Configure question auto-solving settings</p>
                         </div>
                     </div>
                     <div style="align-self: stretch; display: flex; flex-direction: column; width: 100%;">
-                        <div class="DR_VStack_8" style="align-self: stretch;">
-                            <div class="DR_Setting_Row">
-                                <div class="DR_Row_Text">
-                                    <p class="DR_T1 DR_NoSel">Show Solve Buttons</p>
-                                    <p class="DR_T2 DR_NoSel">Show Solve/Solve All buttons in footer</p>
+                        <div class="DX_VStack_8" style="align-self: stretch;">
+                            <div class="DX_Setting_Row">
+                                <div class="DX_Row_Text">
+                                    <p class="DX_T1 DX_NoSel">Show Solve Buttons</p>
+                                    <p class="DX_T2 DX_NoSel">Show Solve/Solve All buttons in footer</p>
                                 </div>
-                                <div class="DR_HStack_8" style="width: auto;">
-                                    <div class="DR_Toggle" id="DR_SolverButtons_Toggle"><div class="DR_Toggle_Knob"></div></div>
-                                </div>
-                            </div>
-                            <div class="DR_Divider"></div>
-                            <div class="DR_Setting_Row">
-                                <div class="DR_Row_Text">
-                                    <p class="DR_T1 DR_NoSel">Auto Solve Mode</p>
-                                    <p class="DR_T2 DR_NoSel">Solve questions automatically on start</p>
-                                </div>
-                                <div class="DR_HStack_8" style="width: auto;">
-                                    <div class="DR_Toggle" id="DR_AutoSolver_Toggle"><div class="DR_Toggle_Knob"></div></div>
+                                <div class="DX_HStack_8" style="width: auto;">
+                                    <div class="DX_Toggle" id="DX_SolverButtons_Toggle"><div class="DX_Toggle_Knob"></div></div>
                                 </div>
                             </div>
-                            <div class="DR_Divider"></div>
-                            <div class="DR_Setting_Row">
-                                <div class="DR_Row_Text">
-                                    <p class="DR_T1 DR_NoSel">Random Speed</p>
-                                    <p class="DR_T2 DR_NoSel">Wait a random delay before solving</p>
+                            <div class="DX_Divider"></div>
+                            <div class="DX_Setting_Row">
+                                <div class="DX_Row_Text">
+                                    <p class="DX_T1 DX_NoSel">Auto Solve Mode</p>
+                                    <p class="DX_T2 DX_NoSel">Solve questions automatically on start</p>
                                 </div>
-                                <div class="DR_HStack_8" style="width: auto;">
-                                    <div class="DR_Toggle" id="DR_RandomSpeed_Toggle"><div class="DR_Toggle_Knob"></div></div>
+                                <div class="DX_HStack_8" style="width: auto;">
+                                    <div class="DX_Toggle" id="DX_AutoSolver_Toggle"><div class="DX_Toggle_Knob"></div></div>
                                 </div>
                             </div>
-                            <div class="DR_Divider"></div>
-                            <div class="DR_Setting_Row">
-                                <div class="DR_Row_Text">
-                                    <p class="DR_T1 DR_NoSel">Solve Speed (Fixed)</p>
-                                    <p class="DR_T2 DR_NoSel">Delay if random speed is disabled</p>
+                            <div class="DX_Divider"></div>
+                            <div class="DX_Setting_Row">
+                                <div class="DX_Row_Text">
+                                    <p class="DX_T1 DX_NoSel">Random Speed</p>
+                                    <p class="DX_T2 DX_NoSel">Wait a random delay before solving</p>
                                 </div>
-                                <div class="DR_HStack_8" style="width: auto;">
-                                    <div class="DR_Set_Input_Wrap" style="width: 116px;">
-                                        <input type="number" class="DR_Input DR_NoSel" id="DR_SolveSpeed_Input" placeholder="400">
-                                        <p class="DR_T1 DR_NoSel" style="color: var(--dr-text); font-size: 13px; flex-shrink: 0; opacity: 0.8; margin-left: 6px;">ms</p>
+                                <div class="DX_HStack_8" style="width: auto;">
+                                    <div class="DX_Toggle" id="DX_RandomSpeed_Toggle"><div class="DX_Toggle_Knob"></div></div>
+                                </div>
+                            </div>
+                            <div class="DX_Divider"></div>
+                            <div class="DX_Setting_Row">
+                                <div class="DX_Row_Text">
+                                    <p class="DX_T1 DX_NoSel">Solve Speed (Fixed)</p>
+                                    <p class="DX_T2 DX_NoSel">Delay if random speed is disabled</p>
+                                </div>
+                                <div class="DX_HStack_8" style="width: auto;">
+                                    <div class="DX_Set_Input_Wrap" style="width: 116px;">
+                                        <input type="number" class="DX_Input DX_NoSel" id="DX_SolveSpeed_Input" placeholder="400">
+                                        <p class="DX_T1 DX_NoSel" style="color: var(--dx-text); font-size: 13px; flex-shrink: 0; opacity: 0.8; margin-left: 6px;">ms</p>
                                     </div>
                                 </div>
                             </div>
-                            <div class="DR_Divider"></div>
-                            <div class="DR_Setting_Row">
-                                <div class="DR_Row_Text">
-                                    <p class="DR_T1 DR_NoSel">Min Solve Speed</p>
-                                    <p class="DR_T2 DR_NoSel">Minimum delay for random speed</p>
+                            <div class="DX_Divider"></div>
+                            <div class="DX_Setting_Row">
+                                <div class="DX_Row_Text">
+                                    <p class="DX_T1 DX_NoSel">Min Solve Speed</p>
+                                    <p class="DX_T2 DX_NoSel">Minimum delay for random speed</p>
                                 </div>
-                                <div class="DR_HStack_8" style="width: auto;">
-                                    <div class="DR_Set_Input_Wrap" style="width: 116px;">
-                                        <input type="number" step="0.1" class="DR_Input DR_NoSel" id="DR_SolveSpeedMin_Input" placeholder="2.8">
-                                        <p class="DR_T1 DR_NoSel" style="color: var(--dr-text); font-size: 13px; flex-shrink: 0; opacity: 0.8; margin-left: 6px;">sec</p>
+                                <div class="DX_HStack_8" style="width: auto;">
+                                    <div class="DX_Set_Input_Wrap" style="width: 116px;">
+                                        <input type="number" step="0.1" class="DX_Input DX_NoSel" id="DX_SolveSpeedMin_Input" placeholder="2.8">
+                                        <p class="DX_T1 DX_NoSel" style="color: var(--dx-text); font-size: 13px; flex-shrink: 0; opacity: 0.8; margin-left: 6px;">sec</p>
                                     </div>
                                 </div>
                             </div>
-                            <div class="DR_Divider"></div>
-                            <div class="DR_Setting_Row">
-                                <div class="DR_Row_Text">
-                                    <p class="DR_T1 DR_NoSel">Max Solve Speed</p>
-                                    <p class="DR_T2 DR_NoSel">Maximum delay for random speed</p>
+                            <div class="DX_Divider"></div>
+                            <div class="DX_Setting_Row">
+                                <div class="DX_Row_Text">
+                                    <p class="DX_T1 DX_NoSel">Max Solve Speed</p>
+                                    <p class="DX_T2 DX_NoSel">Maximum delay for random speed</p>
                                 </div>
-                                <div class="DR_HStack_8" style="width: auto;">
-                                    <div class="DR_Set_Input_Wrap" style="width: 116px;">
-                                        <input type="number" step="0.1" class="DR_Input DR_NoSel" id="DR_SolveSpeedMax_Input" placeholder="12.4">
-                                        <p class="DR_T1 DR_NoSel" style="color: var(--dr-text); font-size: 13px; flex-shrink: 0; opacity: 0.8; margin-left: 6px;">sec</p>
+                                <div class="DX_HStack_8" style="width: auto;">
+                                    <div class="DX_Set_Input_Wrap" style="width: 116px;">
+                                        <input type="number" step="0.1" class="DX_Input DX_NoSel" id="DX_SolveSpeedMax_Input" placeholder="12.4">
+                                        <p class="DX_T1 DX_NoSel" style="color: var(--dx-text); font-size: 13px; flex-shrink: 0; opacity: 0.8; margin-left: 6px;">sec</p>
                                     </div>
                                 </div>
                             </div>
@@ -3544,45 +3535,45 @@
   } else {
     document.head.insertAdjacentHTML(
       "beforeend",
-      `<style id="dr-style-inject">${mainCss}${loadCss}</style>`,
+      `<style id="dx-style-inject">${mainCss}${loadCss}</style>`,
     );
   }
   document.body.insertAdjacentHTML(
     "beforeend",
-    `<div id="DR_Root">${uiHtml}</div>`,
+    `<div id="DX_Root">${uiHtml}</div>`,
   );
 
   let token = null;
   let userId = null;
 
-  if (localStorage.getItem("dr_ez_quiz") === null) {
-    localStorage.setItem("dr_ez_quiz", "false");
+  if (localStorage.getItem("dx_ez_quiz") === null) {
+    localStorage.setItem("dx_ez_quiz", "false");
   }
-  if (localStorage.getItem("dr_ez_quiz_len") === null) {
-    localStorage.setItem("dr_ez_quiz_len", "5");
+  if (localStorage.getItem("dx_ez_quiz_len") === null) {
+    localStorage.setItem("dx_ez_quiz_len", "5");
   }
-  if (localStorage.getItem("dr_safe_streak") === null) {
-    localStorage.setItem("dr_safe_streak", "true");
+  if (localStorage.getItem("dx_safe_streak") === null) {
+    localStorage.setItem("dx_safe_streak", "true");
   }
-  if (localStorage.getItem("dr_path_inf") === null) {
-    localStorage.setItem("dr_path_inf", "true");
+  if (localStorage.getItem("dx_path_inf") === null) {
+    localStorage.setItem("dx_path_inf", "true");
   }
-  if (localStorage.getItem("dr_practice_inf") === null) {
-    localStorage.setItem("dr_practice_inf", "true");
+  if (localStorage.getItem("dx_practice_inf") === null) {
+    localStorage.setItem("dx_practice_inf", "true");
   }
 
   let solverButtonsEnabled =
-    localStorage.getItem("dr_solver_buttons") !== "false";
-  let autoSolverEnabled = localStorage.getItem("dr_auto_solver") === "true";
-  let randomSpeedEnabled = localStorage.getItem("dr_random_speed") === "true";
+    localStorage.getItem("dx_solver_buttons") !== "false";
+  let autoSolverEnabled = localStorage.getItem("dx_auto_solver") === "true";
+  let randomSpeedEnabled = localStorage.getItem("dx_random_speed") === "true";
   let solveSpeedMin =
-    parseFloat(localStorage.getItem("dr_solve_speed_min")) || 2.8;
+    parseFloat(localStorage.getItem("dx_solve_speed_min")) || 2.8;
   let solveSpeedMax =
-    parseFloat(localStorage.getItem("dr_solve_speed_max")) || 12.4;
+    parseFloat(localStorage.getItem("dx_solve_speed_max")) || 12.4;
   let solveSpeedFixed =
-    parseInt(localStorage.getItem("dr_solve_speed_fixed")) || 400;
-  let autoPathEnabled = localStorage.getItem("dr_auto_path") === "true";
-  let autoPracticeEnabled = localStorage.getItem("dr_auto_practice") === "true";
+    parseInt(localStorage.getItem("dx_solve_speed_fixed")) || 400;
+  let autoPathEnabled = localStorage.getItem("dx_auto_path") === "true";
+  let autoPracticeEnabled = localStorage.getItem("dx_auto_practice") === "true";
   let pathLessonsRemaining = Infinity;
   let practiceLessonsRemaining = Infinity;
   let hasDecrementedForCurrentLesson = false;
@@ -3601,12 +3592,12 @@
     blockmass: false,
     unblock: false,
   };
-  let uiHidden = localStorage.getItem("dr_ui_hidden") === "true";
+  let uiHidden = localStorage.getItem("dx_ui_hidden") === "true";
   let hideCollapseTimer = null;
-  let panelCorner = localStorage.getItem("dr_panel_corner") || "br";
+  let panelCorner = localStorage.getItem("dx_panel_corner") || "br";
   let oldToken = null;
   let delayMs = (() => {
-    const storedDelay = parseInt(localStorage.getItem("dr_delay") || "100", 10);
+    const storedDelay = parseInt(localStorage.getItem("dx_delay") || "100", 10);
     return isNaN(storedDelay)
       ? 100
       : Math.min(60000, Math.max(50, storedDelay));
@@ -3625,9 +3616,7 @@
   let leagueCheckBusy = false;
   let xpHistoryBusy = false;
   let feedBusy = false;
-  const DR_PAGE_TRANSITION_MS = 400;
-  const DR_PAGE_FADE_DELAY_MS = 120;
-  const DR_DRAG_SNAP_MS = 400;
+  const DX_DRAG_SNAP_MS = 400;
 
   function wait(ms) {
     return new Promise((resolve) => {
@@ -3715,7 +3704,7 @@
       "content-type": "application/json",
       cookie: "jwt_token=" + tokenStr,
       origin: "https://www.duolingo.com",
-      "User-Agent": drUserAgent,
+      "User-Agent": dxUserAgent,
       "x-amzn-trace-id": "User=" + userId,
     };
   }
@@ -3726,7 +3715,7 @@
       "x-requested-with": "XMLHttpRequest",
       accept: "application/json; charset=UTF-8",
       Authorization: "Bearer " + tokenStr,
-      "User-Agent": drUserAgent,
+      "User-Agent": dxUserAgent,
       "x-amzn-trace-id": "User=" + userId,
     };
   }
@@ -3861,7 +3850,7 @@
   }
 
   function notify(type, title, body, onClick) {
-    const container = document.getElementById("DR_Notif_Main");
+    const container = document.getElementById("DX_Notif_Main");
     if (!container) {
       return;
     }
@@ -3870,7 +3859,7 @@
       ? type
       : "info";
     const element = document.createElement("div");
-    element.className = "DR_Notif_Box " + safeType;
+    element.className = "DX_Notif_Box " + safeType;
 
     let iconMarkup = icons.info;
     if (safeType === "success") {
@@ -3884,14 +3873,14 @@
     }
 
     element.innerHTML = `
-            <div class="DR_Notif_Ico">${iconMarkup}</div>
+            <div class="DX_Notif_Ico">${iconMarkup}</div>
             <div style="flex: 1 0 0;">
-                <div class="DR_T1 DR_NoSel"></div>
-                <div class="DR_T2 DR_NoSel" style="margin-top: 2px;"></div>
+                <div class="DX_T1 DX_NoSel"></div>
+                <div class="DX_T2 DX_NoSel" style="margin-top: 2px;"></div>
             </div>
         `;
-    const titleEl = element.querySelector(".DR_T1");
-    const bodyEl = element.querySelector(".DR_T2");
+    const titleEl = element.querySelector(".DX_T1");
+    const bodyEl = element.querySelector(".DX_T2");
     if (titleEl) titleEl.textContent = title || "";
     if (bodyEl) bodyEl.textContent = body || "";
 
@@ -3957,8 +3946,8 @@
   }
 
   function showUpdateBanner(version) {
-    const banner = document.getElementById("DR_Update_Banner");
-    const verText = document.getElementById("DR_Update_Version_Text");
+    const banner = document.getElementById("DX_Update_Banner");
+    const verText = document.getElementById("DX_Update_Version_Text");
     if (!banner || !verText) return;
     verText.innerText = `Version ${version} is now available`;
     banner.dataset.version = version;
@@ -3967,16 +3956,16 @@
   }
 
   function hideUpdateBanner() {
-    const banner = document.getElementById("DR_Update_Banner");
+    const banner = document.getElementById("DX_Update_Banner");
     if (!banner) return;
     banner.classList.remove("on");
     queueRelayout();
   }
 
   function checkUpdateBannerFromCache() {
-    const availableKey = "dr_update_available_version";
+    const availableKey = "dx_update_available_version";
     const avail = localStorage.getItem(availableKey);
-    if (avail && compareVersions(avail, drScriptVersion) > 0) {
+    if (avail && compareVersions(avail, dxScriptVersion) > 0) {
       showUpdateBanner(avail);
     }
   }
@@ -4006,14 +3995,14 @@
 
   function accGetAll() {
     try {
-      return JSON.parse(localStorage.getItem("dr_accounts") || "[]");
+      return JSON.parse(localStorage.getItem("dx_accounts") || "[]");
     } catch {
       return [];
     }
   }
 
   function accSetAll(arr) {
-    localStorage.setItem("dr_accounts", JSON.stringify(arr));
+    localStorage.setItem("dx_accounts", JSON.stringify(arr));
   }
 
   function accSaveCurrent() {
@@ -4107,11 +4096,11 @@
   }
 
   function renderAccounts() {
-    const wrap = document.getElementById("DR_AccList_Wrap");
+    const wrap = document.getElementById("DX_AccList_Wrap");
     if (!wrap) return;
     const all = accGetAll();
 
-    const countEl = document.getElementById("DR_UAccCount");
+    const countEl = document.getElementById("DX_UAccCount");
     if (countEl) {
       countEl.textContent =
         all.length === 1 ? "1 saved account" : `${all.length} saved accounts`;
@@ -4119,7 +4108,7 @@
 
     if (all.length === 0) {
       wrap.innerHTML = `
-                <p class="DR_T2 DR_NoSel" style="text-align:center;padding:8px 0;">
+                <p class="DX_T2 DX_NoSel" style="text-align:center;padding:8px 0;">
                     No saved accounts.
                 </p>
             `;
@@ -4128,17 +4117,17 @@
     wrap.innerHTML = "";
     all.forEach((acc) => {
       const card = document.createElement("div");
-      card.className = "DR_Acc_Card";
+      card.className = "DX_Acc_Card";
       const isCurrentUser = userId && acc.id == userId;
 
       if (isCurrentUser) {
-        card.style.outline = "2px solid rgba(var(--DR-blue), 0.5)";
+        card.style.outline = "2px solid rgba(var(--DX-blue), 0.5)";
         card.style.outlineOffset = "-2px";
-        card.style.background = "rgba(var(--DR-blue), 0.08)";
+        card.style.background = "rgba(var(--DX-blue), 0.08)";
       }
 
       const avatarDiv = document.createElement("div");
-      avatarDiv.className = "DR_Acc_Avatar";
+      avatarDiv.className = "DX_Acc_Avatar";
       if (acc.pic) {
         const img = document.createElement("img");
         img.src = acc.pic;
@@ -4159,17 +4148,17 @@
 
       let subHtml = "";
       if (isExpired || acc.status === "relogin") {
-        subHtml = `<p class="DR_Acc_Sub DR_NoSel" style="color:rgb(var(--DR-red))!important;opacity:1;font-weight:700;">Re-login Needed</p>`;
+        subHtml = `<p class="DX_Acc_Sub DX_NoSel" style="color:rgb(var(--DX-red))!important;opacity:1;font-weight:700;">Re-login Needed</p>`;
       } else if (acc.status === "banned") {
-        subHtml = `<p class="DR_Acc_Sub DR_NoSel" style="color:rgb(var(--DR-red))!important;opacity:1;font-weight:700;">Account Banned</p>`;
+        subHtml = `<p class="DX_Acc_Sub DX_NoSel" style="color:rgb(var(--DX-red))!important;opacity:1;font-weight:700;">Account Banned</p>`;
       } else {
-        subHtml = `<p class="DR_Acc_Sub DR_NoSel">ID: ${acc.id}</p>`;
+        subHtml = `<p class="DX_Acc_Sub DX_NoSel">ID: ${acc.id}</p>`;
       }
 
       const infoDiv = document.createElement("div");
-      infoDiv.className = "DR_Acc_Info";
+      infoDiv.className = "DX_Acc_Info";
       infoDiv.innerHTML = `
-                <p class="DR_Acc_Name DR_NoSel">${acc.username}</p>
+                <p class="DX_Acc_Name DX_NoSel">${acc.username}</p>
                 ${subHtml}
             `;
       card.appendChild(infoDiv);
@@ -4180,10 +4169,10 @@
         acc.status !== "relogin" &&
         acc.status !== "banned";
       const actionDiv = document.createElement("div");
-      actionDiv.className = "DR_Acc_Action_Row";
+      actionDiv.className = "DX_Acc_Action_Row";
       actionDiv.innerHTML = `
-                ${canLogin ? `<button class="DR_Acc_Btn login" data-id="${acc.id}">LOG IN</button>` : ""}
-                <button class="DR_Acc_Btn del" data-id="${acc.id}"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button>
+                ${canLogin ? `<button class="DX_Acc_Btn login" data-id="${acc.id}">LOG IN</button>` : ""}
+                <button class="DX_Acc_Btn del" data-id="${acc.id}"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button>
             `;
       card.appendChild(actionDiv);
       card.querySelector(".del").addEventListener("click", (e) => {
@@ -4217,7 +4206,7 @@
               authorization: "Bearer " + acc.token,
               "content-type": "application/json",
               origin: "https://www.duolingo.com",
-              "User-Agent": drUserAgent,
+              "User-Agent": dxUserAgent,
               "x-amzn-trace-id": "User=" + acc.id,
             },
             null,
@@ -4269,13 +4258,13 @@
   }
 
   async function checkForUpdates() {
-    const availableKey = "dr_update_available_version";
+    const availableKey = "dx_update_available_version";
     const now = Date.now();
 
     try {
       const res = await fetchApi(
         "GET",
-        drUpdateMetaUrl + "?_=" + now,
+        dxUpdateMetaUrl + "?_=" + now,
         null,
         {},
       );
@@ -4285,7 +4274,7 @@
       if (!match) return;
 
       const remoteVersion = match[1].trim();
-      if (compareVersions(remoteVersion, drScriptVersion) > 0) {
+      if (compareVersions(remoteVersion, dxScriptVersion) > 0) {
         localStorage.setItem(availableKey, remoteVersion);
         showUpdateBanner(remoteVersion);
       } else {
@@ -4316,7 +4305,7 @@
   }
 
   function layoutNotif() {
-    const nMain = document.getElementById("DR_Notif_Main");
+    const nMain = document.getElementById("DX_Notif_Main");
     if (!nMain) return;
 
     nMain.style.width = Math.min(320, window.innerWidth - 32) + "px";
@@ -4362,8 +4351,8 @@
     }
 
     const labelEl =
-      btn.querySelector(".DR_Btn_Label") ||
-      btn.querySelector(".DR_Sm_Btn_Label");
+      btn.querySelector(".DX_Btn_Label") ||
+      btn.querySelector(".DX_Sm_Btn_Label");
     if (!labelEl) {
       return;
     }
@@ -4379,7 +4368,7 @@
   function resetBtn(id, originalLabel) {
     styleBtn(
       id,
-      "rgb(var(--DR-blue))",
+      "rgb(var(--DX-blue))",
       "rgba(0,0,0,0.2)",
       "#fff",
       originalLabel,
@@ -4389,9 +4378,9 @@
   function stopBtn(id) {
     styleBtn(
       id,
-      "rgba(var(--DR-red),0.10)",
-      "rgba(var(--DR-red),0.22)",
-      "rgb(var(--DR-red))",
+      "rgba(var(--DX-red),0.10)",
+      "rgba(var(--DX-red),0.22)",
+      "rgb(var(--DX-red))",
       "STOP",
     );
   }
@@ -4440,16 +4429,16 @@
   }
 
   function updateUi(status) {
-    const btn = document.getElementById("DR_Conn_Btn");
-    const text = document.getElementById("DR_Conn_Txt");
-    const icon = document.getElementById("DR_Conn_Ico");
-    const content = document.getElementById("DR_Main_Content");
+    const btn = document.getElementById("DX_Conn_Btn");
+    const text = document.getElementById("DX_Conn_Txt");
+    const icon = document.getElementById("DX_Conn_Ico");
+    const content = document.getElementById("DX_Main_Content");
 
     if (!btn || !icon || !content) {
       return;
     }
 
-    const countEl = document.getElementById("DR_UAccCount");
+    const countEl = document.getElementById("DX_UAccCount");
     if (countEl) {
       if (status === "logged_out") {
         const count = accGetAll().length;
@@ -4463,8 +4452,8 @@
 
     const loaderHtml = `
             <div style="width: 20px; height: 20px; position: relative; display: flex; align-items: center; justify-content: center;">
-                <div class="dr-spinner" style="position: absolute; top: 0; left: 0; transition: opacity var(--DR-motion) ease, transform var(--DR-motion) var(--DR-ease);"></div>
-                <svg class="dr-tick-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="position: absolute; width: 20px; height: 20px; stroke-dasharray: 50; stroke-dashoffset: 50; opacity: 0; transition: stroke-dashoffset var(--DR-motion-page) var(--DR-ease), opacity var(--DR-motion) ease, background-color var(--DR-motion) ease; border-radius: 50%; padding: 3px; box-sizing: border-box;">
+                <div class="dx-spinner" style="position: absolute; top: 0; left: 0; transition: opacity var(--DX-motion) ease, transform var(--DX-motion) var(--DX-ease);"></div>
+                <svg class="dx-tick-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="position: absolute; width: 20px; height: 20px; stroke-dasharray: 50; stroke-dashoffset: 50; opacity: 0; transition: stroke-dashoffset var(--DX-motion-page) var(--DX-ease), opacity var(--DX-motion) ease, background-color var(--DX-motion) ease; border-radius: 50%; padding: 3px; box-sizing: border-box;">
                     <polyline points="20 6 9 17 4 12"></polyline>
                 </svg>
             </div>
@@ -4472,25 +4461,25 @@
 
     if (status === "connecting") {
       if (text) text.innerText = "Connecting";
-      btn.style.background = "var(--dr-card-bg)";
-      btn.style.outline = "2px solid var(--dr-card-border)";
-      btn.style.color = "var(--dr-text)";
+      btn.style.background = "var(--dx-card-bg)";
+      btn.style.outline = "2px solid var(--dx-card-border)";
+      btn.style.color = "var(--dx-text)";
       icon.innerHTML = loaderHtml;
-      content.classList.add("dr-disabled");
+      content.classList.add("dx-disabled");
     } else if (status === "connected") {
       if (text) text.innerText = "Connected";
       btn.style.background = "rgba(88, 204, 2, 1)";
       btn.style.outline = "2px solid rgba(88, 204, 2, 1)";
       btn.style.color = "#fff";
-      content.classList.remove("dr-disabled");
+      content.classList.remove("dx-disabled");
 
-      if (!icon.querySelector(".dr-spinner")) {
+      if (!icon.querySelector(".dx-spinner")) {
         icon.innerHTML = loaderHtml;
       }
 
       setTimeout(() => {
-        const tick = icon.querySelector(".dr-tick-icon");
-        const spinner = icon.querySelector(".dr-spinner");
+        const tick = icon.querySelector(".dx-tick-icon");
+        const spinner = icon.querySelector(".dx-spinner");
         if (tick && spinner) {
           spinner.style.opacity = "0";
           spinner.style.transform =
@@ -4505,9 +4494,9 @@
         if (status === "connected") {
           btn.style.background = "rgba(88, 204, 2, 0.15)";
           btn.style.outline = "2px solid rgba(88, 204, 2, 0.5)";
-          btn.style.color = "var(--dr-text)";
+          btn.style.color = "var(--dx-text)";
 
-          const tick = icon.querySelector(".dr-tick-icon");
+          const tick = icon.querySelector(".dx-tick-icon");
           if (tick) {
             tick.style.backgroundColor = "transparent";
             tick.style.stroke = "rgb(88, 204, 2)";
@@ -4520,26 +4509,26 @@
       btn.style.outline = "2px solid rgba(238, 85, 85, 1)";
       btn.style.color = "#fff";
       icon.innerHTML = `
-                <svg class="dr-cross-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="width: 20px; height: 20px; padding: 3px; box-sizing: border-box; transition: stroke var(--DR-motion) ease;">
+                <svg class="dx-cross-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="width: 20px; height: 20px; padding: 3px; box-sizing: border-box; transition: stroke var(--DX-motion) ease;">
                     <line x1="18" y1="6" x2="6" y2="18"></line>
                     <line x1="6" y1="6" x2="18" y2="18"></line>
                 </svg>
             `;
-      content.classList.add("dr-disabled");
+      content.classList.add("dx-disabled");
 
-      const userRowEl = document.getElementById("DR_User_Row");
+      const userRowEl = document.getElementById("DX_User_Row");
       if (userRowEl) {
         userRowEl.style.display = "flex";
-        const userRowDiv = document.getElementById("DR_User_Row_Divider");
+        const userRowDiv = document.getElementById("DX_User_Row_Divider");
         if (userRowDiv) userRowDiv.style.display = "block";
-        const nameEl = document.getElementById("DR_UName");
+        const nameEl = document.getElementById("DX_UName");
         if (nameEl) nameEl.textContent = "Account Manager";
-        const avatarEl = document.getElementById("DR_Avatar");
+        const avatarEl = document.getElementById("DX_Avatar");
         if (avatarEl) {
           avatarEl.innerHTML =
             '<img src="https://d35aaqx5ub95lt.cloudfront.net/images/super/11db6cd6f69cb2e3c5046b915be8e669.svg" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover;">';
         }
-        const statsRow = document.getElementById("DR_User_Stats_Row");
+        const statsRow = document.getElementById("DX_User_Stats_Row");
         if (statsRow) statsRow.style.display = "none";
       }
 
@@ -4547,9 +4536,9 @@
         if (status === "logged_out") {
           btn.style.background = "rgba(238, 85, 85, 0.15)";
           btn.style.outline = "2px solid rgba(238, 85, 85, 0.5)";
-          btn.style.color = "var(--dr-text)";
+          btn.style.color = "var(--dx-text)";
 
-          const cross = icon.querySelector(".dr-cross-icon");
+          const cross = icon.querySelector(".dx-cross-icon");
           if (cross) {
             cross.style.stroke = "rgb(238, 85, 85)";
           }
@@ -4557,20 +4546,20 @@
       }, 3000);
 
       [
-        "DR_XP_Btn",
-        "DR_Gem_Btn",
-        "DR_Streak_Btn",
-        "DR_League_Btn",
-        "DR_Quest_Force_Btn",
-        "DR_Block_Btn",
-        "DR_FollowSingle_Btn",
-        "DR_Follow_Btn",
-        "DR_Block_Mass_Btn",
-        "DR_Gift_Btn",
-        "DR_Hearts_Btn",
-        "DR_Friend_Btn",
-        "DR_AutoPath_Btn",
-        "DR_AutoPractice_Btn",
+        "DX_XP_Btn",
+        "DX_Gem_Btn",
+        "DX_Streak_Btn",
+        "DX_League_Btn",
+        "DX_Quest_Force_Btn",
+        "DX_Block_Btn",
+        "DX_FollowSingle_Btn",
+        "DX_Follow_Btn",
+        "DX_Block_Mass_Btn",
+        "DX_Gift_Btn",
+        "DX_Hearts_Btn",
+        "DX_Friend_Btn",
+        "DX_AutoPath_Btn",
+        "DX_AutoPractice_Btn",
       ].forEach((id) => {
         const element = document.getElementById(id);
         if (element) {
@@ -4701,19 +4690,19 @@
       if (cleanBlock.startsWith("#")) {
         if (cleanBlock.startsWith("### ")) {
           const text = cleanBlock.replace(/^###\s+/, "");
-          html += `<h3 class="DR_T1" style="font-size: 11px; font-weight: 700; margin: 6px 0 2px 0; color: var(--dr-text); text-transform: uppercase; letter-spacing: 0.5px; text-align: left;">${text}</h3>`;
+          html += `<h3 class="DX_T1" style="font-size: 11px; font-weight: 700; margin: 6px 0 2px 0; color: var(--dx-text); text-transform: uppercase; letter-spacing: 0.5px; text-align: left;">${text}</h3>`;
         } else if (cleanBlock.startsWith("## ")) {
           const text = cleanBlock.replace(/^##\s+/, "");
-          html += `<h2 class="DR_T1" style="font-size: 13px; font-weight: 800; margin: 8px 0 4px 0; color: var(--dr-text); border-bottom: 1px solid var(--dr-card-border); padding-bottom: 2px; text-align: left;">${text}</h2>`;
+          html += `<h2 class="DX_T1" style="font-size: 13px; font-weight: 800; margin: 8px 0 4px 0; color: var(--dx-text); border-bottom: 1px solid var(--dx-card-border); padding-bottom: 2px; text-align: left;">${text}</h2>`;
         } else if (cleanBlock.startsWith("# ")) {
           const text = cleanBlock.replace(/^#\s+/, "");
-          html += `<h1 class="DR_T1" style="font-size: 14px; font-weight: 900; margin: 10px 0 6px 0; color: var(--dr-text); border-bottom: 1.5px solid var(--dr-card-border); padding-bottom: 3px; text-align: left;">${text}</h1>`;
+          html += `<h1 class="DX_T1" style="font-size: 14px; font-weight: 900; margin: 10px 0 6px 0; color: var(--dx-text); border-bottom: 1.5px solid var(--dx-card-border); padding-bottom: 3px; text-align: left;">${text}</h1>`;
         }
         continue;
       }
 
       if (/^[\-\=]{3,}$/.test(cleanBlock)) {
-        html += '<div class="DR_Divider" style="margin: 8px 0;"></div>';
+        html += '<div class="DX_Divider" style="margin: 8px 0;"></div>';
         continue;
       }
 
@@ -4732,17 +4721,17 @@
             const text = line.replace(/^[\*\-]\s+/, "");
             const parsedText = text.replace(
               /\*\*(.*?)\*\*/g,
-              '<strong style="font-weight: 800; color: var(--dr-text);">$1</strong>',
+              '<strong style="font-weight: 800; color: var(--dx-text);">$1</strong>',
             );
-            listHtml += `<div style="display: flex; gap: 6px; margin-left: 6px; font-size: 11px; line-height: 1.4;"><div style="color: rgb(var(--DR-blue)); font-weight: 700; flex-shrink: 0;">•</div><div style="flex: 1; text-align: left; color: var(--dr-text); opacity: 0.85;">${parsedText}</div></div>`;
+            listHtml += `<div style="display: flex; gap: 6px; margin-left: 6px; font-size: 11px; line-height: 1.4;"><div style="color: rgb(var(--DX-blue)); font-weight: 700; flex-shrink: 0;">•</div><div style="flex: 1; text-align: left; color: var(--dx-text); opacity: 0.85;">${parsedText}</div></div>`;
           } else if (/^\d+\.\s+/.test(line)) {
             const num = line.match(/^(\d+)\.\s+/)[1];
             const text = line.replace(/^\d+\.\s+/, "");
             const parsedText = text.replace(
               /\*\*(.*?)\*\*/g,
-              '<strong style="font-weight: 800; color: var(--dr-text);">$1</strong>',
+              '<strong style="font-weight: 800; color: var(--dx-text);">$1</strong>',
             );
-            listHtml += `<div style="display: flex; gap: 6px; margin-left: 6px; font-size: 11px; line-height: 1.4;"><div style="color: rgb(var(--DR-blue)); font-weight: 700; flex-shrink: 0;">${num}.</div><div style="flex: 1; text-align: left; color: var(--dr-text); opacity: 0.85;">${parsedText}</div></div>`;
+            listHtml += `<div style="display: flex; gap: 6px; margin-left: 6px; font-size: 11px; line-height: 1.4;"><div style="color: rgb(var(--DX-blue)); font-weight: 700; flex-shrink: 0;">${num}.</div><div style="flex: 1; text-align: left; color: var(--dx-text); opacity: 0.85;">${parsedText}</div></div>`;
           }
         }
         listHtml += "</div>";
@@ -4753,10 +4742,10 @@
       let parsedParagraph = cleanBlock.replace(/\n/g, " ");
       parsedParagraph = parsedParagraph.replace(
         /\*\*(.*?)\*\*/g,
-        '<strong style="font-weight: 800; color: var(--dr-text);">$1</strong>',
+        '<strong style="font-weight: 800; color: var(--dx-text);">$1</strong>',
       );
 
-      html += `<p class="DR_T2" style="margin: 0 0 6px 0; font-size: 11px; line-height: 1.4; color: var(--dr-text); opacity: 0.85; text-align: left;">${parsedParagraph}</p>`;
+      html += `<p class="DX_T2" style="margin: 0 0 6px 0; font-size: 11px; line-height: 1.4; color: var(--dx-text); opacity: 0.85; text-align: left;">${parsedParagraph}</p>`;
     }
 
     return html;
@@ -4769,14 +4758,14 @@
     acceptLabel,
     onAccept,
   ) {
-    const pageEl = document.getElementById("DR_Page_Terms");
-    const mainBox = document.getElementById("DR_Main_Box");
+    const pageEl = document.getElementById("DX_Page_Terms");
+    const mainBox = document.getElementById("DX_Main_Box");
     if (!pageEl || !mainBox) return;
 
-    const contentEl = document.getElementById("DR_Terms_Content");
-    const statusEl = document.getElementById("DR_Terms_Status");
-    const declineBtn = document.getElementById("DR_Terms_Decline_Btn");
-    const acceptBtn = document.getElementById("DR_Terms_Accept_Btn");
+    const contentEl = document.getElementById("DX_Terms_Content");
+    const statusEl = document.getElementById("DX_Terms_Status");
+    const declineBtn = document.getElementById("DX_Terms_Decline_Btn");
+    const acceptBtn = document.getElementById("DX_Terms_Accept_Btn");
 
     pageEl.style.transition =
       "opacity 0.15s ease, filter 0.15s ease, -webkit-transform 0.15s ease, transform 0.15s ease";
@@ -4794,7 +4783,7 @@
       if (statusEl) statusEl.innerText = statusText;
       if (declineBtn) declineBtn.style.display = showDecline ? "flex" : "none";
       if (acceptBtn) {
-        acceptBtn.querySelector(".DR_Sm_Btn_Label").innerText = acceptLabel;
+        acceptBtn.querySelector(".DX_Sm_Btn_Label").innerText = acceptLabel;
         acceptBtn.onclick = onAccept;
       }
 
@@ -4823,21 +4812,21 @@
   }
 
   function loadEulaAndTos() {
-    const contentEl = document.getElementById("DR_Terms_Content");
-    const statusEl = document.getElementById("DR_Terms_Status");
-    const declineBtn = document.getElementById("DR_Terms_Decline_Btn");
-    const acceptBtn = document.getElementById("DR_Terms_Accept_Btn");
+    const contentEl = document.getElementById("DX_Terms_Content");
+    const statusEl = document.getElementById("DX_Terms_Status");
+    const declineBtn = document.getElementById("DX_Terms_Decline_Btn");
+    const acceptBtn = document.getElementById("DX_Terms_Accept_Btn");
 
     if (!contentEl || !statusEl || !declineBtn || !acceptBtn) return;
 
-    const termsAccepted = localStorage.getItem("dr_terms_accepted") === "true";
+    const termsAccepted = localStorage.getItem("dx_terms_accepted") === "true";
     const statusText = termsAccepted
       ? "Review EULA & Terms of Service"
-      : "Please read and accept to use DuoRain";
+      : "Please read and accept to use DuoXJS";
     const acceptLabel = termsAccepted ? "CLOSE" : "ACCEPT";
     const onAccept = () => {
       if (!termsAccepted) {
-        localStorage.setItem("dr_terms_accepted", "true");
+        localStorage.setItem("dx_terms_accepted", "true");
         connect().then(() => {
           accRefreshAll();
         });
@@ -4855,13 +4844,13 @@
 
     Promise.all([
       window
-        .fetch("https://raw.githubusercontent.com/DuoXPy/DuoRain/main/EULA.md")
+        .fetch("https://raw.githubusercontent.com/LibreDuo/DuoXJS/main/EULA.md")
         .then((r) => {
           if (!r.ok) throw new Error("HTTP error " + r.status);
           return r.text();
         }),
       window
-        .fetch("https://raw.githubusercontent.com/DuoXPy/DuoRain/main/TOS.md")
+        .fetch("https://raw.githubusercontent.com/LibreDuo/DuoXJS/main/TOS.md")
         .then((r) => {
           if (!r.ok) throw new Error("HTTP error " + r.status);
           return r.text();
@@ -4881,7 +4870,7 @@
         }
       })
       .catch(() => {
-        const fallbackMd = `# END USER LICENSE AGREEMENT & TERMS OF SERVICE\n\nUsage of DuoRain implies compliance with the terms below:\n\n1. **Disclaimer**: You agree to use this script at your own risk. The authors are not responsible for any account bans, suspensions, or data loss.\n2. **Usage Limit**: You will not use the script for commercial purposes or distribute malicious modifications.\n3. **License**: The script is provided "as is" under the MIT license.\n\n---\n\nPlease connect to the internet to read the full EULA and TOS from our official repository.`;
+        const fallbackMd = `# END USER LICENSE AGREEMENT & TERMS OF SERVICE\n\nUsage of DuoXJS implies compliance with the terms below:\n\n1. **Disclaimer**: You agree to use this script at your own risk. The authors are not responsible for any account bans, suspensions, or data loss.\n2. **Usage Limit**: You will not use the script for commercial purposes or distribute malicious modifications.\n3. **License**: The script is provided "as is" under the MIT license.\n\n---\n\nPlease connect to the internet to read the full EULA and TOS from our official repository.`;
         updateTermsPage(
           parseMarkdownToHtml(fallbackMd),
           statusText,
@@ -4954,20 +4943,20 @@
       startLeaguePolling();
 
       [
-        "DR_XP_Btn",
-        "DR_Gem_Btn",
-        "DR_Streak_Btn",
-        "DR_League_Btn",
-        "DR_Quest_Force_Btn",
-        "DR_Block_Btn",
-        "DR_FollowSingle_Btn",
-        "DR_Follow_Btn",
-        "DR_Block_Mass_Btn",
-        "DR_Gift_Btn",
-        "DR_Hearts_Btn",
-        "DR_Friend_Btn",
-        "DR_AutoPath_Btn",
-        "DR_AutoPractice_Btn",
+        "DX_XP_Btn",
+        "DX_Gem_Btn",
+        "DX_Streak_Btn",
+        "DX_League_Btn",
+        "DX_Quest_Force_Btn",
+        "DX_Block_Btn",
+        "DX_FollowSingle_Btn",
+        "DX_Follow_Btn",
+        "DX_Block_Mass_Btn",
+        "DX_Gift_Btn",
+        "DX_Hearts_Btn",
+        "DX_Friend_Btn",
+        "DX_AutoPath_Btn",
+        "DX_AutoPractice_Btn",
       ].forEach((id) => {
         const element = document.getElementById(id);
         if (element) {
@@ -4992,11 +4981,11 @@
   }
 
   const statKeys = {
-    xp: "dr_stat_xp_" + drVersion,
-    gems: "dr_stat_gems_" + drVersion,
-    streak: "dr_stat_streak_" + drVersion,
+    xp: "dx_stat_xp_" + dxVersion,
+    gems: "dx_stat_gems_" + dxVersion,
+    streak: "dx_stat_streak_" + dxVersion,
   };
-  const statSinceKey = "dr_stat_since_" + drVersion;
+  const statSinceKey = "dx_stat_since_" + dxVersion;
 
   function readStat(kind) {
     return parseInt(localStorage.getItem(statKeys[kind])) || 0;
@@ -5004,9 +4993,9 @@
 
   function showStats() {
     const map = {
-      xp: "DR_Stat_XP",
-      gems: "DR_Stat_Gems",
-      streak: "DR_Stat_Streak",
+      xp: "DX_Stat_XP",
+      gems: "DX_Stat_Gems",
+      streak: "DX_Stat_Streak",
     };
     for (const kind in map) {
       const el = document.getElementById(map[kind]);
@@ -5014,7 +5003,7 @@
         el.textContent = readStat(kind).toLocaleString();
       }
     }
-    const sinceEl = document.getElementById("DR_Stat_Since");
+    const sinceEl = document.getElementById("DX_Stat_Since");
     if (sinceEl) {
       let ts = parseInt(localStorage.getItem(statSinceKey));
       if (!ts) {
@@ -5031,16 +5020,16 @@
 
   let changelogBusy = false;
   async function loadChangelog() {
-    const cont = document.getElementById("DR_Changelog");
+    const cont = document.getElementById("DX_Changelog");
     if (!cont || changelogBusy) return;
     changelogBusy = true;
     if (cont.dataset.loaded !== "1") {
-      cont.innerHTML = `<p class="DR_T2 DR_NoSel" style="text-align: center;">Loading changelog...</p>`;
+      cont.innerHTML = `<p class="DX_T2 DX_NoSel" style="text-align: center;">Loading changelog...</p>`;
     }
     try {
       const res = await fetchApi(
         "GET",
-        "https://raw.githubusercontent.com/DuoXPy/DuoRain/main/CHANGELOG.md?_c=" +
+        "https://raw.githubusercontent.com/LibreDuo/DuoXJS/main/CHANGELOG.md?_c=" +
           Date.now(),
         null,
         {},
@@ -5060,7 +5049,7 @@
             .replace(/[\[\]]/g, "")
             .trim();
           inTargetSection =
-            compareVersions(headingVersion, drScriptVersion) === 0;
+            compareVersions(headingVersion, dxScriptVersion) === 0;
         } else if (
           inTargetSection &&
           (line.startsWith("- ") || line.startsWith("* "))
@@ -5070,16 +5059,16 @@
       }
 
       const html = items.length
-        ? `<ul style="margin: 0; padding-left: 14px; color: var(--dr-text); font-size: 11px; line-height: 1.5; list-style-type: disc; text-align: left; align-self: stretch;">
-            ${items.map((item) => `<li class="DR_T2 DR_NoSel" style="margin-bottom: 3px;">${item}</li>`).join("")}
+        ? `<ul style="margin: 0; padding-left: 14px; color: var(--dx-text); font-size: 11px; line-height: 1.5; list-style-type: disc; text-align: left; align-self: stretch;">
+            ${items.map((item) => `<li class="DX_T2 DX_NoSel" style="margin-bottom: 3px;">${item}</li>`).join("")}
           </ul>`
         : "";
 
       cont.innerHTML =
         html ||
-        `<p class="DR_T2 DR_NoSel" style="text-align: center;">No changelog entries for this version.</p>`;
+        `<p class="DX_T2 DX_NoSel" style="text-align: center;">No changelog entries for this version.</p>`;
       cont.dataset.loaded = "1";
-      const card = document.getElementById("DR_Changelog_Card");
+      const card = document.getElementById("DX_Changelog_Card");
       if (card) {
         if (html) {
           card.style.display = "block";
@@ -5088,7 +5077,7 @@
         }
       }
     } catch (e) {
-      const card = document.getElementById("DR_Changelog_Card");
+      const card = document.getElementById("DX_Changelog_Card");
       if (card) card.style.display = "none";
     } finally {
       changelogBusy = false;
@@ -5096,11 +5085,11 @@
   }
 
   async function loadXpHistory() {
-    const cont = document.getElementById("DR_XPHistory");
+    const cont = document.getElementById("DX_XPHistory");
     if (!cont || !token || !userId || xpHistoryBusy) return;
     xpHistoryBusy = true;
     if (cont.dataset.loaded !== "1") {
-      cont.innerHTML = `<p class="DR_T2 DR_NoSel" style="text-align: center;">Loading...</p>`;
+      cont.innerHTML = `<p class="DX_T2 DX_NoSel" style="text-align: center;">Loading...</p>`;
     }
     try {
       const d = new Date(Date.now() - 7 * 86400000);
@@ -5117,7 +5106,7 @@
       summaries.sort((a, b) => (b.date || 0) - (a.date || 0));
       summaries = summaries.slice(0, 7).reverse();
       if (!summaries.length) {
-        cont.innerHTML = `<p class="DR_T2 DR_NoSel" style="text-align: center;">No recent activity.</p>`;
+        cont.innerHTML = `<p class="DX_T2 DX_NoSel" style="text-align: center;">No recent activity.</p>`;
         cont.dataset.loaded = "1";
         return;
       }
@@ -5127,13 +5116,13 @@
             undefined,
             { weekday: "short", month: "short", day: "numeric" },
           );
-          return `<div class="DR_HStack_Auto" style="align-self: stretch;"><p class="DR_T2 DR_NoSel">${label}</p><p class="DR_T1 DR_NoSel">+${(s.gainedXp || 0).toLocaleString()} XP</p></div>`;
+          return `<div class="DX_HStack_Auto" style="align-self: stretch;"><p class="DX_T2 DX_NoSel">${label}</p><p class="DX_T1 DX_NoSel">+${(s.gainedXp || 0).toLocaleString()} XP</p></div>`;
         })
         .join("");
       cont.dataset.loaded = "1";
     } catch {
       if (cont.dataset.loaded !== "1") {
-        cont.innerHTML = `<p class="DR_T2 DR_NoSel" style="text-align: center; color: rgb(var(--DR-red));">Failed to load XP history.</p>`;
+        cont.innerHTML = `<p class="DX_T2 DX_NoSel" style="text-align: center; color: rgb(var(--DX-red));">Failed to load XP history.</p>`;
       }
     } finally {
       xpHistoryBusy = false;
@@ -5240,12 +5229,12 @@
   }
 
   async function getFeed() {
-    const cont = document.getElementById("DR_Feed_Container");
+    const cont = document.getElementById("DX_Feed_Container");
     if (!cont || !token || !userId || feedBusy) return;
     feedBusy = true;
     const loaded = cont.dataset.loaded === "1";
     if (!loaded)
-      cont.innerHTML = `<p class="DR_T2 DR_NoSel" style="text-align: center; padding: 8px 0;">Loading...</p>`;
+      cont.innerHTML = `<p class="DX_T2 DX_NoSel" style="text-align: center; padding: 8px 0;">Loading...</p>`;
     try {
       const res = await fetchApi(
         "GET",
@@ -5257,7 +5246,7 @@
         (section.feedCards || []).forEach((c) => cards.push(c));
       });
       if (!cards.length) {
-        cont.innerHTML = `<p class="DR_T2 DR_NoSel" style="text-align: center; padding: 8px 0;">No recent activity.</p>`;
+        cont.innerHTML = `<p class="DX_T2 DX_NoSel" style="text-align: center; padding: 8px 0;">No recent activity.</p>`;
         cont.dataset.loaded = "1";
         return;
       }
@@ -5280,16 +5269,16 @@
           ? (raw.indexOf("http") === 0 ? raw : "https:" + raw) + "/xlarge"
           : "";
         const row = document.createElement("div");
-        row.className = "DR_HStack_4";
+        row.className = "DX_HStack_4";
         row.style.cssText =
-          "align-self: stretch; padding: 8px 10px; border-radius: var(--DR-r-s); corner-shape: var(--DR-corner); gap: 8px; background: var(--dr-card-bg);";
+          "align-self: stretch; padding: 8px 10px; border-radius: var(--DX-r-s); corner-shape: var(--DX-corner); gap: 8px; background: var(--dx-card-bg);";
         row.innerHTML = `
-                    <img src="${escapeHtml(av)}" style="width: 30px; height: 30px; border-radius: 50%; object-fit: cover; flex-shrink: 0; background: var(--dr-card-border);" onerror="this.style.visibility='hidden'">
+                    <img src="${escapeHtml(av)}" style="width: 30px; height: 30px; border-radius: 50%; object-fit: cover; flex-shrink: 0; background: var(--dx-card-border);" onerror="this.style.visibility='hidden'">
                     <div style="flex: 1; min-width: 0;">
-                        <p class="DR_T1 DR_NoSel" style="font-size: 13px;">${name}</p>
-                        ${text ? `<p class="DR_T2 DR_NoSel" style="font-size: 11px;">${text}</p>` : ""}
+                        <p class="DX_T1 DX_NoSel" style="font-size: 13px;">${name}</p>
+                        ${text ? `<p class="DX_T2 DX_NoSel" style="font-size: 11px;">${text}</p>` : ""}
                     </div>
-                    ${timeAgo ? `<p class="DR_T2 DR_NoSel" style="font-size: 10px; flex-shrink: 0; opacity: 0.5;">${timeAgo}</p>` : ""}
+                    ${timeAgo ? `<p class="DX_T2 DX_NoSel" style="font-size: 10px; flex-shrink: 0; opacity: 0.5;">${timeAgo}</p>` : ""}
                 `;
         frag.appendChild(row);
       });
@@ -5297,7 +5286,7 @@
       cont.dataset.loaded = "1";
     } catch {
       if (!loaded)
-        cont.innerHTML = `<p class="DR_T2 DR_NoSel" style="text-align: center; color: rgb(var(--DR-red));">Failed to load feed.</p>`;
+        cont.innerHTML = `<p class="DX_T2 DX_NoSel" style="text-align: center; color: rgb(var(--DX-red));">Failed to load feed.</p>`;
     } finally {
       feedBusy = false;
     }
@@ -5316,39 +5305,39 @@
       return;
     }
 
-    const usernameEl = document.getElementById("DR_UName");
+    const usernameEl = document.getElementById("DX_UName");
     if (usernameEl) {
       usernameEl.textContent = user.username || "";
     }
 
-    const xpEl = document.getElementById("DR_UXP");
+    const xpEl = document.getElementById("DX_UXP");
     if (xpEl) {
       xpEl.textContent = (user.totalXp || 0).toLocaleString();
     }
 
-    const gemsEl = document.getElementById("DR_UGems");
+    const gemsEl = document.getElementById("DX_UGems");
     if (gemsEl) {
       gemsEl.textContent = (user.gems || 0).toLocaleString();
     }
 
-    const streakEl = document.getElementById("DR_UStreak");
+    const streakEl = document.getElementById("DX_UStreak");
     if (streakEl) {
       streakEl.textContent = (user.streak || 0).toLocaleString();
     }
 
-    const userRowEl = document.getElementById("DR_User_Row");
+    const userRowEl = document.getElementById("DX_User_Row");
     if (userRowEl) {
       userRowEl.style.display = "flex";
-      const userRowDiv = document.getElementById("DR_User_Row_Divider");
+      const userRowDiv = document.getElementById("DX_User_Row_Divider");
       if (userRowDiv) userRowDiv.style.display = "block";
-      const statsRow = document.getElementById("DR_User_Stats_Row");
+      const statsRow = document.getElementById("DX_User_Stats_Row");
       if (statsRow) statsRow.style.display = "flex";
-      const countEl = document.getElementById("DR_UAccCount");
+      const countEl = document.getElementById("DX_UAccCount");
       if (countEl) countEl.style.display = "none";
     }
 
     const picUrl = bestAvatarUrl(user.picture);
-    const avatarEl = document.getElementById("DR_Avatar");
+    const avatarEl = document.getElementById("DX_Avatar");
     if (avatarEl) {
       const currentImg = avatarEl.querySelector("img");
       if (!currentImg || currentImg.src !== picUrl) {
@@ -5511,7 +5500,7 @@
   async function farmXp(targetAmount) {
     const isInfinite = targetAmount === Infinity;
     if (!isInfinite) {
-      const room = parseInt(localStorage.getItem("dr_xp_room")) || 0;
+      const room = parseInt(localStorage.getItem("dx_xp_room")) || 0;
       if (room > 0) {
         targetAmount += Math.min(500, Math.max(30, room));
       }
@@ -5534,7 +5523,7 @@
     let totalXp = 0;
     const sig = farmSignal("xp");
 
-    stopBtn("DR_XP_Btn");
+    stopBtn("DX_XP_Btn");
 
     for (let i = 0; i < loops; i++) {
       if (!farmStates.xp) {
@@ -5551,7 +5540,7 @@
       }
 
       if (!isInfinite) {
-        setProgress("DR_XP", (doneIters / expectedIters) * 100);
+        setProgress("DX_XP", (doneIters / expectedIters) * 100);
       }
 
       await waitStop(delayMs, sig);
@@ -5568,7 +5557,7 @@
         user.totalXp += remAmount;
         showUser();
       }
-      setProgress("DR_XP", 100);
+      setProgress("DX_XP", 100);
     }
 
     const completed = farmStates.xp;
@@ -5582,18 +5571,18 @@
       refreshStats(true);
     }
 
-    clearProgress("DR_XP", completed);
+    clearProgress("DX_XP", completed);
 
     farmStates.xp = false;
     farmCtl.xp = null;
-    resetBtn("DR_XP_Btn", "RUN");
+    resetBtn("DX_XP_Btn", "RUN");
   }
 
   async function checkGems(signal) {
     try {
       const res = await fetchApi(
         "GET",
-        `${config.api.users}/${userId}?fields=rewardBundles`,
+        `https://www.duolingo.com/2023-05-23/users/${userId}?fields=rewardBundles{rewards}`,
         null,
         null,
         signal,
@@ -5610,9 +5599,10 @@
         for (const reward of bundle.rewards || []) {
           if (
             !reward.consumed &&
-            ((reward.id || "").includes("GEMS") || reward.currency === "GEMS")
+            ((reward.id || "").startsWith("SKILL_COMPLETION-") ||
+              (reward.id || "").startsWith("SKILL_COMPLETION_BALANCED-"))
           ) {
-            collected.push({ id: reward.id });
+            collected.push({ id: reward.id, amount: reward.amount || 0 });
           }
         }
       }
@@ -5624,58 +5614,45 @@
   }
 
   async function claimGem(rewardId, signal) {
+    const payload = {
+      consumed: true,
+      fromLanguage: user.fromLanguage,
+      learningLanguage: user.learningLanguage,
+    };
     try {
-      const res = await fetchApi(
+      let res = await fetchApi(
         "PATCH",
-        `${config.api.users}/${userId}/rewards/${rewardId}`,
-        {
-          consumed: true,
-          fromLanguage: user.fromLanguage,
-          learningLanguage: user.learningLanguage,
-        },
+        `https://www.duolingo.com/2023-05-23/users/${userId}/rewards/${rewardId}`,
+        payload,
         null,
         signal,
       );
+      if (res.status === 200) {
+        await waitStop(300, signal);
+        res = await fetchApi(
+          "PATCH",
+          `https://www.duolingo.com/2023-05-23/users/${userId}/rewards/${rewardId}`,
+          payload,
+          null,
+          signal,
+        );
+      }
       return res.status === 200;
     } catch {
       return false;
     }
   }
 
-  async function getGems(signal) {
-    try {
-      const res = await fetchApi(
-        "GET",
-        `${config.api.users}/${userId}?fields=gemsConfig`,
-        null,
-        null,
-        signal,
-      );
-
-      if (res.status !== 200) {
-        return null;
-      }
-
-      const data = safeJsonParse(res.responseText, {});
-      if (data.gemsConfig && data.gemsConfig.gems !== undefined) {
-        return data.gemsConfig.gems;
-      }
-      return null;
-    } catch {
-      return null;
-    }
-  }
-
   async function farmGems(targetLoops) {
     const isInfinite = targetLoops === Infinity;
-    stopBtn("DR_Gem_Btn");
+    stopBtn("DX_Gem_Btn");
 
     let totalGained = 0;
     let doneLoops = 0;
     const sig = farmSignal("gem");
 
     while (farmStates.gem && (isInfinite || doneLoops < targetLoops)) {
-      const available = await checkGems(sig);
+      let available = await checkGems(sig);
       if (!farmStates.gem) break;
 
       if (available.length === 0) {
@@ -5683,39 +5660,30 @@
         continue;
       }
 
-      let prevCount = await getGems(sig);
-      if (prevCount === null) {
-        prevCount = user?.gems ?? 0;
-      }
-
-      for (let i = 0; i < available.length; i += 4) {
-        if (!farmStates.gem || (!isInfinite && doneLoops >= targetLoops)) {
-          break;
-        }
-
-        const batch = available.slice(i, i + 4);
-        const promises = batch.map((r) => claimGem(r.id, sig));
-        await Promise.all(promises);
+      if (farmStates.gem && (isInfinite || doneLoops < targetLoops)) {
+        const results = await Promise.all(
+          available.map((r) => claimGem(r.id, sig)),
+        );
         if (!farmStates.gem) break;
 
-        await waitStop(150, sig);
-
-        const currentCount = await getGems(sig);
-        if (currentCount !== null) {
-          const diff = Math.max(0, currentCount - prevCount);
-          totalGained += diff;
-          prevCount = currentCount;
-
+        let batchGained = 0;
+        results.forEach((ok, idx) => {
+          if (ok) batchGained += available[idx].amount || 0;
+        });
+        if (batchGained > 0) {
+          totalGained += batchGained;
           if (user) {
-            user.gems = currentCount;
+            user.gems = (user.gems || 0) + batchGained;
             showUser();
           }
         }
 
+        await waitStop(150, sig);
+
         doneLoops++;
 
         if (!isInfinite) {
-          setProgress("DR_Gem", (doneLoops / targetLoops) * 100);
+          setProgress("DX_Gem", (doneLoops / targetLoops) * 100);
         }
 
         await waitStop(Math.max(50, delayMs - 50), sig);
@@ -5735,11 +5703,11 @@
       refreshStats(true);
     }
 
-    clearProgress("DR_Gem", completed);
+    clearProgress("DX_Gem", completed);
 
     farmStates.gem = false;
     farmCtl.gem = null;
-    resetBtn("DR_Gem_Btn", "RUN");
+    resetBtn("DX_Gem_Btn", "RUN");
   }
 
   async function completePracticeSession(endSecs, signal) {
@@ -5806,9 +5774,9 @@
 
   async function farmStreak(targetDays) {
     let isInfinite = targetDays === Infinity;
-    stopBtn("DR_Streak_Btn");
+    stopBtn("DX_Streak_Btn");
 
-    if (localStorage.getItem("dr_safe_streak") === "true" && user) {
+    if (localStorage.getItem("dx_safe_streak") === "true" && user) {
       let creationDateVal = user.creationDate;
       if (creationDateVal) {
         const creationDateObj = new Date(
@@ -5846,7 +5814,7 @@
                 " days for your account age.",
             );
             farmStates.streak = false;
-            resetBtn("DR_Streak_Btn", "RUN");
+            resetBtn("DX_Streak_Btn", "RUN");
             return;
           }
 
@@ -5902,7 +5870,7 @@
       doneLoops++;
 
       if (!isInfinite) {
-        setProgress("DR_Streak", (doneLoops / targetDays) * 100);
+        setProgress("DX_Streak", (doneLoops / targetDays) * 100);
       }
 
       await waitStop(delayMs, sig);
@@ -5925,11 +5893,11 @@
       );
     }
 
-    clearProgress("DR_Streak", completed);
+    clearProgress("DX_Streak", completed);
 
     farmStates.streak = false;
     farmCtl.streak = null;
-    resetBtn("DR_Streak_Btn", "RUN");
+    resetBtn("DX_Streak_Btn", "RUN");
   }
 
   async function keepStreak() {
@@ -5939,19 +5907,19 @@
   }
 
   async function autoKeepStreak() {
-    if (localStorage.getItem("dr_auto_keep_streak") !== "true") return;
+    if (localStorage.getItem("dx_auto_keep_streak") !== "true") return;
     if (!user || streakKeepBusy) return;
     const tz = accountTimezone();
     const t = accountToday(tz);
     const pad = (n) => String(n).padStart(2, "0");
     const todayIso = `${t.year}-${pad(t.month)}-${pad(t.day)}`;
-    const keptKey = `dr_streak_kept_date_${userId}`;
+    const keptKey = `dx_streak_kept_date_${userId}`;
     if (localStorage.getItem(keptKey) === todayIso) return;
     if (user.streakData?.currentStreak?.lastExtendedDate === todayIso) {
       localStorage.setItem(keptKey, todayIso);
       return;
     }
-    if (localStorage.getItem("dr_safe_streak") === "true") {
+    if (localStorage.getItem("dx_safe_streak") === "true") {
       let creationDateVal = user.creationDate;
       if (creationDateVal) {
         const creationDateObj = new Date(
@@ -6006,9 +5974,9 @@
   }
 
   async function autoReachRank(knownRank) {
-    if (localStorage.getItem("dr_auto_reach_rank") !== "true") return;
+    if (localStorage.getItem("dx_auto_reach_rank") !== "true") return;
     if (!userId || farmStates.league) return;
-    const target = parseInt(localStorage.getItem("dr_league_target")) || 1;
+    const target = parseInt(localStorage.getItem("dx_league_target")) || 1;
     const rank = knownRank === undefined ? await getLeagueRank() : knownRank;
     if (rank && rank > target) {
       notify("info", "Auto Reach Rank", `Climbing to #${target}...`);
@@ -6019,7 +5987,7 @@
   }
 
   async function autoBlockLeague() {
-    if (localStorage.getItem("dr_auto_block_league") !== "true") return;
+    if (localStorage.getItem("dx_auto_block_league") !== "true") return;
     if (!userId || farmStates.blockmass || farmStates.unblock) return;
     farmStates.blockmass = true;
     try {
@@ -6032,14 +6000,14 @@
         );
       }
     } finally {
-      clearProgress("DR_Block_Mass", true);
+      clearProgress("DX_Block_Mass", true);
       farmStates.blockmass = false;
-      resetBtn("DR_Block_Mass_Btn", "RUN");
+      resetBtn("DX_Block_Mass_Btn", "RUN");
     }
   }
 
   async function autoQuestSaver() {
-    if (localStorage.getItem("dr_auto_quest_saver") !== "true") return;
+    if (localStorage.getItem("dx_auto_quest_saver") !== "true") return;
     if (!token || !userId || questSaverBusy) return;
     questSaverBusy = true;
     try {
@@ -6166,8 +6134,8 @@
   }
 
   async function farmLeague(targetRank) {
-    stopBtn("DR_League_Btn");
-    setProgress("DR_League", 10);
+    stopBtn("DX_League_Btn");
+    setProgress("DX_League", 10);
 
     let joinAttemptCount = 0;
     const sig = farmSignal("league");
@@ -6233,7 +6201,7 @@
           if (farmStates.league) {
             notify("success", "Goal Reached", `Reached Rank #${targetRank}!`);
           }
-          setProgress("DR_League", 100);
+          setProgress("DX_League", 100);
           break;
         }
 
@@ -6243,9 +6211,9 @@
           Math.floor((cRankings.score / tUserRanking.score) * 100),
         );
 
-        setProgress("DR_League", progressPct);
+        setProgress("DX_League", progressPct);
 
-        const room = parseInt(localStorage.getItem("dr_xp_room")) || 0;
+        const room = parseInt(localStorage.getItem("dx_xp_room")) || 0;
         const overshoot = room > 0 ? Math.min(500, Math.max(30, room)) : 5;
 
         if (scoreGap + overshoot > 0) {
@@ -6271,18 +6239,18 @@
       notify("warning", "Auto League Stopped", "Rank targeting aborted.");
     }
 
-    clearProgress("DR_League", completed);
+    clearProgress("DX_League", completed);
     refreshStats(true);
 
     farmStates.league = false;
     farmCtl.league = null;
-    resetBtn("DR_League_Btn", "RUN");
+    resetBtn("DX_League_Btn", "RUN");
   }
 
   function showConfirmModal(onConfirm) {
-    const modal = document.getElementById("DR_Confirm_Modal");
-    const btnCancel = document.getElementById("DR_Modal_Cancel");
-    const btnConfirm = document.getElementById("DR_Modal_Confirm");
+    const modal = document.getElementById("DX_Confirm_Modal");
+    const btnCancel = document.getElementById("DX_Modal_Cancel");
+    const btnConfirm = document.getElementById("DX_Modal_Confirm");
 
     const cleanup = () => {
       modal.classList.remove("show");
@@ -6356,14 +6324,14 @@
   }
 
   function updateLeagueDropdown(rank) {
-    const sel = document.getElementById("DR_League_Select");
+    const sel = document.getElementById("DX_League_Select");
     if (!sel) return;
     if (sel.classList.contains("open")) return;
-    const opts = sel.querySelector(".DR_Select_Options");
-    const text = sel.querySelector(".DR_Select_Text");
-    const chevron = sel.querySelector(".DR_Chevron");
-    const btn = document.getElementById("DR_League_Btn");
-    const lbl = document.getElementById("DR_League_Lbl");
+    const opts = sel.querySelector(".DX_Select_Options");
+    const text = sel.querySelector(".DX_Select_Text");
+    const chevron = sel.querySelector(".DX_Chevron");
+    const btn = document.getElementById("DX_League_Btn");
+    const lbl = document.getElementById("DX_League_Lbl");
 
     if (btn && !farmStates.league) btn.disabled = false;
     if (lbl && !farmStates.league) lbl.innerText = "RUN";
@@ -6373,11 +6341,11 @@
     const maxPos = 15;
     let optHtml = "";
     for (let i = 1; i <= maxPos; i++) {
-      optHtml += `<div class="DR_Select_Option" data-value="${i}"># ${i}</div>`;
+      optHtml += `<div class="DX_Select_Option" data-value="${i}"># ${i}</div>`;
     }
     opts.innerHTML = optHtml;
 
-    const savedTarget = parseInt(localStorage.getItem("dr_league_target"));
+    const savedTarget = parseInt(localStorage.getItem("dx_league_target"));
     let currentVal = !isNaN(savedTarget)
       ? savedTarget
       : parseInt(sel.getAttribute("data-value")) || 1;
@@ -6386,7 +6354,7 @@
     sel.setAttribute("data-value", currentVal.toString());
     text.innerText = `# ${currentVal}`;
 
-    opts.querySelectorAll(".DR_Select_Option").forEach((opt) => {
+    opts.querySelectorAll(".DX_Select_Option").forEach((opt) => {
       opt.classList.toggle(
         "selected",
         parseInt(opt.getAttribute("data-value")) === currentVal,
@@ -6404,7 +6372,7 @@
       let rank = leagueRankFromData(data);
 
       if (rank === 0 || rank === null) {
-        const autoJoin = localStorage.getItem("dr_auto_join_league") === "true";
+        const autoJoin = localStorage.getItem("dx_auto_join_league") === "true";
         if (autoJoin && !leagueJoinAttempted && !farmStates.league) {
           leagueJoinAttempted = true;
           if (pageId === "Extra") updateLeagueDropdown(0);
@@ -6531,22 +6499,22 @@
   }
 
   async function getQuests(force = false) {
-    const cont = document.getElementById("DR_Quest_Container");
+    const cont = document.getElementById("DX_Quest_Container");
     if (!cont) {
       return;
     }
 
-    const forceBtn = document.getElementById("DR_Quest_Force_Btn");
+    const forceBtn = document.getElementById("DX_Quest_Force_Btn");
 
     if (!token) {
-      cont.innerHTML = `<p class="DR_T2 DR_NoSel" style="text-align: center;">Login required.</p>`;
+      cont.innerHTML = `<p class="DX_T2 DX_NoSel" style="text-align: center;">Login required.</p>`;
       return;
     }
 
     const isRefresh = questState !== null;
     const prevScroll = cont.scrollTop;
     if (!isRefresh) {
-      cont.innerHTML = `<p class="DR_T2 DR_NoSel" style="text-align: center;">Loading...</p>`;
+      cont.innerHTML = `<p class="DX_T2 DX_NoSel" style="text-align: center;">Loading...</p>`;
     }
 
     const state = await fetchQuests(force);
@@ -6558,7 +6526,7 @@
       }
     } else {
       if (!isRefresh)
-        cont.innerHTML = `<p class="DR_T2 DR_NoSel" style="text-align: center; color: rgb(var(--DR-red));">Failed to load quests.</p>`;
+        cont.innerHTML = `<p class="DX_T2 DX_NoSel" style="text-align: center; color: rgb(var(--DX-red));">Failed to load quests.</p>`;
     }
   }
 
@@ -6599,12 +6567,12 @@
   }
 
   function showQuests(filterStr) {
-    const cont = document.getElementById("DR_Quest_Container");
+    const cont = document.getElementById("DX_Quest_Container");
     if (!cont) {
       return;
     }
 
-    const searchEl = document.getElementById("DR_Quest_Search");
+    const searchEl = document.getElementById("DX_Quest_Search");
     const query = (
       filterStr !== undefined ? filterStr : searchEl ? searchEl.value : ""
     )
@@ -6615,7 +6583,7 @@
     const allGoals = questDisplayGoals();
 
     if (allGoals.length === 0) {
-      cont.innerHTML = `<p class="DR_T2 DR_NoSel" style="text-align: center;">No active quests.</p>`;
+      cont.innerHTML = `<p class="DX_T2 DX_NoSel" style="text-align: center;">No active quests.</p>`;
       return;
     }
 
@@ -6635,7 +6603,7 @@
     ).filter((goal) => yearOf(goal) !== "Daily");
 
     if (ddGoals.length === 0) {
-      cont.innerHTML = `<p class="DR_T2 DR_NoSel" style="text-align: center;">No quests found.</p>`;
+      cont.innerHTML = `<p class="DX_T2 DX_NoSel" style="text-align: center;">No quests found.</p>`;
       return;
     }
 
@@ -6654,8 +6622,8 @@
       if (yr !== lastYear) {
         lastYear = yr;
         const yHeader = document.createElement("div");
-        yHeader.className = "DR_Shop_Section_Header DR_NoSel";
-        yHeader.innerHTML = `<div class="DR_Shop_Section_Line"></div><span class="DR_Shop_Section_Title">${yr}</span><div class="DR_Shop_Section_Line"></div>`;
+        yHeader.className = "DX_Shop_Section_Header DX_NoSel";
+        yHeader.innerHTML = `<div class="DX_Shop_Section_Line"></div><span class="DX_Shop_Section_Title">${yr}</span><div class="DX_Shop_Section_Line"></div>`;
         cont.appendChild(yHeader);
       }
       const isEarned =
@@ -6697,25 +6665,25 @@
       }
 
       const qItem = document.createElement("div");
-      qItem.className = `DR_Quest_Item ${isEarned ? "done" : ""}`;
+      qItem.className = `DX_Quest_Item ${isEarned ? "done" : ""}`;
 
       let bruteHtml = "";
       if (!isEarned && rem > 0) {
-        bruteHtml = `<button class="DR_Quest_Get_Btn" data-m="${escapeHtml(goal.metric || "")}" data-id="${escapeHtml(goal.goalId)}" data-amt="${rem}">BRUTE</button>`;
+        bruteHtml = `<button class="DX_Quest_Get_Btn" data-m="${escapeHtml(goal.metric || "")}" data-id="${escapeHtml(goal.goalId)}" data-amt="${rem}">BRUTE</button>`;
       }
 
       qItem.innerHTML = `
-                <img src="${escapeHtml(qIconUrl)}" class="DR_Quest_Icon">
-                <div class="DR_Quest_Info">
-                    <p class="DR_Quest_Title DR_NoSel">${escapeHtml(goal.title?.uiString || goal.goalId)}</p>
-                    <div class="DR_Quest_Bar_Bg">
-                        <div class="DR_Quest_Bar_Fill" style="width: ${pct}%"></div>
+                <img src="${escapeHtml(qIconUrl)}" class="DX_Quest_Icon">
+                <div class="DX_Quest_Info">
+                    <p class="DX_Quest_Title DX_NoSel">${escapeHtml(goal.title?.uiString || goal.goalId)}</p>
+                    <div class="DX_Quest_Bar_Bg">
+                        <div class="DX_Quest_Bar_Fill" style="width: ${pct}%"></div>
                     </div>
                 </div>
                 ${bruteHtml}
             `;
 
-      const actBtn = qItem.querySelector(".DR_Quest_Get_Btn");
+      const actBtn = qItem.querySelector(".DX_Quest_Get_Btn");
       if (actBtn) {
         actBtn.addEventListener("click", async () => {
           actBtn.disabled = true;
@@ -6781,9 +6749,9 @@
       (goal) => goal.metric && questRemaining(goal) > 0,
     );
 
-    const forceBtn = document.getElementById("DR_Quest_Force_Btn");
+    const forceBtn = document.getElementById("DX_Quest_Force_Btn");
     const forceLbl = forceBtn
-      ? forceBtn.querySelector(".DR_Sm_Btn_Label")
+      ? forceBtn.querySelector(".DX_Sm_Btn_Label")
       : null;
 
     if (targets.length === 0) {
@@ -6797,7 +6765,7 @@
     }
 
     let allOk = true;
-    setProgress("DR_QuestForce", 0);
+    setProgress("DX_QuestForce", 0);
     try {
       for (let i = 0; i < targets.length; i++) {
         const goal = targets[i];
@@ -6825,7 +6793,7 @@
           );
         }
         if (res.status !== 200) allOk = false;
-        setProgress("DR_QuestForce", ((i + 1) / targets.length) * 100);
+        setProgress("DX_QuestForce", ((i + 1) / targets.length) * 100);
       }
       notify(
         allOk ? "success" : "warning",
@@ -6834,11 +6802,11 @@
           ? "All quests brute-forced."
           : "Some quests could not be completed.",
       );
-      clearProgress("DR_QuestForce", allOk);
+      clearProgress("DX_QuestForce", allOk);
       getQuests(true);
     } catch {
       notify("error", "Network Error", "Failed mass operation.");
-      clearProgress("DR_QuestForce", false);
+      clearProgress("DX_QuestForce", false);
     }
 
     if (forceBtn) {
@@ -6938,7 +6906,7 @@
   const preloadedShopIcons = {};
 
   async function getShop() {
-    const cont = document.getElementById("DR_Shop_Container");
+    const cont = document.getElementById("DX_Shop_Container");
     if (!cont) return;
 
     try {
@@ -6951,22 +6919,22 @@
           if (item.icon && !preloadedShopIcons[item.icon]) {
             const img = new Image();
             img.src = item.icon;
-            img.className = "DR_Shop_Ico";
+            img.className = "DX_Shop_Ico";
             preloadedShopIcons[item.icon] = img;
           }
         });
 
         showShop("");
       } else {
-        cont.innerHTML = `<p class="DR_T2 DR_NoSel" style="text-align: center; color: rgb(var(--DR-red));">Failed to load shop. Please try again.</p>`;
+        cont.innerHTML = `<p class="DX_T2 DX_NoSel" style="text-align: center; color: rgb(var(--DX-red));">Failed to load shop. Please try again.</p>`;
       }
     } catch {
-      cont.innerHTML = `<p class="DR_T2 DR_NoSel" style="text-align: center; color: rgb(var(--DR-red));">Failed to load shop. Please try again.</p>`;
+      cont.innerHTML = `<p class="DX_T2 DX_NoSel" style="text-align: center; color: rgb(var(--DX-red));">Failed to load shop. Please try again.</p>`;
     }
   }
 
   function showShop(filterStr) {
-    const cont = document.getElementById("DR_Shop_Container");
+    const cont = document.getElementById("DX_Shop_Container");
     if (!cont) return;
 
     cont.innerHTML = "";
@@ -6983,58 +6951,58 @@
       : shopCache;
 
     if (fPowerUps.length === 0 && fItems.length === 0) {
-      cont.innerHTML = `<p class="DR_T2 DR_NoSel" style="text-align: center;">No items found.</p>`;
+      cont.innerHTML = `<p class="DX_T2 DX_NoSel" style="text-align: center;">No items found.</p>`;
       return;
     }
 
     const grid = document.createElement("div");
-    grid.className = "DR_Shop_Grid";
+    grid.className = "DX_Shop_Grid";
 
     const fragment = document.createDocumentFragment();
 
     if (fPowerUps.length > 0) {
       const puHeader = document.createElement("div");
-      puHeader.className = "DR_Shop_Section_Header DR_NoSel";
+      puHeader.className = "DX_Shop_Section_Header DX_NoSel";
       puHeader.innerHTML = `
-                <div class="DR_Shop_Section_Line"></div>
-                <span class="DR_Shop_Section_Title">Power-Ups</span>
-                <div class="DR_Shop_Section_Line"></div>
+                <div class="DX_Shop_Section_Line"></div>
+                <span class="DX_Shop_Section_Title">Power-Ups</span>
+                <div class="DX_Shop_Section_Line"></div>
             `;
       fragment.appendChild(puHeader);
 
       fPowerUps.forEach((item) => {
         const card = document.createElement("div");
-        card.className = "DR_Shop_Card";
+        card.className = "DX_Shop_Card";
 
         const ico = document.createElement("img");
-        ico.className = "DR_Shop_Ico DR_NoSel";
+        ico.className = "DX_Shop_Ico DX_NoSel";
         ico.src = item.ico;
         card.appendChild(ico);
 
         const nameDiv = document.createElement("div");
-        nameDiv.className = "DR_Shop_Name DR_NoSel";
+        nameDiv.className = "DX_Shop_Name DX_NoSel";
         nameDiv.innerText = item.name;
         card.appendChild(nameDiv);
 
         const btn = document.createElement("button");
-        btn.className = "DR_Shop_Btn";
+        btn.className = "DX_Shop_Btn";
         btn.innerText = "GET";
         btn.addEventListener("click", async () => {
           if (btn.className.includes("loading")) return;
-          btn.className = "DR_Shop_Btn loading";
+          btn.className = "DX_Shop_Btn loading";
           btn.innerText = "...";
           const r = await applyPowerUp(item);
           if (r.ok) {
-            btn.className = "DR_Shop_Btn got";
+            btn.className = "DX_Shop_Btn got";
             btn.innerText = "✓";
             notify("success", "Power-Ups", `${item.name} applied.`);
           } else {
-            btn.className = "DR_Shop_Btn fail";
+            btn.className = "DX_Shop_Btn fail";
             btn.innerText = "ERR";
             notify("error", "Power-Ups", r.msg);
           }
           setTimeout(() => {
-            btn.className = "DR_Shop_Btn";
+            btn.className = "DX_Shop_Btn";
             btn.innerText = "GET";
           }, 2000);
         });
@@ -7049,35 +7017,35 @@
       if (item.category !== currentCategory) {
         currentCategory = item.category;
         const secHeader = document.createElement("div");
-        secHeader.className = "DR_Shop_Section_Header DR_NoSel";
+        secHeader.className = "DX_Shop_Section_Header DX_NoSel";
         secHeader.innerHTML = `
-                    <div class="DR_Shop_Section_Line"></div>
-                    <span class="DR_Shop_Section_Title">${currentCategory}</span>
-                    <div class="DR_Shop_Section_Line"></div>
+                    <div class="DX_Shop_Section_Line"></div>
+                    <span class="DX_Shop_Section_Title">${currentCategory}</span>
+                    <div class="DX_Shop_Section_Line"></div>
                 `;
         fragment.appendChild(secHeader);
       }
 
       const card = document.createElement("div");
-      card.className = "DR_Shop_Card";
+      card.className = "DX_Shop_Card";
 
       if (item.icon && preloadedShopIcons[item.icon]) {
         card.appendChild(preloadedShopIcons[item.icon].cloneNode(true));
       }
 
       const nameDiv = document.createElement("div");
-      nameDiv.className = "DR_Shop_Name DR_NoSel";
+      nameDiv.className = "DX_Shop_Name DX_NoSel";
       nameDiv.innerText = item.displayName || "Unknown";
       card.appendChild(nameDiv);
 
       const btn = document.createElement("button");
-      btn.className = "DR_Shop_Btn";
+      btn.className = "DX_Shop_Btn";
       btn.dataset.id = item.id;
       btn.innerText = "GET";
 
       btn.addEventListener("click", async () => {
         if (btn.className.includes("loading")) return;
-        btn.className = "DR_Shop_Btn loading";
+        btn.className = "DX_Shop_Btn loading";
         btn.innerText = "...";
 
         const result = await applyPowerUp({
@@ -7085,19 +7053,19 @@
           refill: /refill/i.test(item.id),
         });
         if (result.ok) {
-          btn.className = "DR_Shop_Btn got";
+          btn.className = "DX_Shop_Btn got";
           btn.innerText = "✓";
           notify("success", "Shop Success", `Acquired ${item.displayName}.`);
           setTimeout(() => {
-            btn.className = "DR_Shop_Btn";
+            btn.className = "DX_Shop_Btn";
             btn.innerText = "GET";
           }, 2000);
         } else {
-          btn.className = "DR_Shop_Btn fail";
+          btn.className = "DX_Shop_Btn fail";
           btn.innerText = "ERR";
           notify("error", "Shop Failed", `${item.displayName}: ${result.msg}`);
           setTimeout(() => {
-            btn.className = "DR_Shop_Btn";
+            btn.className = "DX_Shop_Btn";
             btn.innerText = "GET";
           }, 2000);
         }
@@ -7129,18 +7097,18 @@
       );
       const isPriv = socSet ? socSet.enabled : false;
 
-      const selEl = document.getElementById("DR_Privacy_Select");
+      const selEl = document.getElementById("DX_Privacy_Select");
       if (selEl) {
         const tVal = isPriv ? "private" : "public";
         selEl.setAttribute("data-value", tVal);
-        selEl.querySelector(".DR_Select_Text").innerText = isPriv
+        selEl.querySelector(".DX_Select_Text").innerText = isPriv
           ? "Private"
           : "Public";
 
-        selEl.querySelectorAll(".DR_Select_Option").forEach((opt) => {
+        selEl.querySelectorAll(".DX_Select_Option").forEach((opt) => {
           if (opt.getAttribute("data-value") === tVal) {
-            opt.style.color = "rgb(var(--DR-blue))";
-            opt.style.background = "rgba(var(--DR-blue),0.1)";
+            opt.style.color = "rgb(var(--DX-blue))";
+            opt.style.background = "rgba(var(--DX-blue),0.1)";
           } else {
             opt.style.color = "";
             opt.style.background = "";
@@ -7295,12 +7263,12 @@
   async function massUnfollow() {
     if (farmStates.unfollow) {
       farmStates.unfollow = false;
-      resetBtn("DR_Follow_Btn", "RUN");
+      resetBtn("DX_Follow_Btn", "RUN");
       return;
     }
     if (!(await ensureEmailVerified())) return;
     farmStates.unfollow = true;
-    stopBtn("DR_Follow_Btn");
+    stopBtn("DX_Follow_Btn");
 
     let list = [];
     try {
@@ -7316,7 +7284,7 @@
     if (list.length === 0) {
       notify("info", "Mass Unfollow", "You are not following anyone.");
       farmStates.unfollow = false;
-      resetBtn("DR_Follow_Btn", "RUN");
+      resetBtn("DX_Follow_Btn", "RUN");
       return;
     }
 
@@ -7332,7 +7300,7 @@
         if (res.status === 200) ok++;
       } catch {}
       done++;
-      setProgress("DR_Follow", (done / list.length) * 100);
+      setProgress("DX_Follow", (done / list.length) * 100);
       await wait(delayMs);
     }
 
@@ -7342,20 +7310,20 @@
       completed ? "Mass Unfollow Complete" : "Mass Unfollow Stopped",
       `Unfollowed ${ok} user(s).`,
     );
-    clearProgress("DR_Follow", completed);
+    clearProgress("DX_Follow", completed);
     farmStates.unfollow = false;
-    resetBtn("DR_Follow_Btn", "RUN");
+    resetBtn("DX_Follow_Btn", "RUN");
   }
 
   async function massUnblock() {
     if (farmStates.unblock) {
       farmStates.unblock = false;
-      resetBtn("DR_Block_Mass_Btn", "RUN");
+      resetBtn("DX_Block_Mass_Btn", "RUN");
       return;
     }
     if (!(await ensureEmailVerified())) return;
     farmStates.unblock = true;
-    stopBtn("DR_Block_Mass_Btn");
+    stopBtn("DX_Block_Mass_Btn");
 
     let list = [];
     try {
@@ -7371,7 +7339,7 @@
     if (list.length === 0) {
       notify("info", "Mass Unblock", "You have not blocked anyone.");
       farmStates.unblock = false;
-      resetBtn("DR_Block_Mass_Btn", "RUN");
+      resetBtn("DX_Block_Mass_Btn", "RUN");
       return;
     }
 
@@ -7387,7 +7355,7 @@
         if (res.status === 200) ok++;
       } catch {}
       done++;
-      setProgress("DR_Block_Mass", (done / list.length) * 100);
+      setProgress("DX_Block_Mass", (done / list.length) * 100);
       await wait(delayMs);
     }
 
@@ -7398,9 +7366,9 @@
       completed ? "Mass Unblock Complete" : "Mass Unblock Stopped",
       `Unblocked ${ok} user(s).`,
     );
-    clearProgress("DR_Block_Mass", completed);
+    clearProgress("DX_Block_Mass", completed);
     farmStates.unblock = false;
-    resetBtn("DR_Block_Mass_Btn", "RUN");
+    resetBtn("DX_Block_Mass_Btn", "RUN");
   }
 
   async function getCohortIds(force = true) {
@@ -7416,12 +7384,12 @@
   async function massFollow() {
     if (farmStates.follow) {
       farmStates.follow = false;
-      resetBtn("DR_Follow_Btn", "RUN");
+      resetBtn("DX_Follow_Btn", "RUN");
       return;
     }
     if (!(await ensureEmailVerified())) return;
     farmStates.follow = true;
-    stopBtn("DR_Follow_Btn");
+    stopBtn("DX_Follow_Btn");
 
     const ids = new Set();
     const cohort = await getCohortIds();
@@ -7456,7 +7424,7 @@
     if (list.length === 0) {
       notify("info", "Mass Follow", "No new users to follow.");
       farmStates.follow = false;
-      resetBtn("DR_Follow_Btn", "RUN");
+      resetBtn("DX_Follow_Btn", "RUN");
       return;
     }
 
@@ -7473,7 +7441,7 @@
         if (res.status === 200 || res.status === 201) ok++;
       } catch {}
       done++;
-      setProgress("DR_Follow", (done / list.length) * 100);
+      setProgress("DX_Follow", (done / list.length) * 100);
       await wait(delayMs);
     }
 
@@ -7483,9 +7451,9 @@
       completed ? "Mass Follow Complete" : "Mass Follow Stopped",
       `Followed ${ok} user(s).`,
     );
-    clearProgress("DR_Follow", completed);
+    clearProgress("DX_Follow", completed);
     farmStates.follow = false;
-    resetBtn("DR_Follow_Btn", "RUN");
+    resetBtn("DX_Follow_Btn", "RUN");
   }
 
   async function blockLeagueUsers(options = {}) {
@@ -7535,7 +7503,7 @@
         if (res.status === 200 || res.status === 201) ok++;
       } catch {}
       done++;
-      setProgress("DR_Block_Mass", (done / list.length) * 100);
+      setProgress("DX_Block_Mass", (done / list.length) * 100);
       await wait(delayMs);
     }
 
@@ -7546,12 +7514,12 @@
   async function massBlock() {
     if (farmStates.blockmass) {
       farmStates.blockmass = false;
-      resetBtn("DR_Block_Mass_Btn", "RUN");
+      resetBtn("DX_Block_Mass_Btn", "RUN");
       return;
     }
     if (!(await ensureEmailVerified())) return;
     farmStates.blockmass = true;
-    stopBtn("DR_Block_Mass_Btn");
+    stopBtn("DX_Block_Mass_Btn");
 
     const result = await blockLeagueUsers();
     const completed = farmStates.blockmass;
@@ -7562,9 +7530,9 @@
         `Blocked ${result.ok} user(s).`,
       );
     }
-    clearProgress("DR_Block_Mass", completed);
+    clearProgress("DX_Block_Mass", completed);
     farmStates.blockmass = false;
-    resetBtn("DR_Block_Mass_Btn", "RUN");
+    resetBtn("DX_Block_Mass_Btn", "RUN");
   }
 
   const powerUpItems = [
@@ -7655,8 +7623,8 @@
 
   async function sendGift(username, itemName) {
     username = (username || "").trim();
-    const btn = document.getElementById("DR_Gift_Btn");
-    const lbl = btn ? btn.querySelector(".DR_Sm_Btn_Label") : null;
+    const btn = document.getElementById("DX_Gift_Btn");
+    const lbl = btn ? btn.querySelector(".DX_Sm_Btn_Label") : null;
     if (!username) {
       notify("warning", "Send Gift", "Enter a username.");
       return;
@@ -7694,8 +7662,8 @@
     username = (username || "").trim();
     const isQuest = mode === "quest";
     const label = isQuest ? "Friends Quest" : "Friend Streak";
-    const btn = document.getElementById("DR_Friend_Btn");
-    const lbl = btn ? btn.querySelector(".DR_Sm_Btn_Label") : null;
+    const btn = document.getElementById("DX_Friend_Btn");
+    const lbl = btn ? btn.querySelector(".DX_Sm_Btn_Label") : null;
     if (!username) {
       notify("warning", label, "Enter a username.");
       return;
@@ -7798,10 +7766,10 @@
 
   function scrollToActiveStatus() {
     const doScroll = () => {
-      const cont = document.getElementById("DR_Status_Container");
+      const cont = document.getElementById("DX_Status_Container");
       if (!cont) return;
-      const activeBtn = cont.querySelector(".DR_Shop_Btn.got");
-      const card = activeBtn ? activeBtn.closest(".DR_Shop_Card") : null;
+      const activeBtn = cont.querySelector(".DX_Shop_Btn.got");
+      const card = activeBtn ? activeBtn.closest(".DX_Shop_Card") : null;
       if (!card || !cont.clientHeight) return;
       const contRect = cont.getBoundingClientRect();
       const cardRect = card.getBoundingClientRect();
@@ -7818,7 +7786,7 @@
   }
 
   async function openStatusPicker() {
-    const search = document.getElementById("DR_Status_Search");
+    const search = document.getElementById("DX_Status_Search");
     if (search) search.value = "";
     showStatuses("");
     changePage("Status");
@@ -7833,18 +7801,18 @@
       typeof tier === "number" && leagueTierNames[tier]
         ? leagueTierNames[tier] + " League"
         : "Leaderboard";
-    const navIco = document.getElementById("DR_Board_Nav_Ico");
-    const tierIco = document.getElementById("DR_Board_Tier_Ico");
-    const tierName = document.getElementById("DR_Board_Tier_Name");
+    const navIco = document.getElementById("DX_Board_Nav_Ico");
+    const tierIco = document.getElementById("DX_Board_Tier_Ico");
+    const tierName = document.getElementById("DX_Board_Tier_Name");
     if (navIco) navIco.src = url;
     if (tierIco) tierIco.src = url;
     if (tierName) tierName.innerText = name;
   }
 
   function updateProfileLeague(tier, rank) {
-    const wrap = document.getElementById("DR_ULeague_Wrap");
-    const ico = document.getElementById("DR_ULeague_Ico");
-    const rk = document.getElementById("DR_ULeague_Rank");
+    const wrap = document.getElementById("DX_ULeague_Wrap");
+    const ico = document.getElementById("DX_ULeague_Ico");
+    const rk = document.getElementById("DX_ULeague_Rank");
     if (!wrap || !ico || !rk) return;
     if (typeof tier !== "number" || !rank) {
       wrap.style.display = "none";
@@ -7862,21 +7830,21 @@
       : "https://d35aaqx5ub95lt.cloudfront.net/images/leagues/248453c5e2d9de19fba7a2f4fef7f016.svg";
     const textStr = isProm ? "Promotion Zone" : "Demotion Zone";
     const sep = document.createElement("div");
-    sep.className = "DR_LB_Sep";
+    sep.className = "DX_LB_Sep";
     sep.style.cssText =
       "display: flex; align-items: center; gap: 8px; margin: 6px 2px; height: 14px; align-self: stretch;";
 
     const lineCol = isProm
-      ? "rgba(var(--DR-green), 0.35)"
-      : "rgba(var(--DR-red), 0.35)";
-    const textCol = isProm ? "rgb(var(--DR-green))" : "rgb(var(--DR-red))";
+      ? "rgba(var(--DX-green), 0.35)"
+      : "rgba(var(--DX-red), 0.35)";
+    const textCol = isProm ? "rgb(var(--DX-green))" : "rgb(var(--DX-red))";
 
     sep.innerHTML = `
             <div style="flex: 1; height: 1px; background: ${lineCol}; border-radius: 1px;"></div>
             <div style="display: flex; align-items: center; gap: 4px; font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; color: ${textCol}; flex-shrink: 0;">
-                <img class="DR_NoSel" src="${arrowUrl}" style="width: 14px; height: 14px; object-fit: contain; flex-shrink: 0;">
+                <img class="DX_NoSel" src="${arrowUrl}" style="width: 14px; height: 14px; object-fit: contain; flex-shrink: 0;">
                 <span>${textStr}</span>
-                <img class="DR_NoSel" src="${arrowUrl}" style="width: 14px; height: 14px; object-fit: contain; flex-shrink: 0;">
+                <img class="DX_NoSel" src="${arrowUrl}" style="width: 14px; height: 14px; object-fit: contain; flex-shrink: 0;">
             </div>
             <div style="flex: 1; height: 1px; background: ${lineCol}; border-radius: 1px;"></div>
         `;
@@ -7884,11 +7852,11 @@
   }
 
   async function showLeagueBoard(preData) {
-    const cont = document.getElementById("DR_Board_Container");
+    const cont = document.getElementById("DX_Board_Container");
     if (!cont) return;
     const loaded = cont.dataset.loaded === "1";
     if (!loaded)
-      cont.innerHTML = `<p class="DR_T2 DR_NoSel" style="text-align: center; padding: 8px 0;">Loading...</p>`;
+      cont.innerHTML = `<p class="DX_T2 DX_NoSel" style="text-align: center; padding: 8px 0;">Loading...</p>`;
 
     try {
       const data = preData || (await fetchLeagueData(false));
@@ -7897,7 +7865,7 @@
       const rankings = cohort?.rankings;
       if (!Array.isArray(rankings) || rankings.length === 0) {
         if (!loaded)
-          cont.innerHTML = `<p class="DR_T2 DR_NoSel" style="text-align: center; color: rgb(var(--DR-red));">You are not in an active league.</p>`;
+          cont.innerHTML = `<p class="DX_T2 DX_NoSel" style="text-align: center; color: rgb(var(--DX-red));">You are not in an active league.</p>`;
         return;
       }
 
@@ -7936,37 +7904,37 @@
           const inner = st
             ? renderStatusIcon(st, 12)
             : `<img src="${setIco}" alt="" style="width: 12px; height: 12px; object-fit: contain; opacity: 0.5;">`;
-          statusHtml = `<div class="DR_Board_MyStatus DR_NoSel" title="Tap to change your status" style="position: absolute; right: -5px; top: -5px; cursor: pointer; display: flex; align-items: center; justify-content: center; width: 18px; height: 18px; border-radius: 50%; background: var(--dr-bg); box-shadow: 0 2px 4px rgba(0,0,0,0.15); border: 1px solid var(--dr-card-border); z-index: 2;">${inner}</div>`;
+          statusHtml = `<div class="DX_Board_MyStatus DX_NoSel" title="Tap to change your status" style="position: absolute; right: -5px; top: -5px; cursor: pointer; display: flex; align-items: center; justify-content: center; width: 18px; height: 18px; border-radius: 50%; background: var(--dx-bg); box-shadow: 0 2px 4px rgba(0,0,0,0.15); border: 1px solid var(--dx-card-border); z-index: 2;">${inner}</div>`;
         } else {
           statusHtml = st
-            ? `<div class="DR_NoSel" title="${escapeHtml(st.name)}" style="position: absolute; right: -5px; top: -5px; display: flex; align-items: center; justify-content: center; width: 18px; height: 18px; border-radius: 50%; background: var(--dr-bg); box-shadow: 0 2px 4px rgba(0,0,0,0.15); border: 1px solid var(--dr-card-border); z-index: 2;">${renderStatusIcon(st, 12)}</div>`
+            ? `<div class="DX_NoSel" title="${escapeHtml(st.name)}" style="position: absolute; right: -5px; top: -5px; display: flex; align-items: center; justify-content: center; width: 18px; height: 18px; border-radius: 50%; background: var(--dx-bg); box-shadow: 0 2px 4px rgba(0,0,0,0.15); border: 1px solid var(--dx-card-border); z-index: 2;">${renderStatusIcon(st, 12)}</div>`
             : "";
         }
         const row = document.createElement("div");
-        row.className = "DR_HStack_Auto";
+        row.className = "DX_HStack_Auto";
         row.style.cssText =
-          "align-self: stretch; padding: 8px 10px; border-radius: var(--DR-r-s); corner-shape: var(--DR-corner); gap: 8px; background: var(--dr-card-bg);" +
+          "align-self: stretch; padding: 8px 10px; border-radius: var(--DX-r-s); corner-shape: var(--DX-corner); gap: 8px; background: var(--dx-card-bg);" +
           (isMe
-            ? " outline: 2px solid rgba(var(--DR-blue), 0.5); outline-offset: -2px; background: rgba(var(--DR-blue), 0.08);"
+            ? " outline: 2px solid rgba(var(--DX-blue), 0.5); outline-offset: -2px; background: rgba(var(--DX-blue), 0.08);"
             : "");
         row.innerHTML = `
                     <div style="display: flex; align-items: center; gap: 8px; min-width: 0; flex: 1;">
                         ${
                           rank <= 3
-                            ? `<img class="DR_NoSel" src="${podiumMedals[rank - 1]}" alt="#${rank}" title="#${rank}" style="width: 24px; height: 24px; object-fit: contain; flex-shrink: 0;">`
-                            : `<span class="DR_T1 DR_NoSel" style="width: 22px; text-align: center; flex-shrink: 0;">${rank}</span>`
+                            ? `<img class="DX_NoSel" src="${podiumMedals[rank - 1]}" alt="#${rank}" title="#${rank}" style="width: 24px; height: 24px; object-fit: contain; flex-shrink: 0;">`
+                            : `<span class="DX_T1 DX_NoSel" style="width: 22px; text-align: center; flex-shrink: 0;">${rank}</span>`
                         }
-                        <div class="DR_Avatar_Container" style="position: relative; width: 30px; height: 30px; flex-shrink: 0;">
-                            <img src="${escapeHtml(av)}" style="width: 30px; height: 30px; border-radius: 50%; object-fit: cover; background: var(--dr-card-border);" onerror="this.style.visibility='hidden'">
+                        <div class="DX_Avatar_Container" style="position: relative; width: 30px; height: 30px; flex-shrink: 0;">
+                            <img src="${escapeHtml(av)}" style="width: 30px; height: 30px; border-radius: 50%; object-fit: cover; background: var(--dx-card-border);" onerror="this.style.visibility='hidden'">
                             ${statusHtml}
                         </div>
-                        <p class="DR_T1 DR_NoSel" style="font-size: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${escapeHtml(r.display_name || "Unknown")}</p>
+                        <p class="DX_T1 DX_NoSel" style="font-size: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${escapeHtml(r.display_name || "Unknown")}</p>
                     </div>
-                    <p class="DR_T2 DR_NoSel" style="flex-shrink: 0;">${(r.score || 0).toLocaleString()} XP</p>
+                    <p class="DX_T2 DX_NoSel" style="flex-shrink: 0;">${(r.score || 0).toLocaleString()} XP</p>
                 `;
         frag.appendChild(row);
         if (isMe) {
-          const myEl = row.querySelector(".DR_Board_MyStatus");
+          const myEl = row.querySelector(".DX_Board_MyStatus");
           if (myEl) myEl.addEventListener("click", openStatusPicker);
         }
 
@@ -7979,7 +7947,7 @@
       });
       cont.replaceChildren(frag);
       cont.dataset.loaded = "1";
-      const barIco = document.getElementById("DR_Board_Status_Ico");
+      const barIco = document.getElementById("DX_Board_Status_Ico");
       if (barIco) {
         if (myStatus) {
           barIco.innerHTML = renderStatusIcon(myStatus, 22);
@@ -7990,12 +7958,12 @@
       updateProfileLeague(tier, myRank);
     } catch {
       if (!loaded)
-        cont.innerHTML = `<p class="DR_T2 DR_NoSel" style="text-align: center; color: rgb(var(--DR-red));">Failed to load leaderboard.</p>`;
+        cont.innerHTML = `<p class="DX_T2 DX_NoSel" style="text-align: center; color: rgb(var(--DX-red));">Failed to load leaderboard.</p>`;
     }
   }
 
   async function removeHearts(count) {
-    const btn = document.getElementById("DR_Hearts_Btn");
+    const btn = document.getElementById("DX_Hearts_Btn");
     if (btn) btn.disabled = true;
     let ok = 0;
     for (let i = 0; i < count; i++) {
@@ -8006,7 +7974,7 @@
         );
         if (res.status === 200) ok++;
       } catch {}
-      setProgress("DR_Hearts", ((i + 1) / count) * 100);
+      setProgress("DX_Hearts", ((i + 1) / count) * 100);
       await wait(delayMs);
     }
     notify(
@@ -8014,15 +7982,15 @@
       "Remove Hearts",
       ok > 0 ? `Removed ${ok} heart(s).` : "Failed to remove hearts.",
     );
-    clearProgress("DR_Hearts", ok > 0);
+    clearProgress("DX_Hearts", ok > 0);
     if (btn) btn.disabled = false;
   }
 
   function applyLocalMax() {
-    if (localStorage.getItem("dr_local_max") !== "true") return;
-    if (document.getElementById("DR_LocalMax_Script")) return;
+    if (localStorage.getItem("dx_local_max") !== "true") return;
+    if (document.getElementById("DX_LocalMax_Script")) return;
     const script = document.createElement("script");
-    script.id = "DR_LocalMax_Script";
+    script.id = "DX_LocalMax_Script";
     script.textContent = `
             (function() {
                 const TARGET_URL_REGEX = /https?:\\/\\/(?:[a-zA-Z0-9-]+\\.)?duolingo\\.[a-zA-Z]{2,6}(?:\\.[a-zA-Z]{2})?\\/\\d{4}-\\d{2}-\\d{2}\\/users\\/.+/;
@@ -8164,7 +8132,7 @@
     if (!st) return "";
     if (st.icon) {
       if (st.icon.startsWith("<svg")) {
-        return `<div style="display: flex; align-items: center; justify-content: center; width: ${size}px; height: ${size}px; color: var(--dr-text);">${st.icon.replace("<svg ", `<svg style="width:${size}px; height:${size}px;" `)}</div>`;
+        return `<div style="display: flex; align-items: center; justify-content: center; width: ${size}px; height: ${size}px; color: var(--dx-text);">${st.icon.replace("<svg ", `<svg style="width:${size}px; height:${size}px;" `)}</div>`;
       }
       return `<img src="${escapeHtml(st.icon)}" alt="${escapeHtml(st.name)}" style="width: ${size}px; height: ${size}px; object-fit: contain;">`;
     }
@@ -8172,7 +8140,7 @@
   }
 
   function showStatuses(filterStr) {
-    const cont = document.getElementById("DR_Status_Container");
+    const cont = document.getElementById("DX_Status_Container");
     if (!cont) return;
 
     cont.innerHTML = "";
@@ -8182,12 +8150,12 @@
       : statusReactions;
 
     if (items.length === 0) {
-      cont.innerHTML = `<p class="DR_T2 DR_NoSel" style="text-align: center;">No statuses found.</p>`;
+      cont.innerHTML = `<p class="DX_T2 DX_NoSel" style="text-align: center;">No statuses found.</p>`;
       return;
     }
 
     const grid = document.createElement("div");
-    grid.className = "DR_Shop_Grid";
+    grid.className = "DX_Shop_Grid";
 
     const fragment = document.createDocumentFragment();
     let currentCat = null;
@@ -8196,20 +8164,20 @@
       if (s.cat !== currentCat) {
         currentCat = s.cat;
         const secHeader = document.createElement("div");
-        secHeader.className = "DR_Shop_Section_Header DR_NoSel";
+        secHeader.className = "DX_Shop_Section_Header DX_NoSel";
         secHeader.innerHTML = `
-                    <div class="DR_Shop_Section_Line"></div>
-                    <span class="DR_Shop_Section_Title">${currentCat}</span>
-                    <div class="DR_Shop_Section_Line"></div>
+                    <div class="DX_Shop_Section_Line"></div>
+                    <span class="DX_Shop_Section_Title">${currentCat}</span>
+                    <div class="DX_Shop_Section_Line"></div>
                 `;
         fragment.appendChild(secHeader);
       }
 
       const card = document.createElement("div");
-      card.className = "DR_Shop_Card";
+      card.className = "DX_Shop_Card";
 
       const ico = document.createElement("div");
-      ico.className = "DR_NoSel";
+      ico.className = "DX_NoSel";
       ico.style.cssText =
         "font-size: 30px; line-height: 36px; height: 36px; display: flex; align-items: center; justify-content: center;";
       if (s.icon) {
@@ -8218,7 +8186,7 @@
           const svgEl = ico.querySelector("svg");
           if (svgEl) {
             svgEl.style.cssText =
-              "width: 36px; height: 36px; color: var(--dr-text);";
+              "width: 36px; height: 36px; color: var(--dx-text);";
           }
         } else {
           const img = document.createElement("img");
@@ -8233,35 +8201,35 @@
       card.appendChild(ico);
 
       const nameDiv = document.createElement("div");
-      nameDiv.className = "DR_Shop_Name DR_NoSel";
+      nameDiv.className = "DX_Shop_Name DX_NoSel";
       nameDiv.innerText = s.name;
       card.appendChild(nameDiv);
 
       const isActive = currentStatus !== null && s.value === currentStatus;
       if (isActive) {
-        card.style.outlineColor = "rgba(var(--DR-blue), 0.6)";
+        card.style.outlineColor = "rgba(var(--DX-blue), 0.6)";
       }
 
       const btn = document.createElement("button");
-      btn.className = isActive ? "DR_Shop_Btn got" : "DR_Shop_Btn";
+      btn.className = isActive ? "DX_Shop_Btn got" : "DX_Shop_Btn";
       btn.innerText = isActive ? "ACTIVE" : "SET";
 
       btn.addEventListener("click", async () => {
         if (btn.className.includes("loading") || btn.className.includes("got"))
           return;
-        btn.className = "DR_Shop_Btn loading";
+        btn.className = "DX_Shop_Btn loading";
         btn.innerText = "...";
 
         const ok = await setStatus(s.value);
         if (ok) {
           currentStatus = s.value;
-          showStatuses(document.getElementById("DR_Status_Search").value);
+          showStatuses(document.getElementById("DX_Status_Search").value);
           if (leagueDataCache) applyLeagueSummary(leagueDataCache);
         } else {
-          btn.className = "DR_Shop_Btn fail";
+          btn.className = "DX_Shop_Btn fail";
           btn.innerText = "ERR";
           setTimeout(() => {
-            btn.className = "DR_Shop_Btn";
+            btn.className = "DX_Shop_Btn";
             btn.innerText = "SET";
           }, 2000);
         }
@@ -8285,18 +8253,18 @@
       if (isDark === lastDark) {
         return;
       }
-      const mainBox = document.getElementById("DR_Main_Box");
+      const mainBox = document.getElementById("DX_Main_Box");
       if (!mainBox) {
         return;
       }
       lastDark = isDark;
 
-      const notifMain = document.getElementById("DR_Notif_Main");
-      const hideBtn = document.getElementById("duorain-hide-button");
+      const notifMain = document.getElementById("DX_Notif_Main");
+      const hideBtn = document.getElementById("duoxjs-hide-button");
       const targets = [mainBox, notifMain, hideBtn].filter(Boolean);
       targets.forEach((el) => {
-        el.classList.toggle("dr-dark", isDark);
-        el.classList.toggle("dr-light", !isDark);
+        el.classList.toggle("dx-dark", isDark);
+        el.classList.toggle("dx-light", !isDark);
       });
     };
 
@@ -8310,50 +8278,50 @@
     setInterval(updClasses, 5000);
   }
 
-  function drVpWidth() {
+  function dxVpWidth() {
     return Math.round(
       window.visualViewport ? window.visualViewport.width : window.innerWidth,
     );
   }
 
-  function drVpHeight() {
+  function dxVpHeight() {
     return Math.round(
       window.visualViewport ? window.visualViewport.height : window.innerHeight,
     );
   }
 
-  function drVpOffsetTop() {
+  function dxVpOffsetTop() {
     return window.visualViewport ? window.visualViewport.offsetTop : 0;
   }
 
-  function drVpOffsetLeft() {
+  function dxVpOffsetLeft() {
     return window.visualViewport ? window.visualViewport.offsetLeft : 0;
   }
 
-  function drMargin() {
-    return drVpWidth() <= 480 ? 8 : 16;
+  function dxMargin() {
+    return dxVpWidth() <= 480 ? 8 : 16;
   }
 
-  function drPageWidth() {
+  function dxPageWidth() {
     const base = 325;
-    return Math.min(base, drVpWidth() - drMargin() * 2);
+    return Math.min(base, dxVpWidth() - dxMargin() * 2);
   }
 
-  function drMaxHeight() {
-    const btn = document.getElementById("duorain-hide-button");
+  function dxMaxHeight() {
+    const btn = document.getElementById("duoxjs-hide-button");
     const reserve = btn ? btn.offsetHeight + 8 : 48;
-    return drVpHeight() - drMargin() * 2 - reserve;
+    return dxVpHeight() - dxMargin() * 2 - reserve;
   }
 
   function clampPos(left, top) {
-    const wrap = document.getElementById("DR_Main");
-    const m = drMargin();
-    const offTop = drVpOffsetTop();
-    const offLeft = drVpOffsetLeft();
+    const wrap = document.getElementById("DX_Main");
+    const m = dxMargin();
+    const offTop = dxVpOffsetTop();
+    const offLeft = dxVpOffsetLeft();
     const minL = m + offLeft;
     const minT = m + offTop;
-    const maxL = Math.max(minL, offLeft + drVpWidth() - wrap.offsetWidth - m);
-    const maxT = Math.max(minT, offTop + drVpHeight() - wrap.offsetHeight - m);
+    const maxL = Math.max(minL, offLeft + dxVpWidth() - wrap.offsetWidth - m);
+    const maxT = Math.max(minT, offTop + dxVpHeight() - wrap.offsetHeight - m);
     return {
       left: Math.min(Math.max(left, minL), maxL),
       top: Math.min(Math.max(top, minT), maxT),
@@ -8361,23 +8329,23 @@
   }
 
   function nearestCorner() {
-    const wrap = document.getElementById("DR_Main");
+    const wrap = document.getElementById("DX_Main");
     const r = wrap.getBoundingClientRect();
-    const cx = r.left + r.width / 2 - drVpOffsetLeft();
-    const cy = r.top + r.height / 2 - drVpOffsetTop();
+    const cx = r.left + r.width / 2 - dxVpOffsetLeft();
+    const cy = r.top + r.height / 2 - dxVpOffsetTop();
     return (
-      (cy < drVpHeight() / 2 ? "t" : "b") + (cx < drVpWidth() / 2 ? "l" : "r")
+      (cy < dxVpHeight() / 2 ? "t" : "b") + (cx < dxVpWidth() / 2 ? "l" : "r")
     );
   }
 
   function positionPanel() {
-    const wrap = document.getElementById("DR_Main");
+    const wrap = document.getElementById("DX_Main");
     if (!wrap) return;
-    const m = drMargin();
+    const m = dxMargin();
     const top = panelCorner.charAt(0) === "t";
     const left = panelCorner.charAt(1) === "l";
-    const offTop = drVpOffsetTop();
-    const offLeft = drVpOffsetLeft();
+    const offTop = dxVpOffsetTop();
+    const offLeft = dxVpOffsetLeft();
     wrap.style.left = left ? m + offLeft + "px" : "auto";
     wrap.style.right = left ? "auto" : m + "px";
     wrap.style.top = top ? m + offTop + "px" : "auto";
@@ -8385,29 +8353,29 @@
     wrap.style.flexDirection = top ? "column" : "column-reverse";
     wrap.style.alignItems = left ? "flex-start" : "flex-end";
     wrap.style.setProperty(
-      "--DR-panel-origin",
+      "--DX-panel-origin",
       `${top ? "top" : "bottom"} ${left ? "left" : "right"}`,
     );
-    wrap.style.setProperty("--DR-panel-hide-y", top ? "-8px" : "8px");
-    const btn = document.getElementById("duorain-hide-button");
+    wrap.style.setProperty("--DX-panel-hide-y", top ? "-8px" : "8px");
+    const btn = document.getElementById("duoxjs-hide-button");
     if (btn && btn.parentElement) {
       btn.parentElement.style.alignSelf = left ? "flex-start" : "flex-end";
     }
   }
 
   function relayout() {
-    const box = document.getElementById("DR_Main_Box");
+    const box = document.getElementById("DX_Main_Box");
     if (box && box.dataset.isAnimating !== "true") {
       const prevScroll = box.scrollTop;
-      const w = drPageWidth(pageId) + "px";
+      const w = dxPageWidth(pageId) + "px";
       if (box.style.width !== w) box.style.width = w;
-      const cap = drMaxHeight();
+      const cap = dxMaxHeight();
       box.style.maxHeight = "none";
       const natural = box.offsetHeight;
       box.style.maxHeight = cap + "px";
       const needScroll = natural > cap + 4;
-      if (box.classList.contains("dr-scroll") !== needScroll)
-        box.classList.toggle("dr-scroll", needScroll);
+      if (box.classList.contains("dx-scroll") !== needScroll)
+        box.classList.toggle("dx-scroll", needScroll);
       if (
         needScroll &&
         box.scrollTop !== prevScroll &&
@@ -8459,11 +8427,11 @@
   }
 
   function setMainMode(mode, animate) {
-    localStorage.setItem("dr_main_mode", mode);
-    const nativeSec = document.getElementById("DR_Native_Sections");
-    const solverSec = document.getElementById("DR_Solver_Sections");
-    const toggleBtn = document.getElementById("DR_Mode_Toggle_Btn");
-    const toggleLbl = document.getElementById("DR_Mode_Toggle_Lbl");
+    localStorage.setItem("dx_main_mode", mode);
+    const nativeSec = document.getElementById("DX_Native_Sections");
+    const solverSec = document.getElementById("DX_Solver_Sections");
+    const toggleBtn = document.getElementById("DX_Mode_Toggle_Btn");
+    const toggleLbl = document.getElementById("DX_Mode_Toggle_Lbl");
 
     if (!nativeSec || !solverSec || !toggleBtn || !toggleLbl) return;
 
@@ -8471,7 +8439,7 @@
     const hideSec = mode === "native" ? solverSec : nativeSec;
     const wasShown = showSec.style.display === "flex";
 
-    const toggleIco = document.getElementById("DR_Mode_Toggle_Ico");
+    const toggleIco = document.getElementById("DX_Mode_Toggle_Ico");
     if (toggleIco) {
       toggleIco.innerHTML =
         mode === "native" ? icons.modeNative : icons.modeSolver;
@@ -8479,15 +8447,15 @@
 
     if (mode === "native") {
       toggleLbl.innerText = "Native Mode";
-      toggleBtn.style.background = "var(--dr-card-bg)";
-      toggleBtn.style.color = "var(--dr-text)";
-      toggleBtn.style.outline = "2px solid var(--dr-card-border)";
+      toggleBtn.style.background = "var(--dx-card-bg)";
+      toggleBtn.style.color = "var(--dx-text)";
+      toggleBtn.style.outline = "2px solid var(--dx-card-border)";
       toggleBtn.style.outlineOffset = "-2px";
     } else {
       toggleLbl.innerText = "Solver Mode";
-      toggleBtn.style.background = "var(--dr-card-bg)";
-      toggleBtn.style.color = "var(--dr-text)";
-      toggleBtn.style.outline = "2px solid var(--dr-card-border)";
+      toggleBtn.style.background = "var(--dx-card-bg)";
+      toggleBtn.style.color = "var(--dx-text)";
+      toggleBtn.style.outline = "2px solid var(--dx-card-border)";
       toggleBtn.style.outlineOffset = "-2px";
     }
 
@@ -8498,11 +8466,11 @@
       return;
     }
 
-    const mainBox = document.getElementById("DR_Main_Box");
+    const mainBox = document.getElementById("DX_Main_Box");
     if (!mainBox || mainBox.dataset.isAnimating === "true") return;
     mainBox.dataset.isAnimating = "true";
 
-    const activePage = document.getElementById("DR_Page_1");
+    const activePage = document.getElementById("DX_Page_1");
     const sW = mainBox.offsetWidth;
     const sH = mainBox.offsetHeight;
 
@@ -8527,14 +8495,14 @@
 
       mainBox.style.height = "auto";
       mainBox.style.maxHeight = "none";
-      mainBox.classList.remove("dr-scroll");
+      mainBox.classList.remove("dx-scroll");
 
       const natH = mainBox.offsetHeight;
-      const maxH = drMaxHeight();
+      const maxH = dxMaxHeight();
       const needsScroll = natH > maxH;
       const finalH = Math.min(natH < 50 ? 200 : natH, maxH);
       mainBox.style.maxHeight = maxH + "px";
-      mainBox.classList.toggle("dr-scroll", needsScroll);
+      mainBox.classList.toggle("dx-scroll", needsScroll);
 
       mainBox.style.height = sH + "px";
       void mainBox.offsetHeight;
@@ -8566,36 +8534,36 @@
   function setUiHiddenState(hidden) {
     if (uiHidden === hidden) return;
     uiHidden = hidden;
-    localStorage.setItem("dr_ui_hidden", uiHidden ? "true" : "false");
-    const wrap = document.getElementById("DR_Main");
-    const mBox = document.getElementById("DR_Main_Box");
+    localStorage.setItem("dx_ui_hidden", uiHidden ? "true" : "false");
+    const wrap = document.getElementById("DX_Main");
+    const mBox = document.getElementById("DX_Main_Box");
     const lblTxt = document.getElementById("hide-show-text");
-    const togHide = document.getElementById("duorain-hide-button");
+    const togHide = document.getElementById("duoxjs-hide-button");
     if (!wrap || !mBox || !lblTxt || !togHide) return;
 
     if (uiHidden) {
       clearTimeout(hideCollapseTimer);
-      togHide.classList.add("duorain-show-mode");
+      togHide.classList.add("duoxjs-show-mode");
       lblTxt.innerText = "Show";
-      mBox.classList.add("dr-hidden");
+      mBox.classList.add("dx-hidden");
       hideCollapseTimer = setTimeout(() => {
-        mBox.classList.add("dr-collapsed");
-        wrap.classList.add("dr-panel-hidden");
+        mBox.classList.add("dx-collapsed");
+        wrap.classList.add("dx-panel-hidden");
       }, 400);
     } else {
       clearTimeout(hideCollapseTimer);
-      wrap.classList.remove("dr-panel-hidden");
-      mBox.classList.remove("dr-collapsed");
+      wrap.classList.remove("dx-panel-hidden");
+      mBox.classList.remove("dx-collapsed");
       void mBox.offsetHeight;
-      mBox.classList.remove("dr-hidden");
-      togHide.classList.remove("duorain-show-mode");
+      mBox.classList.remove("dx-hidden");
+      togHide.classList.remove("duoxjs-show-mode");
       lblTxt.innerText = "Hide";
       relayout();
     }
   }
 
   function changePage(tPageId) {
-    const mainBox = document.getElementById("DR_Main_Box");
+    const mainBox = document.getElementById("DX_Main_Box");
     if (mainBox.dataset.isAnimating === "true") return;
     if (pageId === tPageId) {
       refreshPageData(tPageId);
@@ -8605,26 +8573,26 @@
     mainBox.dataset.isAnimating = "true";
 
     if (tPageId === "Extra") {
-      const lSel = document.getElementById("DR_League_Select");
+      const lSel = document.getElementById("DX_League_Select");
       if (lSel) {
-        const st = parseInt(localStorage.getItem("dr_league_target"));
+        const st = parseInt(localStorage.getItem("dx_league_target"));
         const tv = !isNaN(st) && st >= 1 && st <= 15 ? st : 1;
-        const lTxt = lSel.querySelector(".DR_Select_Text");
+        const lTxt = lSel.querySelector(".DX_Select_Text");
         if (lTxt) lTxt.innerText = `# ${tv}`;
         lSel.setAttribute("data-value", tv.toString());
       }
     }
 
     if (tPageId === "Settings") {
-      const qSel = document.getElementById("DR_EZQuizLength_Select");
+      const qSel = document.getElementById("DX_EZQuizLength_Select");
       if (qSel) {
-        const storedLen = localStorage.getItem("dr_ez_quiz_len") || "5";
-        const qTxt = qSel.querySelector(".DR_Select_Text");
+        const storedLen = localStorage.getItem("dx_ez_quiz_len") || "5";
+        const qTxt = qSel.querySelector(".DX_Select_Text");
         if (qTxt) {
           qTxt.innerText = storedLen === "default" ? "Default" : storedLen;
         }
         qSel.setAttribute("data-value", storedLen);
-        qSel.querySelectorAll(".DR_Select_Option").forEach((opt) => {
+        qSel.querySelectorAll(".DX_Select_Option").forEach((opt) => {
           opt.classList.toggle(
             "selected",
             opt.getAttribute("data-value") === storedLen,
@@ -8634,10 +8602,10 @@
     }
 
     const origPage = document.getElementById(
-      pageId === 1 ? "DR_Page_1" : `DR_Page_${pageId}`,
+      pageId === 1 ? "DX_Page_1" : `DX_Page_${pageId}`,
     );
     const tPage = document.getElementById(
-      tPageId === 1 ? "DR_Page_1" : `DR_Page_${tPageId}`,
+      tPageId === 1 ? "DX_Page_1" : `DX_Page_${tPageId}`,
     );
 
     if (!origPage || !tPage) {
@@ -8671,18 +8639,18 @@
       mainBox.style.width = "auto";
       mainBox.style.height = "auto";
       mainBox.style.maxHeight = "none";
-      mainBox.classList.remove("dr-scroll");
+      mainBox.classList.remove("dx-scroll");
 
-      let cTargetW = drPageWidth(tPageId);
+      let cTargetW = dxPageWidth(tPageId);
       mainBox.style.width = cTargetW + "px";
 
       const natH = mainBox.offsetHeight;
-      const maxH = drMaxHeight();
+      const maxH = dxMaxHeight();
       const needsScroll = natH > maxH;
       const finalH = Math.min(natH < 50 ? 200 : natH, maxH);
 
       mainBox.style.maxHeight = maxH + "px";
-      mainBox.classList.toggle("dr-scroll", needsScroll);
+      mainBox.classList.toggle("dx-scroll", needsScroll);
 
       mainBox.style.width = sW + "px";
       mainBox.style.height = sH + "px";
@@ -8718,8 +8686,8 @@
   }
 
   function toggleInf(idPre) {
-    const togBtn = document.getElementById(`DR_${idPre}_Hash`);
-    const inpEl = document.getElementById(`DR_${idPre}_Input`);
+    const togBtn = document.getElementById(`DX_${idPre}_Hash`);
+    const inpEl = document.getElementById(`DX_${idPre}_Input`);
     const inpWrap = inpEl.parentElement;
 
     togBtn.addEventListener("click", () => {
@@ -8728,16 +8696,16 @@
       if (isInf) {
         togBtn.innerHTML = icons.hash;
         togBtn.setAttribute("data-inf", "false");
-        togBtn.classList.remove("dr-inf-active");
-        inpWrap.classList.remove("dr-inf-hidden");
+        togBtn.classList.remove("dx-inf-active");
+        inpWrap.classList.remove("dx-inf-hidden");
         inpEl.disabled = false;
         inpEl.value = "";
       } else {
         togBtn.innerHTML =
-          icons.inf + '<span class="DR_Hash_Lbl">Infinite</span>';
+          icons.inf + '<span class="DX_Hash_Lbl">Infinite</span>';
         togBtn.setAttribute("data-inf", "true");
-        togBtn.classList.add("dr-inf-active");
-        inpWrap.classList.add("dr-inf-hidden");
+        togBtn.classList.add("dx-inf-active");
+        inpWrap.classList.add("dx-inf-hidden");
         inpEl.disabled = true;
         inpEl.value = "Infinity";
       }
@@ -8760,7 +8728,7 @@
     let infSel = false;
     let numVal = Infinity;
 
-    if (idPre !== "DR_League") {
+    if (idPre !== "DX_League") {
       const togBtn = document.getElementById(`${idPre}_Hash`);
       infSel = togBtn.getAttribute("data-inf") === "true";
 
@@ -8783,7 +8751,7 @@
         }
       }
     } else {
-      const selEl = document.getElementById("DR_League_Select");
+      const selEl = document.getElementById("DX_League_Select");
       numVal = selEl.getAttribute("data-value");
     }
 
@@ -8799,7 +8767,7 @@
     if (type === "league" && farmStates.xp) {
       showConfirmModal(() => {
         stopFarm("xp");
-        resetBtn("DR_XP_Btn", "RUN");
+        resetBtn("DX_XP_Btn", "RUN");
         startExecution();
       });
       return;
@@ -8813,19 +8781,19 @@
   function toggleAutoSolve(value) {
     if (value === "start") {
       window.dispatchEvent(
-        new CustomEvent("DR_TriggerSolveAll", { detail: { action: "start" } }),
+        new CustomEvent("DX_TriggerSolveAll", { detail: { action: "start" } }),
       );
     } else if (value === "stop") {
       window.dispatchEvent(
-        new CustomEvent("DR_TriggerSolveAll", { detail: { action: "stop" } }),
+        new CustomEvent("DX_TriggerSolveAll", { detail: { action: "stop" } }),
       );
     } else {
-      window.dispatchEvent(new CustomEvent("DR_TriggerSolveAll"));
+      window.dispatchEvent(new CustomEvent("DX_TriggerSolveAll"));
     }
   }
 
   async function runAutoSolve() {
-    window.dispatchEvent(new CustomEvent("DR_TriggerSolveOnce"));
+    window.dispatchEvent(new CustomEvent("DX_TriggerSolveOnce"));
   }
 
   function updateSolveButtonText(text) {
@@ -8970,11 +8938,11 @@
   }
 
   function applyEZQuiz() {
-    if (localStorage.getItem("dr_ez_quiz") !== "true") return;
-    if (document.getElementById("DR_EZQuiz_Script")) return;
-    const storedLen = localStorage.getItem("dr_ez_quiz_len") || "5";
+    if (localStorage.getItem("dx_ez_quiz") !== "true") return;
+    if (document.getElementById("DX_EZQuiz_Script")) return;
+    const storedLen = localStorage.getItem("dx_ez_quiz_len") || "5";
     const script = document.createElement("script");
-    script.id = "DR_EZQuiz_Script";
+    script.id = "DX_EZQuiz_Script";
     script.textContent = `
             (function() {
                 const ezQuizLen = "${storedLen}";
@@ -9052,9 +9020,9 @@
                                     data.titleCardShowMillis = 1;
                                     data.challenges = data.challenges.map(function(ch) {
                                         return Object.assign({}, ch, {
-                                            audioText: "DuoRain!",
+                                            audioText: "DuoXJS!",
                                             audioUrl: "data:audio/wav;base64,UklGRigAAABXQVZFZm10IBIAAAABAAEARKwAAIhYAQACABAAAABkYXRhAgAAAAEA",
-                                            prompt: "DuoRain by OracleMythix & oxGorou",
+                                            prompt: "DuoXJS by LibreDuo",
                                             isTrue: true,
                                             type: "radioBinary"
                                         });
@@ -9064,9 +9032,9 @@
                                             return {
                                                 type: "challenge",
                                                 challengeType: "binaryComprehension",
-                                                prompt: "DuoRain by OracleMythix & oxGorou",
+                                                prompt: "DuoXJS by LibreDuo",
                                                 isTrue: true,
-                                                audioText: "DuoRain!",
+                                                audioText: "DuoXJS!",
                                                 audioUrl: "data:audio/wav;base64,UklGRigAAABXQVZFZm10IBIAAAABAAEARKwAAIhYAQACABAAAABkYXRhAgAAAAEA",
                                                 durationMillis: 1,
                                                 guestAudioRanges: [],
@@ -9107,11 +9075,11 @@
                                             }
                                         },
                                         prompt: "What is the best tool for Duolingo?",
-                                        choices: ["DuoRain by OracleMythix & oxGorou"],
+                                        choices: ["DuoXJS by LibreDuo"],
                                         correctIndex: 0,
                                         options: [{
                                             tts: "data:audio/wav;base64,UklGRigAAABXQVZFZm10IBIAAAABAAEARKwAAIhYAQACABAAAABkYXRhAgAAAAEA",
-                                            text: "DuoRain by OracleMythix & oxGorou"
+                                            text: "DuoXJS by LibreDuo"
                                         }],
                                         type: "assist",
                                         id: "8f0c37fdc39049e8bb1d2f2a196e77fc",
@@ -9144,9 +9112,9 @@
                                             learning_language: ll,
                                             other_options: [],
                                             solution_key: "81d5f8beeb27d2b2f8234fea16cb9b20",
-                                            translation: "DuoRain",
+                                            translation: "DuoXJS",
                                             ui_language: fl,
-                                            word: "DuoRain",
+                                            word: "DuoXJS",
                                             language: ll,
                                             specific_type: "assist",
                                             lexeme_ids_to_update: [],
@@ -9233,18 +9201,18 @@
   }
 
   function applyPageSolver() {
-    if (document.getElementById("DR_PageSolver_Script")) return;
-    const autoSolver = localStorage.getItem("dr_auto_solver") === "true";
-    const randomSpeed = localStorage.getItem("dr_random_speed") === "true";
+    if (document.getElementById("DX_PageSolver_Script")) return;
+    const autoSolver = localStorage.getItem("dx_auto_solver") === "true";
+    const randomSpeed = localStorage.getItem("dx_random_speed") === "true";
     const solveSpeedMin =
-      parseFloat(localStorage.getItem("dr_solve_speed_min")) || 2.8;
+      parseFloat(localStorage.getItem("dx_solve_speed_min")) || 2.8;
     const solveSpeedMax =
-      parseFloat(localStorage.getItem("dr_solve_speed_max")) || 12.4;
+      parseFloat(localStorage.getItem("dx_solve_speed_max")) || 12.4;
     const solveSpeedFixed =
-      parseInt(localStorage.getItem("dr_solve_speed_fixed")) || 400;
+      parseInt(localStorage.getItem("dx_solve_speed_fixed")) || 400;
 
     const script = document.createElement("script");
-    script.id = "DR_PageSolver_Script";
+    script.id = "DX_PageSolver_Script";
     script.textContent = `
             (function() {
                 const initAutoSolver = ${autoSolver};
@@ -9275,11 +9243,11 @@
                     if ((flag === 2 && hasLoggedForCurrent === 0) || (flag === 3 && hasLoggedForCurrent === 2)) {
                         hasLoggedForCurrent++;
                         if (flag === 2) {
-                            window.dispatchEvent(new CustomEvent('DR_Notify', {
+                            window.dispatchEvent(new CustomEvent('DX_Notify', {
                                 detail: { type: 'error', title: 'Auto Solver', body: 'Solver has detected that it solved a question incorrectly.' }
                             }));
                         } else if (flag === 3) {
-                            window.dispatchEvent(new CustomEvent('DR_Notify', {
+                            window.dispatchEvent(new CustomEvent('DX_Notify', {
                                 detail: { type: 'error', title: 'Auto Solver', body: 'Solver has detected that it is stuck on a question.' }
                             }));
                         }
@@ -9299,7 +9267,7 @@
                         let nextButtonAriaValue = nextButtonAriaValueNormal || nextButtonAriaValueStoriesContinue || storiesDoneButton;
 
                         if (!nextButton) {
-                            const btns = Array.from(document.querySelectorAll('button:not(#DR_Root *), [role="button"]:not(#DR_Root *)'));
+                            const btns = Array.from(document.querySelectorAll('button:not(#DX_Root *), [role="button"]:not(#DX_Root *)'));
                             nextButton = btns.find(btn => {
                                 const txt = (btn.textContent || btn.innerText || "").toUpperCase().trim();
                                 return txt === "CONTINUE" || txt === "NO THANKS";
@@ -9349,7 +9317,7 @@
                             document.querySelector('[data-test="stories-player-done"]');
 
                         if (!nextButton) {
-                            const btns = Array.from(document.querySelectorAll('button:not(#DR_Root *), [role="button"]:not(#DR_Root *)'));
+                            const btns = Array.from(document.querySelectorAll('button:not(#DX_Root *), [role="button"]:not(#DX_Root *)'));
                             nextButton = btns.find(btn => {
                                 const txt = (btn.textContent || btn.innerText || "").toUpperCase().trim();
                                 return txt === "CONTINUE" || txt === "NO THANKS";
@@ -9936,30 +9904,30 @@
                             if (!hasDecrementedForCurrentLesson) {
                                 hasDecrementedForCurrentLesson = true;
                                 window.dispatchEvent(
-                                    new CustomEvent('DR_LessonCompleted')
+                                    new CustomEvent('DX_LessonCompleted')
                                 );
                             }
                             if (practiceAgain) {
                                 const autoPath =
-                                    localStorage.getItem('dr_auto_path') ===
+                                    localStorage.getItem('dx_auto_path') ===
                                     'true';
                                 const autoPractice =
                                     localStorage.getItem(
-                                        'dr_auto_practice'
+                                        'dx_auto_practice'
                                     ) === 'true';
                                 const pathRem =
                                     parseInt(
-                                        localStorage.getItem('dr_path_rem')
+                                        localStorage.getItem('dx_path_rem')
                                     ) || 0;
                                 const practiceRem =
                                     parseInt(
-                                        localStorage.getItem('dr_practice_rem')
+                                        localStorage.getItem('dx_practice_rem')
                                     ) || 0;
                                 const pathInf =
-                                    localStorage.getItem('dr_path_inf') ===
+                                    localStorage.getItem('dx_path_inf') ===
                                     'true';
                                 const practiceInf =
-                                    localStorage.getItem('dr_practice_inf') ===
+                                    localStorage.getItem('dx_practice_inf') ===
                                     'true';
                                 const pathActive =
                                     autoPath && (pathInf || pathRem > 0);
@@ -10102,7 +10070,7 @@
                         if (btn) btn.innerText = isAutoMode ? "PAUSE SOLVE" : "SOLVE ALL";
                     } catch {}
 
-                    window.dispatchEvent(new CustomEvent('DR_StateSync', { detail: { isAutoMode: isAutoMode } }));
+                    window.dispatchEvent(new CustomEvent('DX_StateSync', { detail: { isAutoMode: isAutoMode } }));
 
                     function startSolvingLoop(runToken) {
                         if (solvingLoopRunning || !isAutoMode || runToken !== solveAllRunToken) return;
@@ -10118,17 +10086,17 @@
                                         const btn = document.getElementById("solveAllButton");
                                         if (btn) btn.innerText = "SOLVE ALL";
                                     } catch {}
-                                    window.dispatchEvent(new CustomEvent('DR_StateSync', { detail: { isAutoMode: false } }));
+                                    window.dispatchEvent(new CustomEvent('DX_StateSync', { detail: { isAutoMode: false } }));
                                     break;
                                 }
 
                                 const startTime = Date.now();
-                                const randomSpeedEnabled = localStorage.getItem('dr_random_speed') !== null
-                                    ? localStorage.getItem('dr_random_speed') === 'true'
+                                const randomSpeedEnabled = localStorage.getItem('dx_random_speed') !== null
+                                    ? localStorage.getItem('dx_random_speed') === 'true'
                                     : initRandomSpeed;
-                                const solveSpeedMin = parseFloat(localStorage.getItem('dr_solve_speed_min')) || initSolveSpeedMin;
-                                const solveSpeedMax = parseFloat(localStorage.getItem('dr_solve_speed_max')) || initSolveSpeedMax;
-                                const solveSpeedFixed = parseInt(localStorage.getItem('dr_solve_speed_fixed')) || initSolveSpeedFixed;
+                                const solveSpeedMin = parseFloat(localStorage.getItem('dx_solve_speed_min')) || initSolveSpeedMin;
+                                const solveSpeedMax = parseFloat(localStorage.getItem('dx_solve_speed_max')) || initSolveSpeedMax;
+                                const solveSpeedFixed = parseInt(localStorage.getItem('dx_solve_speed_fixed')) || initSolveSpeedFixed;
 
                                 const targetDelay = randomSpeedEnabled
                                     ? Math.floor((
@@ -10166,24 +10134,24 @@
                 window.toggleAutoSolve = toggleAutoSolve;
                 window.runAutoSolve = runAutoSolve;
 
-                window.addEventListener('DR_TriggerSolveAll', (e) => {
+                window.addEventListener('DX_TriggerSolveAll', (e) => {
                     let action = e && e.detail && e.detail.action;
                     toggleAutoSolve(action);
                 });
 
-                window.addEventListener('DR_TriggerSolveOnce', () => {
+                window.addEventListener('DX_TriggerSolveOnce', () => {
                     runAutoSolve();
                 });
 
-                window.addEventListener('DR_StopSolver', () => {
+                window.addEventListener('DX_StopSolver', () => {
                     toggleAutoSolve("stop");
                 });
 
                 setInterval(() => {
                     const isLesson = window.location.pathname.includes('/lesson') || window.location.pathname.includes('/practice') || window.location.pathname.includes('/stories');
                     if (isLesson) {
-                        const autoSolverVal = localStorage.getItem('dr_auto_solver') !== null
-                            ? localStorage.getItem('dr_auto_solver') === 'true'
+                        const autoSolverVal = localStorage.getItem('dx_auto_solver') !== null
+                            ? localStorage.getItem('dx_auto_solver') === 'true'
                             : initAutoSolver;
                         if (autoSolverVal && !isAutoMode) {
                             toggleAutoSolve('start');
@@ -10200,26 +10168,26 @@
   }
 
   function updatePathRemainingUI() {
-    const pathInput = document.getElementById("DR_Path_Input");
+    const pathInput = document.getElementById("DX_Path_Input");
     if (pathInput) {
       if (pathLessonsRemaining === Infinity) {
         pathInput.value = "Infinity";
       } else {
         pathInput.value = pathLessonsRemaining;
-        localStorage.setItem("dr_path_rem", String(pathLessonsRemaining));
+        localStorage.setItem("dx_path_rem", String(pathLessonsRemaining));
       }
     }
   }
 
   function updatePracticeRemainingUI() {
-    const pracInput = document.getElementById("DR_Practice_Input");
+    const pracInput = document.getElementById("DX_Practice_Input");
     if (pracInput) {
       if (practiceLessonsRemaining === Infinity) {
         pracInput.value = "Infinity";
       } else {
         pracInput.value = practiceLessonsRemaining;
         localStorage.setItem(
-          "dr_practice_rem",
+          "dx_practice_rem",
           String(practiceLessonsRemaining),
         );
       }
@@ -10229,15 +10197,15 @@
   function initApp() {
     checkTheme();
 
-    window.addEventListener("DR_Notify", (e) => {
+    window.addEventListener("DX_Notify", (e) => {
       if (e.detail) notify(e.detail.type, e.detail.title, e.detail.body);
     });
 
-    window.addEventListener("DR_ResetBtn", (e) => {
+    window.addEventListener("DX_ResetBtn", (e) => {
       if (e.detail) resetBtn(e.detail.id, e.detail.text);
     });
 
-    window.addEventListener("DR_StateSync", (e) => {
+    window.addEventListener("DX_StateSync", (e) => {
       if (e.detail && typeof e.detail.isAutoMode !== "undefined") {
         isAutoMode = e.detail.isAutoMode;
         updateSolveButtonText(isAutoMode ? "PAUSE SOLVE" : "SOLVE ALL");
@@ -10247,7 +10215,7 @@
       }
     });
 
-    window.addEventListener("DR_LessonCompleted", () => {
+    window.addEventListener("DX_LessonCompleted", () => {
       if (!hasDecrementedForCurrentLesson) {
         hasDecrementedForCurrentLesson = true;
 
@@ -10257,15 +10225,15 @@
             updatePathRemainingUI();
             if (pathLessonsRemaining === 0) {
               autoPathEnabled = false;
-              localStorage.setItem("dr_auto_path", "false");
-              const pathBtn = document.getElementById("DR_AutoPath_Btn");
-              if (pathBtn) resetBtn("DR_AutoPath_Btn", "RUN");
+              localStorage.setItem("dx_auto_path", "false");
+              const pathBtn = document.getElementById("DX_AutoPath_Btn");
+              if (pathBtn) resetBtn("DX_AutoPath_Btn", "RUN");
               notify(
                 "success",
                 "Path Solver Target Reached",
                 "Specified number of lessons solved. Stopping...",
               );
-              window.dispatchEvent(new CustomEvent("DR_StopSolver"));
+              window.dispatchEvent(new CustomEvent("DX_StopSolver"));
             }
           }
         }
@@ -10279,15 +10247,15 @@
             updatePracticeRemainingUI();
             if (practiceLessonsRemaining === 0) {
               autoPracticeEnabled = false;
-              localStorage.setItem("dr_auto_practice", "false");
-              const pracBtn = document.getElementById("DR_AutoPractice_Btn");
-              if (pracBtn) resetBtn("DR_AutoPractice_Btn", "RUN");
+              localStorage.setItem("dx_auto_practice", "false");
+              const pracBtn = document.getElementById("DX_AutoPractice_Btn");
+              if (pracBtn) resetBtn("DX_AutoPractice_Btn", "RUN");
               notify(
                 "success",
                 "Practice Solver Target Reached",
                 "Specified number of lessons solved. Stopping...",
               );
-              window.dispatchEvent(new CustomEvent("DR_StopSolver"));
+              window.dispatchEvent(new CustomEvent("DX_StopSolver"));
             }
           }
         }
@@ -10295,18 +10263,18 @@
     });
 
     if (uiHidden) {
-      const togHide = document.getElementById("duorain-hide-button");
-      const wrap = document.getElementById("DR_Main");
-      const mBox = document.getElementById("DR_Main_Box");
+      const togHide = document.getElementById("duoxjs-hide-button");
+      const wrap = document.getElementById("DX_Main");
+      const mBox = document.getElementById("DX_Main_Box");
       const lblTxt = document.getElementById("hide-show-text");
 
-      if (togHide) togHide.classList.add("duorain-show-mode");
+      if (togHide) togHide.classList.add("duoxjs-show-mode");
       if (lblTxt) lblTxt.innerText = "Show";
       if (mBox) {
-        mBox.classList.add("dr-hidden");
-        mBox.classList.add("dr-collapsed");
+        mBox.classList.add("dx-hidden");
+        mBox.classList.add("dx-collapsed");
       }
-      if (wrap) wrap.classList.add("dr-panel-hidden");
+      if (wrap) wrap.classList.add("dx-panel-hidden");
     }
 
     applyLocalMax();
@@ -10338,110 +10306,110 @@
     ["XP", "Gem", "Streak", "Path", "Practice"].forEach(toggleInf);
 
     document
-      .getElementById("DR_TopSettings_Btn")
+      .getElementById("DX_TopSettings_Btn")
       .addEventListener("click", () => changePage("Settings"));
-    document.getElementById("DR_Update_Btn").addEventListener("click", () => {
-      window.open(drUpdatePageUrl, "_blank");
+    document.getElementById("DX_Update_Btn").addEventListener("click", () => {
+      window.open(dxUpdatePageUrl, "_blank");
     });
     document
-      .getElementById("DR_Settings_Back_Btn")
+      .getElementById("DX_Settings_Back_Btn")
       .addEventListener("click", () => changePage(1));
     document
-      .getElementById("DR_Version_Btn")
+      .getElementById("DX_Version_Btn")
       .addEventListener("click", () => changePage("Stats"));
     document
-      .getElementById("DR_Stats_Back_Btn")
+      .getElementById("DX_Stats_Back_Btn")
       .addEventListener("click", () => changePage(1));
     document
-      .getElementById("DR_AutoSolver_Btn")
+      .getElementById("DX_AutoSolver_Btn")
       .addEventListener("click", () => changePage("AutoSolver"));
     document
-      .getElementById("DR_Automations_Btn")
+      .getElementById("DX_Automations_Btn")
       .addEventListener("click", () => changePage("Automations"));
     document
-      .getElementById("DR_AutoSolver_Back_Btn")
+      .getElementById("DX_AutoSolver_Back_Btn")
       .addEventListener("click", () => changePage("Settings"));
     document
-      .getElementById("DR_Automations_Back_Btn")
+      .getElementById("DX_Automations_Back_Btn")
       .addEventListener("click", () => changePage("Settings"));
     document
-      .getElementById("DR_Extra_Btn")
+      .getElementById("DX_Extra_Btn")
       .addEventListener("click", () => changePage("Extra"));
     document
-      .getElementById("DR_Extra_Back_Btn")
+      .getElementById("DX_Extra_Back_Btn")
       .addEventListener("click", () => changePage(1));
     document
-      .getElementById("DR_Shop_Btn")
+      .getElementById("DX_Shop_Btn")
       .addEventListener("click", () => changePage("Shop"));
     document
-      .getElementById("DR_Shop_Back_Btn")
+      .getElementById("DX_Shop_Back_Btn")
       .addEventListener("click", () => changePage("Extra"));
     document
-      .getElementById("DR_Quest_Nav_Btn")
+      .getElementById("DX_Quest_Nav_Btn")
       .addEventListener("click", () => changePage("Quests"));
     document
-      .getElementById("DR_Quests_Back_Btn")
+      .getElementById("DX_Quests_Back_Btn")
       .addEventListener("click", () => changePage("Extra"));
     document
-      .getElementById("DR_Tools_Nav_Btn")
+      .getElementById("DX_Tools_Nav_Btn")
       .addEventListener("click", () => changePage("Tools"));
     document
-      .getElementById("DR_Tools_Back_Btn")
+      .getElementById("DX_Tools_Back_Btn")
       .addEventListener("click", () => changePage("Extra"));
     document
-      .getElementById("DR_Board_Nav_Btn")
+      .getElementById("DX_Board_Nav_Btn")
       .addEventListener("click", () => {
-        const cont = document.getElementById("DR_Board_Container");
+        const cont = document.getElementById("DX_Board_Container");
         if (cont && cont.dataset.loaded !== "1") {
-          cont.innerHTML = `<p class="DR_T2 DR_NoSel" style="text-align: center; padding: 8px 0;">Loading...</p>`;
+          cont.innerHTML = `<p class="DX_T2 DX_NoSel" style="text-align: center; padding: 8px 0;">Loading...</p>`;
         }
         changePage("Board");
       });
     document
-      .getElementById("DR_Board_Back_Btn")
+      .getElementById("DX_Board_Back_Btn")
       .addEventListener("click", () => changePage("Extra"));
 
     document
-      .getElementById("DR_Feed_Nav_Btn")
+      .getElementById("DX_Feed_Nav_Btn")
       .addEventListener("click", () => changePage("Feed"));
     document
-      .getElementById("DR_Feed_Back_Btn")
+      .getElementById("DX_Feed_Back_Btn")
       .addEventListener("click", () => changePage("Extra"));
 
     document
-      .getElementById("DR_XPSummaries_Btn")
+      .getElementById("DX_XPSummaries_Btn")
       .addEventListener("click", () => changePage("XPSummaries"));
     document
-      .getElementById("DR_XPSummaries_Back_Btn")
+      .getElementById("DX_XPSummaries_Back_Btn")
       .addEventListener("click", () => changePage("Extra"));
 
     document
-      .getElementById("DR_AccMgr_Back_Btn")
+      .getElementById("DX_AccMgr_Back_Btn")
       .addEventListener("click", () => changePage(1));
     document
-      .getElementById("DR_AccSave_Btn")
+      .getElementById("DX_AccSave_Btn")
       .addEventListener("click", () => accSaveCurrent());
 
-    document.getElementById("DR_Gift_Btn").addEventListener("click", () => {
-      const uname = document.getElementById("DR_Tools_User").value;
+    document.getElementById("DX_Gift_Btn").addEventListener("click", () => {
+      const uname = document.getElementById("DX_Tools_User").value;
       const gtype = document
-        .getElementById("DR_Gift_Select")
+        .getElementById("DX_Gift_Select")
         .getAttribute("data-value");
       sendGift(uname, gtype);
     });
 
-    document.getElementById("DR_Friend_Btn").addEventListener("click", () => {
-      const uname = document.getElementById("DR_Tools_User").value;
+    document.getElementById("DX_Friend_Btn").addEventListener("click", () => {
+      const uname = document.getElementById("DX_Tools_User").value;
       const mode = document
-        .getElementById("DR_Friend_Select")
+        .getElementById("DX_Friend_Select")
         .getAttribute("data-value");
       forceFriend(uname, mode);
     });
 
     document
-      .getElementById("duorain-hide-button")
+      .getElementById("duoxjs-hide-button")
       .addEventListener("click", () => {
-        const togHide = document.getElementById("duorain-hide-button");
+        const togHide = document.getElementById("duoxjs-hide-button");
         if (togHide.dataset.dragged === "1") {
           togHide.dataset.dragged = "";
           return;
@@ -10449,55 +10417,55 @@
         setUiHiddenState(!uiHidden);
       });
 
-    document.getElementById("DR_XP_Btn").addEventListener("click", () => {
-      runTask("xp", "DR_XP");
+    document.getElementById("DX_XP_Btn").addEventListener("click", () => {
+      runTask("xp", "DX_XP");
     });
 
-    document.getElementById("DR_Gem_Btn").addEventListener("click", () => {
-      runTask("gem", "DR_Gem");
+    document.getElementById("DX_Gem_Btn").addEventListener("click", () => {
+      runTask("gem", "DX_Gem");
     });
 
-    document.getElementById("DR_Streak_Btn").addEventListener("click", () => {
-      runTask("streak", "DR_Streak");
+    document.getElementById("DX_Streak_Btn").addEventListener("click", () => {
+      runTask("streak", "DX_Streak");
     });
 
-    document.getElementById("DR_League_Btn").addEventListener("click", () => {
-      runTask("league", "DR_League");
+    document.getElementById("DX_League_Btn").addEventListener("click", () => {
+      runTask("league", "DX_League");
     });
 
     document
-      .getElementById("DR_Quest_Force_Btn")
+      .getElementById("DX_Quest_Force_Btn")
       .addEventListener("click", () => {
         forceQuests();
       });
 
-    document.getElementById("DR_Block_Btn").addEventListener("click", () => {
-      const name = document.getElementById("DR_Tools_User").value.trim();
+    document.getElementById("DX_Block_Btn").addEventListener("click", () => {
+      const name = document.getElementById("DX_Tools_User").value.trim();
       if (!name) {
         notify("warning", "Block / Unblock", "Please enter a username.");
         return;
       }
       const mode = document
-        .getElementById("DR_Block_Select")
+        .getElementById("DX_Block_Select")
         .getAttribute("data-value");
       blockTarget(name, mode === "unblock");
     });
 
     document
-      .getElementById("DR_FollowSingle_Btn")
+      .getElementById("DX_FollowSingle_Btn")
       .addEventListener("click", () => {
-        const name = document.getElementById("DR_Tools_User").value.trim();
+        const name = document.getElementById("DX_Tools_User").value.trim();
         if (!name) {
           notify("warning", "Follow / Unfollow", "Please enter a username.");
           return;
         }
         const mode = document
-          .getElementById("DR_FollowSingle_Select")
+          .getElementById("DX_FollowSingle_Select")
           .getAttribute("data-value");
         followTarget(name, mode === "unfollow");
       });
 
-    document.getElementById("DR_Follow_Btn").addEventListener("click", () => {
+    document.getElementById("DX_Follow_Btn").addEventListener("click", () => {
       if (farmStates.follow) {
         massFollow();
         return;
@@ -10507,14 +10475,14 @@
         return;
       }
       const mode = document
-        .getElementById("DR_Follow_Select")
+        .getElementById("DX_Follow_Select")
         .getAttribute("data-value");
       if (mode === "unfollow") massUnfollow();
       else massFollow();
     });
 
     document
-      .getElementById("DR_Block_Mass_Btn")
+      .getElementById("DX_Block_Mass_Btn")
       .addEventListener("click", () => {
         if (farmStates.blockmass) {
           massBlock();
@@ -10525,14 +10493,14 @@
           return;
         }
         const mode = document
-          .getElementById("DR_BlockMass_Select")
+          .getElementById("DX_BlockMass_Select")
           .getAttribute("data-value");
         if (mode === "unblock") massUnblock();
         else massBlock();
       });
 
-    document.getElementById("DR_Hearts_Btn").addEventListener("click", () => {
-      const count = parseInt(document.getElementById("DR_Hearts_Input").value);
+    document.getElementById("DX_Hearts_Btn").addEventListener("click", () => {
+      const count = parseInt(document.getElementById("DX_Hearts_Input").value);
       if (isNaN(count) || count < 1 || count > 5) {
         notify("warning", "Remove Hearts", "Enter a number between 1 and 5.");
         return;
@@ -10541,15 +10509,15 @@
     });
 
     document
-      .getElementById("DR_Board_Status_Btn")
+      .getElementById("DX_Board_Status_Btn")
       .addEventListener("click", openStatusPicker);
     document
-      .getElementById("DR_Status_Back_Btn")
+      .getElementById("DX_Status_Back_Btn")
       .addEventListener("click", () => {
         changePage("Board");
       });
     document
-      .getElementById("DR_Status_Search")
+      .getElementById("DX_Status_Search")
       .addEventListener("input", (event) => {
         showStatuses(event.target.value);
       });
@@ -10566,125 +10534,125 @@
       });
     };
 
-    wireToggle("DR_LocalMax_Toggle", "dr_local_max", () => {
+    wireToggle("DX_LocalMax_Toggle", "dx_local_max", () => {
       notify("info", "On-Client Max", "Reloading page to apply the change...");
       setTimeout(() => window.location.reload(), 1200);
     });
-    wireToggle("DR_SafeStreak_Toggle", "dr_safe_streak", () => {});
-    wireToggle("DR_AutoJoin_Toggle", "dr_auto_join_league", () => {
+    wireToggle("DX_SafeStreak_Toggle", "dx_safe_streak", () => {});
+    wireToggle("DX_AutoJoin_Toggle", "dx_auto_join_league", () => {
       leagueJoinAttempted = false;
     });
-    wireToggle("DR_AutoReach_Toggle", "dr_auto_reach_rank", (on) => {
+    wireToggle("DX_AutoReach_Toggle", "dx_auto_reach_rank", (on) => {
       if (on) autoReachRank();
     });
-    wireToggle("DR_AutoStreak_Toggle", "dr_auto_keep_streak", (on) => {
+    wireToggle("DX_AutoStreak_Toggle", "dx_auto_keep_streak", (on) => {
       if (on) autoKeepStreak();
     });
-    wireToggle("DR_AutoBlock_Toggle", "dr_auto_block_league", (on) => {
+    wireToggle("DX_AutoBlock_Toggle", "dx_auto_block_league", (on) => {
       if (on) autoBlockLeague();
     });
-    wireToggle("DR_AutoQuest_Toggle", "dr_auto_quest_saver", (on) => {
+    wireToggle("DX_AutoQuest_Toggle", "dx_auto_quest_saver", (on) => {
       if (on) refreshQuestCenter();
     });
 
-    wireToggle("DR_SolverButtons_Toggle", "dr_solver_buttons", (on) => {
+    wireToggle("DX_SolverButtons_Toggle", "dx_solver_buttons", (on) => {
       solverButtonsEnabled = on;
     });
-    if (localStorage.getItem("dr_solver_buttons") === null) {
-      const el = document.getElementById("DR_SolverButtons_Toggle");
+    if (localStorage.getItem("dx_solver_buttons") === null) {
+      const el = document.getElementById("DX_SolverButtons_Toggle");
       if (el) el.classList.add("on");
     }
-    wireToggle("DR_AutoSolver_Toggle", "dr_auto_solver", (on) => {
+    wireToggle("DX_AutoSolver_Toggle", "dx_auto_solver", (on) => {
       autoSolverEnabled = on;
       toggleAutoSolve(on ? "start" : "stop");
     });
-    wireToggle("DR_RandomSpeed_Toggle", "dr_random_speed", (on) => {
+    wireToggle("DX_RandomSpeed_Toggle", "dx_random_speed", (on) => {
       randomSpeedEnabled = on;
     });
-    wireToggle("DR_EZQuiz_Toggle", "dr_ez_quiz", () => {
+    wireToggle("DX_EZQuiz_Toggle", "dx_ez_quiz", () => {
       clearPrefetchedSessionsCache();
       notify("info", "EZ Quiz", "Reloading page to apply the change...");
       setTimeout(() => window.location.reload(), 1200);
     });
 
-    const sSpdInp = document.getElementById("DR_SolveSpeed_Input");
+    const sSpdInp = document.getElementById("DX_SolveSpeed_Input");
     if (sSpdInp) {
       sSpdInp.value = solveSpeedFixed;
       sSpdInp.addEventListener("change", () => {
         const nVal = parseInt(sSpdInp.value);
         solveSpeedFixed = isNaN(nVal) ? 400 : Math.max(50, nVal);
         sSpdInp.value = solveSpeedFixed;
-        localStorage.setItem("dr_solve_speed_fixed", solveSpeedFixed);
+        localStorage.setItem("dx_solve_speed_fixed", solveSpeedFixed);
       });
     }
 
-    const sSpdMinInp = document.getElementById("DR_SolveSpeedMin_Input");
+    const sSpdMinInp = document.getElementById("DX_SolveSpeedMin_Input");
     if (sSpdMinInp) {
       sSpdMinInp.value = solveSpeedMin;
       sSpdMinInp.addEventListener("change", () => {
         const nVal = parseFloat(sSpdMinInp.value);
         solveSpeedMin = isNaN(nVal) ? 2.8 : Math.max(0.1, nVal);
         sSpdMinInp.value = solveSpeedMin;
-        localStorage.setItem("dr_solve_speed_min", solveSpeedMin);
+        localStorage.setItem("dx_solve_speed_min", solveSpeedMin);
       });
     }
 
-    const sSpdMaxInp = document.getElementById("DR_SolveSpeedMax_Input");
+    const sSpdMaxInp = document.getElementById("DX_SolveSpeedMax_Input");
     if (sSpdMaxInp) {
       sSpdMaxInp.value = solveSpeedMax;
       sSpdMaxInp.addEventListener("change", () => {
         const nVal = parseFloat(sSpdMaxInp.value);
         solveSpeedMax = isNaN(nVal) ? 12.4 : Math.max(solveSpeedMin, nVal);
         sSpdMaxInp.value = solveSpeedMax;
-        localStorage.setItem("dr_solve_speed_max", solveSpeedMax);
+        localStorage.setItem("dx_solve_speed_max", solveSpeedMax);
       });
     }
 
-    const autoPathBtn = document.getElementById("DR_AutoPath_Btn");
+    const autoPathBtn = document.getElementById("DX_AutoPath_Btn");
     if (autoPathBtn) {
       if (autoPathEnabled) {
-        stopBtn("DR_AutoPath_Btn");
-        const pathInf = localStorage.getItem("dr_path_inf") === "true";
-        const pathRem = parseInt(localStorage.getItem("dr_path_rem")) || 1;
+        stopBtn("DX_AutoPath_Btn");
+        const pathInf = localStorage.getItem("dx_path_inf") === "true";
+        const pathRem = parseInt(localStorage.getItem("dx_path_rem")) || 1;
         pathLessonsRemaining = pathInf ? Infinity : pathRem;
-        const pathHash = document.getElementById("DR_Path_Hash");
-        const pathInput = document.getElementById("DR_Path_Input");
+        const pathHash = document.getElementById("DX_Path_Hash");
+        const pathInput = document.getElementById("DX_Path_Input");
         if (pathHash && pathInput) {
           if (pathInf) {
             pathHash.innerHTML =
-              icons.inf + '<span class="DR_Hash_Lbl">Infinite</span>';
+              icons.inf + '<span class="DX_Hash_Lbl">Infinite</span>';
             pathHash.setAttribute("data-inf", "true");
-            pathHash.classList.add("dr-inf-active");
-            pathInput.parentElement.classList.add("dr-inf-hidden");
+            pathHash.classList.add("dx-inf-active");
+            pathInput.parentElement.classList.add("dx-inf-hidden");
             pathInput.disabled = true;
             pathInput.value = "Infinity";
           } else {
             pathHash.innerHTML = icons.hash;
             pathHash.setAttribute("data-inf", "false");
-            pathHash.classList.remove("dr-inf-active");
-            pathInput.parentElement.classList.remove("dr-inf-hidden");
+            pathHash.classList.remove("dx-inf-active");
+            pathInput.parentElement.classList.remove("dx-inf-hidden");
             pathInput.disabled = false;
             pathInput.value = pathRem;
           }
         }
       } else {
-        resetBtn("DR_AutoPath_Btn", "RUN");
+        resetBtn("DX_AutoPath_Btn", "RUN");
       }
 
       autoPathBtn.addEventListener("click", () => {
         if (autoPathEnabled) {
           autoPathEnabled = false;
-          localStorage.setItem("dr_auto_path", "false");
-          resetBtn("DR_AutoPath_Btn", "RUN");
+          localStorage.setItem("dx_auto_path", "false");
+          resetBtn("DX_AutoPath_Btn", "RUN");
           notify("info", "Auto Path", "Auto Path Solver stopped.");
         } else {
           if (autoPracticeEnabled) {
             autoPracticeEnabled = false;
-            localStorage.setItem("dr_auto_practice", "false");
-            resetBtn("DR_AutoPractice_Btn", "RUN");
+            localStorage.setItem("dx_auto_practice", "false");
+            resetBtn("DX_AutoPractice_Btn", "RUN");
           }
-          const pathHash = document.getElementById("DR_Path_Hash");
-          const pathInput = document.getElementById("DR_Path_Input");
+          const pathHash = document.getElementById("DX_Path_Hash");
+          const pathInput = document.getElementById("DX_Path_Input");
           const isInf =
             pathHash && pathHash.getAttribute("data-inf") === "true";
           let lessonsCount = Infinity;
@@ -10702,16 +10670,16 @@
           }
           autoPathEnabled = true;
           pathLessonsRemaining = lessonsCount;
-          localStorage.setItem("dr_auto_path", "true");
-          localStorage.setItem("dr_path_inf", isInf ? "true" : "false");
+          localStorage.setItem("dx_auto_path", "true");
+          localStorage.setItem("dx_path_inf", isInf ? "true" : "false");
           localStorage.setItem(
-            "dr_path_rem",
+            "dx_path_rem",
             isInf ? "0" : String(lessonsCount),
           );
-          stopBtn("DR_AutoPath_Btn");
+          stopBtn("DX_AutoPath_Btn");
           autoSolverEnabled = true;
-          localStorage.setItem("dr_auto_solver", "true");
-          const solverTog = document.getElementById("DR_AutoSolver_Toggle");
+          localStorage.setItem("dx_auto_solver", "true");
+          const solverTog = document.getElementById("DX_AutoSolver_Toggle");
           if (solverTog) solverTog.classList.add("on");
           notify(
             "success",
@@ -10722,51 +10690,51 @@
       });
     }
 
-    const autoPracticeBtn = document.getElementById("DR_AutoPractice_Btn");
+    const autoPracticeBtn = document.getElementById("DX_AutoPractice_Btn");
     if (autoPracticeBtn) {
       if (autoPracticeEnabled) {
-        stopBtn("DR_AutoPractice_Btn");
-        const pracInf = localStorage.getItem("dr_practice_inf") === "true";
-        const pracRem = parseInt(localStorage.getItem("dr_practice_rem")) || 1;
+        stopBtn("DX_AutoPractice_Btn");
+        const pracInf = localStorage.getItem("dx_practice_inf") === "true";
+        const pracRem = parseInt(localStorage.getItem("dx_practice_rem")) || 1;
         practiceLessonsRemaining = pracInf ? Infinity : pracRem;
-        const pracHash = document.getElementById("DR_Practice_Hash");
-        const pracInput = document.getElementById("DR_Practice_Input");
+        const pracHash = document.getElementById("DX_Practice_Hash");
+        const pracInput = document.getElementById("DX_Practice_Input");
         if (pracHash && pracInput) {
           if (pracInf) {
             pracHash.innerHTML =
-              icons.inf + '<span class="DR_Hash_Lbl">Infinite</span>';
+              icons.inf + '<span class="DX_Hash_Lbl">Infinite</span>';
             pracHash.setAttribute("data-inf", "true");
-            pracHash.classList.add("dr-inf-active");
-            pracInput.parentElement.classList.add("dr-inf-hidden");
+            pracHash.classList.add("dx-inf-active");
+            pracInput.parentElement.classList.add("dx-inf-hidden");
             pracInput.disabled = true;
             pracInput.value = "Infinity";
           } else {
             pracHash.innerHTML = icons.hash;
             pracHash.setAttribute("data-inf", "false");
-            pracHash.classList.remove("dr-inf-active");
-            pracInput.parentElement.classList.remove("dr-inf-hidden");
+            pracHash.classList.remove("dx-inf-active");
+            pracInput.parentElement.classList.remove("dx-inf-hidden");
             pracInput.disabled = false;
             pracInput.value = pracRem;
           }
         }
       } else {
-        resetBtn("DR_AutoPractice_Btn", "RUN");
+        resetBtn("DX_AutoPractice_Btn", "RUN");
       }
 
       autoPracticeBtn.addEventListener("click", () => {
         if (autoPracticeEnabled) {
           autoPracticeEnabled = false;
-          localStorage.setItem("dr_auto_practice", "false");
-          resetBtn("DR_AutoPractice_Btn", "RUN");
+          localStorage.setItem("dx_auto_practice", "false");
+          resetBtn("DX_AutoPractice_Btn", "RUN");
           notify("info", "Auto Practice", "Auto Practice Mode stopped.");
         } else {
           if (autoPathEnabled) {
             autoPathEnabled = false;
-            localStorage.setItem("dr_auto_path", "false");
-            resetBtn("DR_AutoPath_Btn", "RUN");
+            localStorage.setItem("dx_auto_path", "false");
+            resetBtn("DX_AutoPath_Btn", "RUN");
           }
-          const pracHash = document.getElementById("DR_Practice_Hash");
-          const pracInput = document.getElementById("DR_Practice_Input");
+          const pracHash = document.getElementById("DX_Practice_Hash");
+          const pracInput = document.getElementById("DX_Practice_Input");
           const isInf =
             pracHash && pracHash.getAttribute("data-inf") === "true";
           let lessonsCount = Infinity;
@@ -10784,16 +10752,16 @@
           }
           autoPracticeEnabled = true;
           practiceLessonsRemaining = lessonsCount;
-          localStorage.setItem("dr_auto_practice", "true");
-          localStorage.setItem("dr_practice_inf", isInf ? "true" : "false");
+          localStorage.setItem("dx_auto_practice", "true");
+          localStorage.setItem("dx_practice_inf", isInf ? "true" : "false");
           localStorage.setItem(
-            "dr_practice_rem",
+            "dx_practice_rem",
             isInf ? "0" : String(lessonsCount),
           );
-          stopBtn("DR_AutoPractice_Btn");
+          stopBtn("DX_AutoPractice_Btn");
           autoSolverEnabled = true;
-          localStorage.setItem("dr_auto_solver", "true");
-          const solverTog = document.getElementById("DR_AutoSolver_Toggle");
+          localStorage.setItem("dx_auto_solver", "true");
+          const solverTog = document.getElementById("DX_AutoSolver_Toggle");
           if (solverTog) solverTog.classList.add("on");
           notify(
             "success",
@@ -10805,7 +10773,7 @@
     }
 
     showStats();
-    document.getElementById("DR_Stats_Reset").addEventListener("click", () => {
+    document.getElementById("DX_Stats_Reset").addEventListener("click", () => {
       for (const kind in statKeys) {
         localStorage.removeItem(statKeys[kind]);
       }
@@ -10814,31 +10782,31 @@
     });
 
     document
-      .getElementById("DR_Shop_Search")
+      .getElementById("DX_Shop_Search")
       .addEventListener("input", (event) => {
         showShop(event.target.value);
       });
 
     document
-      .getElementById("DR_Quest_Search")
+      .getElementById("DX_Quest_Search")
       .addEventListener("input", (event) => {
         showQuests(event.target.value);
       });
 
-    const dInp = document.getElementById("DR_Delay_Input");
+    const dInp = document.getElementById("DX_Delay_Input");
     dInp.value = delayMs;
 
     dInp.addEventListener("change", () => {
       const nVal = parseInt(dInp.value);
       delayMs = isNaN(nVal) ? 100 : Math.min(60000, Math.max(50, nVal));
       dInp.value = delayMs;
-      localStorage.setItem("dr_delay", delayMs);
+      localStorage.setItem("dx_delay", delayMs);
     });
 
-    const roomInp = document.getElementById("DR_XpRoom_Input");
-    const rawRoom = localStorage.getItem("dr_xp_room");
+    const roomInp = document.getElementById("DX_XpRoom_Input");
+    const rawRoom = localStorage.getItem("dx_xp_room");
     const savedRoom = rawRoom === null ? 30 : parseInt(rawRoom) || 0;
-    if (rawRoom === null) localStorage.setItem("dr_xp_room", "30");
+    if (rawRoom === null) localStorage.setItem("dx_xp_room", "30");
     roomInp.value = savedRoom > 0 ? savedRoom : "";
 
     roomInp.addEventListener("change", () => {
@@ -10849,11 +10817,11 @@
         rVal = Math.min(500, Math.max(30, rVal));
       }
       roomInp.value = rVal > 0 ? rVal : "";
-      localStorage.setItem("dr_xp_room", rVal);
+      localStorage.setItem("dx_xp_room", rVal);
     });
 
     const savedNotifPos =
-      localStorage.getItem("dr_notif_pos") || "bottom_center";
+      localStorage.getItem("dx_notif_pos") || "bottom_center";
     applyNotifPos(savedNotifPos);
 
     window.addEventListener("resize", layoutNotif);
@@ -10865,18 +10833,18 @@
     }
     relayout();
 
-    const drBox = document.getElementById("DR_Main_Box");
-    if (drBox && window.MutationObserver) {
-      new MutationObserver(queueRelayout).observe(drBox, {
+    const dxBox = document.getElementById("DX_Main_Box");
+    if (dxBox && window.MutationObserver) {
+      new MutationObserver(queueRelayout).observe(dxBox, {
         childList: true,
         subtree: true,
         characterData: true,
       });
     }
 
-    const drHandle = document.getElementById("duorain-hide-button");
-    const drWrap = document.getElementById("DR_Main");
-    if (drHandle && drWrap) {
+    const dxHandle = document.getElementById("duoxjs-hide-button");
+    const dxWrap = document.getElementById("DX_Main");
+    if (dxHandle && dxWrap) {
       let dragging = false,
         moved = false,
         sx = 0,
@@ -10891,24 +10859,24 @@
         sy = p.clientY;
 
         clearTimeout(hideCollapseTimer);
-        const mBox = document.getElementById("DR_Main_Box");
+        const mBox = document.getElementById("DX_Main_Box");
         if (mBox) {
           const prevBoxTrans = mBox.style.transition;
           mBox.style.transition = "none";
-          mBox.classList.toggle("dr-hidden", uiHidden);
-          mBox.classList.toggle("dr-collapsed", uiHidden);
+          mBox.classList.toggle("dx-hidden", uiHidden);
+          mBox.classList.toggle("dx-collapsed", uiHidden);
           void mBox.offsetHeight;
           mBox.style.transition = prevBoxTrans;
         }
-        const prevWrapTrans = drWrap.style.transition;
-        drWrap.style.transition = "none";
-        void drWrap.offsetHeight;
-        drWrap.style.transition = prevWrapTrans;
+        const prevWrapTrans = dxWrap.style.transition;
+        dxWrap.style.transition = "none";
+        void dxWrap.offsetHeight;
+        dxWrap.style.transition = prevWrapTrans;
 
-        const r = drWrap.getBoundingClientRect();
+        const r = dxWrap.getBoundingClientRect();
         ox = r.left;
         oy = r.top;
-        drWrap.style.transition = "none";
+        dxWrap.style.transition = "none";
       };
       let tick = false;
       const onMove = (e) => {
@@ -10923,10 +10891,10 @@
           requestAnimationFrame(() => {
             if (dragging) {
               const c = clampPos(ox + dx, oy + dy);
-              drWrap.style.left = c.left + "px";
-              drWrap.style.top = c.top + "px";
-              drWrap.style.right = "auto";
-              drWrap.style.bottom = "auto";
+              dxWrap.style.left = c.left + "px";
+              dxWrap.style.top = c.top + "px";
+              dxWrap.style.right = "auto";
+              dxWrap.style.bottom = "auto";
             }
             tick = false;
           });
@@ -10937,38 +10905,38 @@
         if (!dragging) return;
         dragging = false;
         if (!moved) {
-          drWrap.style.transition = "none";
-          drWrap.style.transform = "";
+          dxWrap.style.transition = "none";
+          dxWrap.style.transform = "";
           return;
         }
-        drHandle.dataset.dragged = "1";
+        dxHandle.dataset.dragged = "1";
         setTimeout(() => {
-          drHandle.dataset.dragged = "";
+          dxHandle.dataset.dragged = "";
         }, 60);
         panelCorner = nearestCorner();
-        localStorage.setItem("dr_panel_corner", panelCorner);
-        const first = drWrap.getBoundingClientRect();
-        drWrap.style.transition = "none";
+        localStorage.setItem("dx_panel_corner", panelCorner);
+        const first = dxWrap.getBoundingClientRect();
+        dxWrap.style.transition = "none";
         positionPanel();
-        const last = drWrap.getBoundingClientRect();
-        drWrap.style.transform = `translate(${first.left - last.left}px, ${first.top - last.top}px)`;
-        void drWrap.offsetWidth;
-        drWrap.style.transition =
-          "transform var(--DR-motion-page) var(--DR-ease)";
-        drWrap.style.transform = "";
+        const last = dxWrap.getBoundingClientRect();
+        dxWrap.style.transform = `translate(${first.left - last.left}px, ${first.top - last.top}px)`;
+        void dxWrap.offsetWidth;
+        dxWrap.style.transition =
+          "transform var(--DX-motion-page) var(--DX-ease)";
+        dxWrap.style.transform = "";
         setTimeout(() => {
-          drWrap.style.transition = "none";
-        }, DR_DRAG_SNAP_MS);
+          dxWrap.style.transition = "none";
+        }, DX_DRAG_SNAP_MS);
       };
-      drHandle.addEventListener("mousedown", onDown);
-      drHandle.addEventListener("touchstart", onDown, { passive: false });
+      dxHandle.addEventListener("mousedown", onDown);
+      dxHandle.addEventListener("touchstart", onDown, { passive: false });
       window.addEventListener("mousemove", onMove);
       window.addEventListener("touchmove", onMove, { passive: false });
       window.addEventListener("mouseup", onUp);
       window.addEventListener("touchend", onUp);
     }
 
-    const notifSel = document.getElementById("DR_Notif_Select");
+    const notifSel = document.getElementById("DX_Notif_Select");
     if (notifSel) {
       const posVal = normalizeNotifPos(savedNotifPos);
       const posLabels = {
@@ -10980,8 +10948,8 @@
         bottom_right: "Bottom Right",
       };
       notifSel.setAttribute("data-value", posVal);
-      notifSel.querySelector(".DR_Select_Text").innerText = posLabels[posVal];
-      notifSel.querySelectorAll(".DR_Select_Option").forEach((opt) => {
+      notifSel.querySelector(".DX_Select_Text").innerText = posLabels[posVal];
+      notifSel.querySelectorAll(".DX_Select_Option").forEach((opt) => {
         opt.classList.toggle(
           "selected",
           opt.getAttribute("data-value") === posVal,
@@ -10989,13 +10957,13 @@
       });
     }
 
-    const qSel = document.getElementById("DR_EZQuizLength_Select");
+    const qSel = document.getElementById("DX_EZQuizLength_Select");
     if (qSel) {
-      const storedLen = localStorage.getItem("dr_ez_quiz_len") || "5";
+      const storedLen = localStorage.getItem("dx_ez_quiz_len") || "5";
       qSel.setAttribute("data-value", storedLen);
-      qSel.querySelector(".DR_Select_Text").innerText =
+      qSel.querySelector(".DX_Select_Text").innerText =
         storedLen === "default" ? "Default" : storedLen;
-      qSel.querySelectorAll(".DR_Select_Option").forEach((opt) => {
+      qSel.querySelectorAll(".DX_Select_Option").forEach((opt) => {
         opt.classList.toggle(
           "selected",
           opt.getAttribute("data-value") === storedLen,
@@ -11003,29 +10971,25 @@
       });
     }
 
-    document.getElementById("DR_Web_Btn").addEventListener("click", () => {
-      window.open("https://duorain.vercel.app", "_blank");
+    document.getElementById("DX_Web_Btn").addEventListener("click", () => {
+      window.open("https://duoxjs.vercel.app", "_blank");
     });
 
-    document.getElementById("DR_Discord_Btn").addEventListener("click", () => {
+    document.getElementById("DX_Discord_Btn").addEventListener("click", () => {
       window.open("https://discord.gg/yawq7BxJPy", "_blank");
     });
 
-    document.getElementById("DR_GitHub_Btn").addEventListener("click", () => {
-      window.open("https://github.com/OracleMythix/DuoRain-BETA", "_blank");
+    document.getElementById("DX_GitHub_Btn").addEventListener("click", () => {
+      window.open("https://github.com/LibreDuo/DuoXJS", "_blank");
     });
 
     document
-      .getElementById("DR_Credit_Oracle")
+      .getElementById("DX_Credit_LibreDuo")
       .addEventListener("click", () => {
-        window.open("https://github.com/OracleMythix", "_blank");
+        window.open("https://github.com/LibreDuo", "_blank");
       });
 
-    document.getElementById("DR_Credit_Gorou").addEventListener("click", () => {
-      window.open("https://github.com/oxGorou", "_blank");
-    });
-
-    const openTermsBtn = document.getElementById("DR_Open_Terms_Btn");
+    const openTermsBtn = document.getElementById("DX_Open_Terms_Btn");
     if (openTermsBtn) {
       openTermsBtn.addEventListener("click", () => {
         changePage("Terms");
@@ -11034,32 +10998,32 @@
     }
 
     const lOpts = document.querySelector(
-      "#DR_League_Select .DR_Select_Options",
+      "#DX_League_Select .DX_Select_Options",
     );
     if (lOpts) {
-      lOpts.innerHTML = `<div class="DR_Select_Option" style="cursor:default;opacity:0.5;">Loading rank...</div>`;
+      lOpts.innerHTML = `<div class="DX_Select_Option" style="cursor:default;opacity:0.5;">Loading rank...</div>`;
     }
 
     const syncMenuOpen = () => {
-      const anyOpen = !!document.querySelector(".DR_Select.open");
-      document.querySelectorAll(".DR_Main_Box").forEach((box) => {
-        box.classList.toggle("dr-menu-open", anyOpen);
+      const anyOpen = !!document.querySelector(".DX_Select.open");
+      document.querySelectorAll(".DX_Main_Box").forEach((box) => {
+        box.classList.toggle("dx-menu-open", anyOpen);
       });
     };
 
-    document.querySelectorAll(".DR_Select_Trigger").forEach((trig) => {
+    document.querySelectorAll(".DX_Select_Trigger").forEach((trig) => {
       trig.addEventListener("click", (event) => {
         event.stopPropagation();
         const pSel = trig.parentElement;
 
-        document.querySelectorAll(".DR_Select").forEach((sel) => {
+        document.querySelectorAll(".DX_Select").forEach((sel) => {
           if (sel !== pSel) sel.classList.remove("open");
         });
 
         if (!pSel.classList.contains("open")) {
-          const opts = pSel.querySelector(".DR_Select_Options");
+          const opts = pSel.querySelector(".DX_Select_Options");
           const rect = pSel.getBoundingClientRect();
-          const box = pSel.closest(".DR_Main_Box");
+          const box = pSel.closest(".DX_Main_Box");
           const boxRect = box ? box.getBoundingClientRect() : null;
           const bottomLimit = boxRect
             ? Math.min(window.innerHeight, boxRect.bottom)
@@ -11078,7 +11042,7 @@
 
           const currentVal = pSel.getAttribute("data-value");
           let selOpt = null;
-          opts.querySelectorAll(".DR_Select_Option").forEach((opt) => {
+          opts.querySelectorAll(".DX_Select_Option").forEach((opt) => {
             if (opt.getAttribute("data-value") === currentVal) {
               opt.classList.add("selected");
               selOpt = opt;
@@ -11104,59 +11068,59 @@
     });
 
     document.addEventListener("click", (event) => {
-      const oEl = event.target.closest(".DR_Select_Option");
+      const oEl = event.target.closest(".DX_Select_Option");
       if (oEl) {
         event.stopPropagation();
-        const pSel = oEl.closest(".DR_Select");
+        const pSel = oEl.closest(".DX_Select");
         const sVal = oEl.getAttribute("data-value");
 
-        pSel.querySelector(".DR_Select_Text").innerText = oEl.innerText;
+        pSel.querySelector(".DX_Select_Text").innerText = oEl.innerText;
         pSel.setAttribute("data-value", sVal);
         pSel.classList.remove("open");
 
         pSel
-          .querySelectorAll(".DR_Select_Option")
+          .querySelectorAll(".DX_Select_Option")
           .forEach((opt) => opt.classList.remove("selected"));
         oEl.classList.add("selected");
 
-        if (pSel.id === "DR_Privacy_Select") {
+        if (pSel.id === "DX_Privacy_Select") {
           setPrivacy(sVal === "private");
         }
-        if (pSel.id === "DR_Notif_Select") {
-          localStorage.setItem("dr_notif_pos", sVal);
+        if (pSel.id === "DX_Notif_Select") {
+          localStorage.setItem("dx_notif_pos", sVal);
           applyNotifPos(sVal);
         }
-        if (pSel.id === "DR_League_Select" && sVal) {
-          localStorage.setItem("dr_league_target", sVal);
+        if (pSel.id === "DX_League_Select" && sVal) {
+          localStorage.setItem("dx_league_target", sVal);
         }
-        if (pSel.id === "DR_EZQuizLength_Select") {
-          localStorage.setItem("dr_ez_quiz_len", sVal);
+        if (pSel.id === "DX_EZQuizLength_Select") {
+          localStorage.setItem("dx_ez_quiz_len", sVal);
           clearPrefetchedSessionsCache();
           notify("info", "EZ Quiz", "Reloading page to apply the change...");
           setTimeout(() => window.location.reload(), 1200);
         }
         syncMenuOpen();
       } else {
-        document.querySelectorAll(".DR_Select").forEach((sel) => {
+        document.querySelectorAll(".DX_Select").forEach((sel) => {
           sel.classList.remove("open");
         });
         syncMenuOpen();
       }
     });
 
-    const savedMainMode = localStorage.getItem("dr_main_mode") || "native";
+    const savedMainMode = localStorage.getItem("dx_main_mode") || "native";
     setMainMode(savedMainMode, false);
-    const modeToggleBtn = document.getElementById("DR_Mode_Toggle_Btn");
+    const modeToggleBtn = document.getElementById("DX_Mode_Toggle_Btn");
     if (modeToggleBtn) {
       modeToggleBtn.addEventListener("click", () => {
         const nowMode =
-          (localStorage.getItem("dr_main_mode") || "native") === "native"
+          (localStorage.getItem("dx_main_mode") || "native") === "native"
             ? "solver"
             : "native";
         setMainMode(nowMode, true);
       });
     }
-    const userRowBtn = document.getElementById("DR_User_Row");
+    const userRowBtn = document.getElementById("DX_User_Row");
     if (userRowBtn) {
       userRowBtn.addEventListener("click", () => {
         changePage("AccountManager");
@@ -11165,9 +11129,9 @@
       });
     }
 
-    const drRootEl = document.getElementById("DR_Root");
-    if (drRootEl) {
-      drRootEl.addEventListener(
+    const dxRootEl = document.getElementById("DX_Root");
+    if (dxRootEl) {
+      dxRootEl.addEventListener(
         "focus",
         (e) => {
           if (
@@ -11189,12 +11153,12 @@
       );
     }
 
-    const termsAccepted = localStorage.getItem("dr_terms_accepted") === "true";
+    const termsAccepted = localStorage.getItem("dx_terms_accepted") === "true";
 
-    const declineBtn = document.getElementById("DR_Terms_Decline_Btn");
+    const declineBtn = document.getElementById("DX_Terms_Decline_Btn");
     if (declineBtn) {
       declineBtn.addEventListener("click", () => {
-        const declineMd = `# Access Denied\n\nYou must accept the EULA & Terms of Service to use DuoRain.\n\nAccess to the script's automated tools and account operations is disabled until accepted.`;
+        const declineMd = `# Access Denied\n\nYou must accept the EULA & Terms of Service to use DuoXJS.\n\nAccess to the script's automated tools and account operations is disabled until accepted.`;
         updateTermsPage(
           parseMarkdownToHtml(declineMd),
           "Terms Declined",
@@ -11208,10 +11172,10 @@
     }
 
     if (!termsAccepted) {
-      const page1 = document.getElementById("DR_Page_1");
+      const page1 = document.getElementById("DX_Page_1");
       if (page1) page1.classList.remove("active");
 
-      const termsPage = document.getElementById("DR_Page_Terms");
+      const termsPage = document.getElementById("DX_Page_Terms");
       if (termsPage) termsPage.classList.add("active");
 
       pageId = "Terms";
@@ -11223,9 +11187,9 @@
     }
     initAutoSolverObserver();
 
-    window.DR_checkForUpdates = () => checkForUpdates();
-    window.DR_resetUpdateCheck = () => {
-      localStorage.removeItem("dr_update_available_version");
+    window.DX_checkForUpdates = () => checkForUpdates();
+    window.DX_resetUpdateCheck = () => {
+      localStorage.removeItem("dx_update_available_version");
       hideUpdateBanner();
     };
   }

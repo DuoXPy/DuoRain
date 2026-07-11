@@ -1,3 +1,7 @@
+## [6.0.0.BETA.04]
+
+- Rebranded to DuoXJS under LibreDuo organization
+
 ## [6.0.0.BETA.03]
 
 - Fixed save streak bug for multiple accounts
