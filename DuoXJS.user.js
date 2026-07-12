@@ -257,11 +257,11 @@
   ].map((h) => DUO_LEAGUES_CDN + h + ".svg");
 
   const yearInReviewIcons = {
-    top1: "https://raw.githubusercontent.com/LibreDuo/DuoXJS/main/assets/top_1.svg",
-    top3: "https://raw.githubusercontent.com/LibreDuo/DuoXJS/main/assets/top_3.svg",
-    top5: "https://raw.githubusercontent.com/LibreDuo/DuoXJS/main/assets/top_5.svg",
+    top1: "https://raw.githubusercontent.com/LibreDuo/DuoXJS/refs/heads/main/assets/top_1.svg",
+    top3: "https://raw.githubusercontent.com/LibreDuo/DuoXJS/refs/heads/main/assets/top_3.svg",
+    top5: "https://raw.githubusercontent.com/LibreDuo/DuoXJS/refs/heads/main/assets/top_5.svg",
     everyone:
-      "https://raw.githubusercontent.com/LibreDuo/DuoXJS/main/assets/everyone.svg",
+      "https://raw.githubusercontent.com/LibreDuo/DuoXJS/refs/heads/main/assets/everyone.svg",
   };
 
   const statusReactions = [
