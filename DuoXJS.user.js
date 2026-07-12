@@ -8464,17 +8464,11 @@
     const left = panelCorner.charAt(1) === "l";
     const offTop = dxVpOffsetTop();
     const offLeft = dxVpOffsetLeft();
-    const layoutW = window.innerWidth;
-    const layoutH = window.innerHeight;
 
     wrap.style.left = left ? m + offLeft + "px" : "auto";
-    wrap.style.right = left
-      ? "auto"
-      : m + (layoutW - (offLeft + dxVpWidth())) + "px";
+    wrap.style.right = left ? "auto" : m + "px";
     wrap.style.top = top ? m + offTop + "px" : "auto";
-    wrap.style.bottom = top
-      ? "auto"
-      : m + (layoutH - (offTop + dxVpHeight())) + "px";
+    wrap.style.bottom = top ? "auto" : m + "px";
     wrap.style.flexDirection = top ? "column" : "column-reverse";
     wrap.style.alignItems = left ? "flex-start" : "flex-end";
     wrap.style.setProperty(
