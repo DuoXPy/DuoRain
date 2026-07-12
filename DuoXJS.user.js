@@ -1,10 +1,10 @@
 // ==UserScript==
 // @name                DuoXJS
 // @namespace           https://github.com/LibreDuo/DuoXJS
-// @version             1.0.0
+// @version             1.0.1
 // @description         Free userscript utility for Duolingo
 // @author              LibreDuo
-// @license MIT
+// @license             MIT
 // @match               https://*.duolingo.com/*
 // @match               https://*.duolingo.cn/*
 // @icon                https://avatars.githubusercontent.com/u/223025697?s=200&v=4
@@ -94,13 +94,9 @@
     modeSolver:
       '<img src="https://d35aaqx5ub95lt.cloudfront.net/images/goals/39f13d2de304cad2ac2f88b31a7e2ff4.svg" style="width: 20px; height: 20px; object-fit: contain; flex-shrink: 0;">',
     settingsBtn:
-      '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg" style="flex-shrink: 0;"><path d="M 22.76,10.58 L 22.76,13.42 L 19.99,14.60 L 19.48,15.81 L 20.61,18.61 L 18.61,20.61 L 15.81,19.48 L 14.60,19.99 L 13.42,22.76 L 10.58,22.76 L 9.40,19.99 L 8.19,19.48 L 5.39,20.61 L 3.39,18.61 L 4.52,15.81 L 4.01,14.60 L 1.24,13.42 L 1.24,10.58 L 4.01,9.40 L 4.52,8.19 L 3.39,5.39 L 5.39,3.39 L 8.19,4.52 L 9.40,4.01 L 10.58,1.24 L 13.42,1.24 L 14.60,4.01 L 15.81,4.52 L 18.61,3.39 L 20.61,5.39 L 19.48,8.19 L 19.99,9.40 Z" /><circle cx="12" cy="12" r="4.32" /></svg>',
-    moreFeatures:
-      '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 234 234" fill="none" stroke="rgb(var(--DX-blue))" stroke-width="20" style="width: 18px; height: 18px; flex-shrink: 0;"><rect x="10" y="10" width="86" height="86" rx="5" /><rect x="138" y="10" width="86" height="86" rx="5" /><rect x="10" y="138" width="86" height="86" rx="5" /><g stroke-linecap="round"><line x1="138" y1="138" x2="224" y2="138" /><line x1="181" y1="181" x2="224" y2="181" /><line x1="138" y1="224" x2="224" y2="224" /></g></svg>',
+      '<img src="https://d35aaqx5ub95lt.cloudfront.net/images/103c3f969d4037b39a2771330f5a3bd8.svg" style="width: 20px; height: 20px; object-fit: contain; flex-shrink: 0;">',
     arrowRight:
       '<svg width="8" height="13" viewBox="0 0 8 13" fill="none" style="flex-shrink: 0;"><path d="M1 1l6 5.5L1 12" stroke="rgb(var(--DX-blue))" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>',
-    socialNav:
-      '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 46" fill="none" style="width: 22px; height: 22px; flex-shrink: 0;"><circle cx="15.5" cy="16" r="6.5" fill="#428ce1"/><path d="M4 39c0-6.4 5.2-10 11.5-10S27 32.6 27 39a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2Z" fill="#428ce1"/><circle cx="30" cy="18" r="7.5" fill="#077aff"/><path d="M16 41c0-7 5.9-11 13-11 6.6 0 12 3.5 12 11a2 2 0 0 1-2 2H18a2 2 0 0 1-2-2Z" fill="#077aff"/></svg>',
     back: '<svg width="8" height="14" viewBox="0 0 9 16" fill="none"><path d="M8 1L2 8l6 7" stroke="var(--dx-text)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>',
     hash: '<svg viewBox="0 0 24 24" width="20" height="20" fill="none"><path d="M9.5 3.5 7.7 20.5M16.3 3.5l-1.8 17M4 8.75h16M3 15.25h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>',
     inf: '<svg viewBox="0 0 24 24" width="22" height="22" fill="none"><path d="M6.4 8.2c-2 0-3.4 1.7-3.4 3.8s1.4 3.8 3.4 3.8c3 0 4.2-3.8 5.6-3.8s2.6 3.8 5.6 3.8c2 0 3.4-1.7 3.4-3.8s-1.4-3.8-3.4-3.8c-3 0-4.2 3.8-5.6 3.8S9.4 8.2 6.4 8.2Z" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>',
@@ -124,8 +120,8 @@
       "https://d35aaqx5ub95lt.cloudfront.net/images/icons/398e4298a3b39ce566050e5c041949ef.svg",
   };
 
-  const dxVersion = "1.0.0";
-  const dxScriptVersion = "1.0.0";
+  const dxVersion = "1.0.1";
+  const dxScriptVersion = "1.0.1";
   const dxUpdateMetaUrl =
     "https://raw.githubusercontent.com/LibreDuo/DuoXJS/main/DuoXJS.meta.js";
   const dxUpdatePageUrl = "https://github.com/LibreDuo/DuoXJS";
@@ -363,28 +359,28 @@
       name: "2023 Top 1",
       emoji: "👑",
       value: "YEAR_IN_REVIEW,2023_top1",
-      cat: "2023 Evenrs (iOS-only)",
+      cat: "2023 Events (iOS-only)",
       icon: yearInReviewIcons.top1,
     },
     {
       name: "2023 Top 3",
       emoji: "⭐",
       value: "YEAR_IN_REVIEW,2023_top3",
-      cat: "2023 Evenrs (iOS-only)",
+      cat: "2023 Events (iOS-only)",
       icon: yearInReviewIcons.top3,
     },
     {
       name: "2023 Top 5",
       emoji: "🌟",
       value: "YEAR_IN_REVIEW,2023_top5",
-      cat: "2023 Evenrs (iOS-only)",
+      cat: "2023 Events (iOS-only)",
       icon: yearInReviewIcons.top5,
     },
     {
       name: "2023 Everyone",
       emoji: "🎊",
       value: "YEAR_IN_REVIEW,2023",
-      cat: "2023 Evenrs (iOS-only)",
+      cat: "2023 Events (iOS-only)",
       icon: yearInReviewIcons.everyone,
     },
     {
@@ -753,9 +749,11 @@
             --DX-r-xl: 22px;
             --DX-corner: 0;
 
-            --DX-ease: cubic-bezier(.16, 1, .32, 1);
-            --DX-motion-fast: 400ms;
-            --DX-motion: 400ms;
+            --DX-ease-bounce: cubic-bezier(0.34, 1.15, 0.64, 1);
+            --DX-ease-out: cubic-bezier(0.25, 1, 0.5, 1);
+            --DX-ease: var(--DX-ease-out);
+            --DX-motion-fast: 150ms;
+            --DX-motion: 200ms;
             --DX-motion-page: 400ms;
             --DX-motion-spin: 1200ms;
 
@@ -894,30 +892,37 @@
                                 -webkit-filter var(--DX-motion) var(--DX-ease),
                                 filter var(--DX-motion) var(--DX-ease),
                                 -webkit-transform var(--DX-motion-page) var(--DX-ease),
-                                transform var(--DX-motion-page) var(--DX-ease);
+                                transform var(--DX-motion-page) var(--DX-ease),
+                                max-height var(--DX-motion-page) var(--DX-ease),
+                                max-width var(--DX-motion-page) var(--DX-ease),
+                                padding var(--DX-motion-page) var(--DX-ease);
             transition: opacity var(--DX-motion) var(--DX-ease),
                         filter var(--DX-motion) var(--DX-ease),
-                        transform var(--DX-motion-page) var(--DX-ease);
-            will-change: opacity, filter, transform;
+                        transform var(--DX-motion-page) var(--DX-ease),
+                        max-height var(--DX-motion-page) var(--DX-ease),
+                        max-width var(--DX-motion-page) var(--DX-ease),
+                        padding var(--DX-motion-page) var(--DX-ease);
+            will-change: opacity, filter, transform, max-height, max-width, padding;
         }
 
         .DX_Main_Box.dx-hidden {
             opacity: 0 !important;
             -webkit-filter: blur(6px) !important;
             filter: blur(6px) !important;
-            -webkit-transform: translate3d(0, var(--DX-panel-hide-y, 0px), 0) scale3d(0.96, 0.96, 1) !important;
-            transform: translate3d(0, var(--DX-panel-hide-y, 0px), 0) scale3d(0.96, 0.96, 1) !important;
+            -webkit-transform: scale3d(0.96, 0.96, 1) !important;
+            transform: scale3d(0.96, 0.96, 1) !important;
             pointer-events: none;
         }
 
         .DX_Main_Box.dx-collapsed {
-            width: 0 !important;
-            max-width: 0 !important;
             max-height: 0 !important;
-            height: 0 !important;
-            min-width: 0 !important;
-            padding: 0 !important;
+            max-width: 0 !important;
+            padding-top: 0 !important;
+            padding-bottom: 0 !important;
+            padding-left: 0 !important;
+            padding-right: 0 !important;
             overflow: hidden;
+            visibility: hidden;
         }
 
         .DX_Main_Box.dx-scroll {
@@ -1084,20 +1089,27 @@
             border: none;
             cursor: pointer;
             user-select: none;
-            transition: filter var(--DX-motion-fast) ease,
-                        transform var(--DX-motion-fast) ease,
-                        background var(--DX-motion) ease,
-                        color var(--DX-motion) ease;
+            outline: 2px solid rgba(0, 0, 0, 0.2);
+            outline-offset: -2px;
+            transition: filter var(--DX-motion-fast) var(--DX-ease),
+                        transform var(--DX-motion-fast) var(--DX-ease),
+                        background var(--DX-motion) var(--DX-ease),
+                        outline var(--DX-motion) var(--DX-ease),
+                        color var(--DX-motion) var(--DX-ease);
+        }
+
+        .DX_Btn:focus-visible {
+            outline-color: var(--focus-outline, rgba(var(--DX-blue), 0.5)) !important;
         }
 
         .DX_Btn:hover {
             filter: brightness(0.9);
-            transform: scale(1.05);
+            transform: scale(1.03);
         }
 
         .DX_Btn:active {
             filter: brightness(0.9);
-            transform: scale(0.9);
+            transform: scale(0.96);
         }
 
         .DX_Btn_Blue_Ghost,
@@ -1163,7 +1175,7 @@
             padding: 12px 14px;
             box-sizing: border-box;
             align-items: center;
-            flex: 1 0 0;
+            flex: 1 0 0px;
             min-width: 0;
             gap: 6px;
             border-radius: var(--DX-r-s);
@@ -1175,10 +1187,10 @@
             transition: flex var(--DX-motion-page) var(--DX-ease),
                         padding var(--DX-motion-page) var(--DX-ease),
                         margin var(--DX-motion-page) var(--DX-ease),
-                        opacity var(--DX-motion) ease,
+                        opacity var(--DX-motion) var(--DX-ease),
                         outline-width var(--DX-motion-page) var(--DX-ease),
-                        outline-color var(--DX-motion) ease,
-                        background var(--DX-motion) ease;
+                        outline-color var(--DX-motion) var(--DX-ease),
+                        background var(--DX-motion) var(--DX-ease);
         }
 
         .DX_Input_Wrap:focus-within {
@@ -1206,19 +1218,17 @@
             justify-content: center;
             gap: 8px;
             height: 44px;
-            width: 44px;
-            flex-shrink: 0;
+            flex: 0 0 44px;
             cursor: pointer;
             overflow: hidden;
             outline: 2px solid var(--dx-card-border);
             outline-offset: -2px;
-            transition: filter var(--DX-motion-fast) ease,
-                        transform var(--DX-motion-fast) ease,
-                        background var(--DX-motion) ease,
-                        outline-color var(--DX-motion) ease,
-                        box-shadow var(--DX-motion) ease,
-                        flex var(--DX-motion-page) var(--DX-ease),
-                        width var(--DX-motion-page) var(--DX-ease);
+            transition: filter var(--DX-motion-fast) var(--DX-ease),
+                        transform var(--DX-motion-fast) var(--DX-ease),
+                        background var(--DX-motion) var(--DX-ease),
+                        outline-color var(--DX-motion) var(--DX-ease),
+                        box-shadow var(--DX-motion) var(--DX-ease),
+                        flex var(--DX-motion-page) var(--DX-ease);
         }
 
         .DX_Hash_Btn svg {
@@ -1229,17 +1239,16 @@
 
         .DX_Hash_Btn:hover {
             filter: brightness(0.9);
-            transform: scale(1.05);
+            transform: scale(1.03);
         }
 
         .DX_Hash_Btn:active {
             filter: brightness(0.9);
-            transform: scale(0.9);
+            transform: scale(0.96);
         }
 
         .DX_Hash_Btn.dx-inf-active {
-            flex: 1 0 0;
-            width: auto;
+            flex: 1 0 44px;
         }
 
         #DX_Root .DX_Hash_Btn:focus,
@@ -1300,30 +1309,37 @@
             background: rgb(var(--DX-blue));
             white-space: nowrap;
             flex-shrink: 0;
-            transition: background var(--DX-motion) ease,
-                        outline var(--DX-motion) ease,
-                        filter var(--DX-motion-fast) ease,
-                        transform var(--DX-motion-fast) ease;
+            transition: background var(--DX-motion) var(--DX-ease),
+                        outline var(--DX-motion) var(--DX-ease),
+                        filter var(--DX-motion-fast) var(--DX-ease),
+                        transform var(--DX-motion-fast) var(--DX-ease);
         }
 
-        .DX_Input_Btn:focus,
         .DX_Input_Btn:focus-visible {
             outline-color: var(--focus-outline, rgba(0, 0, 0, 0.2)) !important;
         }
 
         .DX_Input_Btn:hover {
             filter: brightness(0.9);
-            transform: scale(1.05);
+            transform: scale(1.03);
         }
 
         .DX_Input_Btn:active {
             filter: brightness(0.9);
-            transform: scale(0.9);
+            transform: scale(0.96);
         }
 
+        .DX_Btn:disabled,
+        .DX_Sm_Btn:disabled,
+        .DX_Acc_Btn:disabled,
+        .DX_Quest_Get_Btn:disabled,
+        .DX_Shop_Btn:disabled,
+        .DX_Hash_Btn:disabled,
         .DX_Input_Btn:disabled {
-            opacity: 0.38;
-            pointer-events: none;
+            opacity: 0.38 !important;
+            pointer-events: none !important;
+            transform: scale(1) !important;
+            filter: none !important;
         }
 
         .DX_Btn_Label {
@@ -1334,9 +1350,9 @@
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
-            transition: opacity var(--DX-motion) ease,
-                        filter var(--DX-motion) ease,
-                        color var(--DX-motion) ease;
+            transition: opacity var(--DX-motion) var(--DX-ease),
+                        filter var(--DX-motion) var(--DX-ease),
+                        color var(--DX-motion) var(--DX-ease);
         }
 
         .DX_Sm_Btn {
@@ -1356,31 +1372,26 @@
             outline-offset: -2px;
             background: rgb(var(--DX-blue));
             white-space: nowrap;
-            transition: background var(--DX-motion) ease,
-                        outline var(--DX-motion) ease,
-                        filter var(--DX-motion-fast) ease,
-                        transform var(--DX-motion-fast) ease;
+            transition: background var(--DX-motion) var(--DX-ease),
+                        outline var(--DX-motion) var(--DX-ease),
+                        filter var(--DX-motion-fast) var(--DX-ease),
+                        transform var(--DX-motion-fast) var(--DX-ease);
         }
 
-        .DX_Sm_Btn:focus,
         .DX_Sm_Btn:focus-visible {
-            outline-color: var(--focus-outline, rgba(0, 0, 0, 0.2)) !important;
+            outline-color: var(--focus-outline, rgba(var(--DX-blue), 0.5)) !important;
         }
 
         .DX_Sm_Btn:hover {
             filter: brightness(0.9);
-            transform: scale(1.05);
+            transform: scale(1.03);
         }
 
         .DX_Sm_Btn:active {
             filter: brightness(0.9);
-            transform: scale(0.9);
+            transform: scale(0.96);
         }
 
-        .DX_Sm_Btn:disabled {
-            opacity: 0.38;
-            pointer-events: none;
-        }
 
         .DX_Sm_Btn_Label {
             font-size: 14px;
@@ -1389,21 +1400,22 @@
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
-            transition: opacity var(--DX-motion) ease,
-                        filter var(--DX-motion) ease,
-                        color var(--DX-motion) ease;
+            transition: opacity var(--DX-motion) var(--DX-ease),
+                        filter var(--DX-motion) var(--DX-ease),
+                        color var(--DX-motion) var(--DX-ease);
         }
 
         .DX_Toggle {
             position: relative;
             width: 52px;
-            height: 30px;
-            border-radius: 999px;
+            height: 28px;
+            border-radius: 8px;
+            corner-shape: var(--DX-corner);
             background: var(--dx-card-border);
             cursor: pointer;
             user-select: none;
             flex-shrink: 0;
-            transition: background var(--DX-motion) ease;
+            transition: background var(--DX-motion) var(--DX-ease);
         }
 
         .DX_Toggle.on {
@@ -1414,9 +1426,10 @@
             position: absolute;
             top: 3px;
             left: 3px;
-            width: 24px;
-            height: 24px;
-            border-radius: 50%;
+            width: 22px;
+            height: 22px;
+            border-radius: 6px;
+            corner-shape: var(--DX-corner);
             background: #fff;
             box-shadow: 0 1px 3px rgba(0, 0, 0, .3);
             -webkit-transform: translate3d(0, 0, 0);
@@ -1426,8 +1439,8 @@
         }
 
         .DX_Toggle.on .DX_Toggle_Knob {
-            -webkit-transform: translate3d(22px, 0, 0);
-            transform: translate3d(22px, 0, 0);
+            -webkit-transform: translate3d(24px, 0, 0);
+            transform: translate3d(24px, 0, 0);
         }
 
         .DX_Select {
@@ -1444,8 +1457,8 @@
             font-size: 13px;
             cursor: pointer;
             user-select: none;
-            transition: outline-color var(--DX-motion) ease,
-                        background var(--DX-motion) ease;
+            transition: outline-color var(--DX-motion) var(--DX-ease),
+                        background var(--DX-motion) var(--DX-ease);
         }
 
         .DX_Select:hover {
@@ -1479,8 +1492,10 @@
             left: 0;
             right: 0;
             background: var(--dx-bg);
-            border: 1px solid var(--dx-card-border);
+            outline: 2px solid var(--dx-card-border);
+            outline-offset: -2px;
             border-radius: 8px;
+            corner-shape: var(--DX-corner);
             box-shadow: 0 10px 40px rgba(0, 0, 0, .2);
             max-height: 0;
             overflow-y: auto;
@@ -1489,13 +1504,13 @@
             -webkit-transform: translate3d(0, -8px, 0);
             transform: translate3d(0, -8px, 0);
             -webkit-transition: max-height var(--DX-motion) var(--DX-ease),
-                                opacity var(--DX-motion) ease,
-                                visibility var(--DX-motion) ease,
+                                opacity var(--DX-motion) var(--DX-ease),
+                                visibility var(--DX-motion) var(--DX-ease),
                                 -webkit-transform var(--DX-motion) var(--DX-ease),
                                 transform var(--DX-motion) var(--DX-ease);
             transition: max-height var(--DX-motion) var(--DX-ease),
-                        opacity var(--DX-motion) ease,
-                        visibility var(--DX-motion) ease,
+                        opacity var(--DX-motion) var(--DX-ease),
+                        visibility var(--DX-motion) var(--DX-ease),
                         transform var(--DX-motion) var(--DX-ease);
             z-index: 100;
             backdrop-filter: blur(20px);
@@ -1516,14 +1531,32 @@
             align-items: center;
             box-sizing: border-box;
             color: var(--dx-text);
-            font-weight: 600;
-            transition: background var(--DX-motion-fast) ease,
-                        color var(--DX-motion-fast) ease;
+            font-size: 13px;
+            font-weight: 700;
+            transition: background var(--DX-motion-fast) var(--DX-ease),
+                        color var(--DX-motion-fast) var(--DX-ease);
         }
 
         .DX_Select_Option:hover {
             background: var(--dx-card-hover);
             color: var(--dx-text);
+        }
+
+        .DX_Select_Option.selected {
+            background: rgba(var(--DX-blue), 0.12);
+            color: var(--dx-link-color);
+        }
+
+        .DX_Select.dropup .DX_Select_Options {
+            top: auto;
+            bottom: calc(100% + 8px);
+            -webkit-transform: translate3d(0, 8px, 0);
+            transform: translate3d(0, 8px, 0);
+        }
+
+        .DX_Select.dropup.open .DX_Select_Options {
+            -webkit-transform: translate3d(0, 0, 0);
+            transform: translate3d(0, 0, 0);
         }
 
         .DX_Select .DX_Chevron {
@@ -1600,8 +1633,8 @@
             background: rgb(var(--DX-blue));
             width: 0%;
             transition: width var(--DX-motion-page) var(--DX-ease),
-                        background var(--DX-motion) ease,
-                        box-shadow var(--DX-motion) ease;
+                        background var(--DX-motion) var(--DX-ease),
+                        box-shadow var(--DX-motion) var(--DX-ease);
             box-shadow: 0 0 6px rgba(var(--DX-blue), 0.35);
         }
 
@@ -1671,6 +1704,7 @@
             gap: 12px;
             padding: 14px 20px;
             border-radius: 16px;
+            corner-shape: var(--DX-corner);
             background: rgba(255, 255, 255, 0.85);
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
@@ -1678,26 +1712,40 @@
             outline-offset: -2px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
             opacity: 0;
-            transform: translateY(-20px);
+            transform: translate3d(0, -40px, 0) scale(0.85);
             transition: transform var(--DX-motion-page) var(--DX-ease),
-                        opacity var(--DX-motion) ease,
+                        opacity var(--DX-motion) var(--DX-ease),
                         margin var(--DX-motion-page) var(--DX-ease);
             pointer-events: auto;
             width: 100%;
             min-width: 0;
         }
 
-        .DX_Notif_Box .DX_T1,
-        .DX_Notif_Box .DX_T2 {
+        .DX_Notif_Title {
+            font-size: 14px;
+            font-weight: 800;
+            line-height: 1.2;
+            color: var(--dx-text);
+            margin: 0;
+            overflow-wrap: anywhere;
+        }
+
+        .DX_Notif_Body {
+            font-size: 12px;
+            font-weight: 600;
+            line-height: 1.3;
+            color: var(--dx-text);
+            opacity: 0.7;
+            margin: 2px 0 0 0;
             overflow-wrap: anywhere;
         }
 
         .DX_Notif_Box > div:last-child {
             min-width: 0;
+            flex: 1 0 0;
             display: flex;
             flex-direction: column;
             justify-content: center;
-            gap: 2px;
         }
 
         .DX_Notif_Main.dx-light {
@@ -1715,25 +1763,51 @@
 
         .DX_Notif_Box.show {
             opacity: 1;
-            transform: translateY(0) scale(1) !important;
+            transform: translate3d(0, 0, 0) scale(1) !important;
         }
 
         .DX_Notif_Box.hide {
             opacity: 0 !important;
-            transform: translateY(-30px) scale(0.85) !important;
+            transform: translate3d(0, -40px, 0) scale(0.85) !important;
             margin-top: -60px;
             z-index: -1;
         }
 
-        .DX_Notif_Main[data-pos^="bottom"] .DX_Notif_Box {
-            transform: translateY(30px) scale(0.9);
+        .DX_Notif_Main[data-pos="bottom_center"] .DX_Notif_Box {
+            transform: translate3d(0, 40px, 0) scale(0.85);
         }
 
-        .DX_Notif_Main[data-pos^="bottom"] .DX_Notif_Box.hide {
-            transform: translateY(30px) scale(0.85) !important;
+        .DX_Notif_Main[data-pos="bottom_center"] .DX_Notif_Box.hide {
+            transform: translate3d(0, 40px, 0) scale(0.85) !important;
             margin-top: 0px;
             margin-bottom: -60px;
             z-index: -1;
+        }
+
+        /* Left-aligned positions (top_left, bottom_left) */
+        .DX_Notif_Main[data-pos$="left"] .DX_Notif_Box {
+            transform: translate3d(-40px, 0, 0) scale(0.85);
+        }
+        .DX_Notif_Main[data-pos$="left"] .DX_Notif_Box.hide {
+            transform: translate3d(-40px, 0, 0) scale(0.85) !important;
+            z-index: -1;
+        }
+        .DX_Notif_Main[data-pos="bottom_left"] .DX_Notif_Box.hide {
+            margin-top: 0px;
+            margin-bottom: -60px;
+        }
+
+        /* Right-aligned positions (top_right, bottom_right) */
+        .DX_Notif_Main[data-pos$="right"] .DX_Notif_Box {
+            transform: translate3d(40px, 0, 0) scale(0.85);
+        }
+        .DX_Notif_Main[data-pos$="right"] .DX_Notif_Box.hide {
+            transform: translate3d(40px, 0, 0) scale(0.85) !important;
+            z-index: -1;
+        }
+        .DX_Notif_Main[data-pos="bottom_right"] .DX_Notif_Box.hide {
+            margin-top: 0px;
+            margin-bottom: -60px;
         }
 
         .DX_Notif_Ico {
@@ -1750,15 +1824,15 @@
         }
 
         .DX_Notif_Box.warning .DX_Notif_Ico {
-            color: rgb(243, 156, 18);
+            color: rgb(var(--DX-orange));
         }
 
         .DX_Notif_Box.success .DX_Notif_Ico {
-            color: rgb(88, 204, 2);
+            color: rgb(var(--DX-green));
         }
 
         .DX_Notif_Box.error .DX_Notif_Ico {
-            color: rgb(238, 85, 85);
+            color: rgb(var(--DX-red));
         }
 
         .DX_Shop_Grid {
@@ -1802,8 +1876,8 @@
             outline: 1.5px solid var(--dx-card-border);
             outline-offset: -1px;
             background: var(--dx-card-bg);
-            transition: outline-color var(--DX-motion) ease,
-                        background var(--DX-motion) ease;
+            transition: outline-color var(--DX-motion) var(--DX-ease),
+                        background var(--DX-motion) var(--DX-ease);
             text-align: center;
             min-width: 0;
         }
@@ -1846,22 +1920,21 @@
             background: rgb(var(--DX-blue));
             outline: 2px solid rgba(0, 0, 0, 0.2);
             outline-offset: -2px;
-            transition: filter var(--DX-motion-fast) ease,
-                        transform var(--DX-motion-fast) ease,
-                        background var(--DX-motion) ease;
+            transition: filter var(--DX-motion-fast) var(--DX-ease),
+                        transform var(--DX-motion-fast) var(--DX-ease),
+                        background var(--DX-motion) var(--DX-ease);
         }
 
         .DX_Shop_Btn:hover {
             filter: brightness(0.9);
-            transform: scale(1.05);
+            transform: scale(1.03);
         }
 
         .DX_Shop_Btn:active {
             filter: brightness(0.9);
-            transform: scale(0.9);
+            transform: scale(0.96);
         }
 
-        .DX_Shop_Btn:focus,
         .DX_Shop_Btn:focus-visible {
             outline-color: var(--focus-outline, rgba(0, 0, 0, 0.2)) !important;
         }
@@ -1882,12 +1955,17 @@
             pointer-events: none;
         }
 
-        .DX_Shop_Btn.fail {
-            --focus-outline: rgba(var(--DX-red), 0.22);
-            background: rgba(var(--DX-red), 0.10);
-            color: rgb(var(--DX-red));
-            outline-color: rgba(var(--DX-red), 0.22);
-            pointer-events: none;
+        .DX_Btn.fail,
+        .DX_Sm_Btn.fail,
+        .DX_Input_Btn.fail,
+        .DX_Quest_Get_Btn.fail,
+        .DX_Shop_Btn.fail,
+        .DX_Hash_Btn.fail {
+            --focus-outline: rgba(var(--DX-red), 0.22) !important;
+            background: rgba(var(--DX-red), 0.10) !important;
+            color: rgb(var(--DX-red)) !important;
+            outline-color: rgba(var(--DX-red), 0.22) !important;
+            pointer-events: none !important;
         }
 
         .DX_Scroll_Inner {
@@ -1930,7 +2008,7 @@
             font-size: 14px;
             font-weight: 600;
             color: var(--dx-text);
-            transition: outline-color var(--DX-motion) ease;
+            transition: outline-color var(--DX-motion) var(--DX-ease);
         }
 
         .DX_Search:focus {
@@ -1967,8 +2045,8 @@
             outline: 1.5px solid var(--dx-card-border);
             outline-offset: -1px;
             background: var(--dx-card-bg);
-            transition: outline-color var(--DX-motion) ease,
-                        background var(--DX-motion) ease;
+            transition: outline-color var(--DX-motion) var(--DX-ease),
+                        background var(--DX-motion) var(--DX-ease);
             position: relative;
             overflow: hidden;
         }
@@ -2028,33 +2106,52 @@
             height: 28px;
             padding: 0 10px;
             border-radius: 8px;
+            corner-shape: var(--DX-corner);
             border: none;
             cursor: pointer;
-            font-size: 10px;
+            font-size: 11px;
             font-weight: 800;
+            letter-spacing: 0.5px;
             color: #fff;
             background: rgb(var(--DX-blue));
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: opacity var(--DX-motion) ease, transform var(--DX-motion) ease;
+            outline: 2px solid rgba(0, 0, 0, 0.2);
+            outline-offset: -2px;
+            transition: opacity var(--DX-motion) var(--DX-ease),
+                        transform var(--DX-motion-fast) var(--DX-ease),
+                        outline var(--DX-motion) var(--DX-ease),
+                        filter var(--DX-motion-fast) var(--DX-ease);
+        }
+        .DX_Acc_Btn:focus-visible {
+            outline-color: rgba(var(--DX-blue), 0.5) !important;
         }
         .DX_Acc_Btn:hover {
             opacity: 0.9;
-            transform: scale(1.05);
+            transform: scale(1.03);
         }
         .DX_Acc_Btn:active {
-            transform: scale(0.95);
+            filter: brightness(0.9);
+            transform: scale(0.96);
         }
         .DX_Acc_Btn.del {
             width: 28px;
             padding: 0;
             background: rgba(var(--DX-red), 0.15);
             color: rgb(var(--DX-red));
+            outline: 2px solid rgba(var(--DX-red), 0.2);
         }
         .DX_Acc_Btn.del:hover {
             background: rgb(var(--DX-red));
             color: #fff;
+            outline: 2px solid rgba(0, 0, 0, 0.2);
+        }
+        .DX_Acc_Btn.del img {
+            transition: filter var(--DX-motion) var(--DX-ease);
+        }
+        .DX_Acc_Btn.del:hover img {
+            filter: brightness(0) invert(1);
         }
 
         .DX_Quest_Icon {
@@ -2113,19 +2210,26 @@
             white-space: nowrap;
             background: rgb(var(--DX-blue));
             color: #fff;
-            transition: filter var(--DX-motion-fast) ease,
-                        transform var(--DX-motion-fast) ease,
-                        background var(--DX-motion) ease;
+            outline: 2px solid rgba(0, 0, 0, 0.2);
+            outline-offset: -2px;
+            transition: filter var(--DX-motion-fast) var(--DX-ease),
+                        transform var(--DX-motion-fast) var(--DX-ease),
+                        outline var(--DX-motion) var(--DX-ease),
+                        background var(--DX-motion) var(--DX-ease);
+        }
+
+        .DX_Quest_Get_Btn:focus-visible {
+            outline-color: var(--focus-outline, rgba(var(--DX-blue), 0.5)) !important;
         }
 
         .DX_Quest_Get_Btn:hover {
             filter: brightness(0.9);
-            transform: scale(1.05);
+            transform: scale(1.03);
         }
 
         .DX_Quest_Get_Btn:active {
             filter: brightness(0.9);
-            transform: scale(0.9);
+            transform: scale(0.96);
         }
 
         .DX_Field_Row,
@@ -2180,7 +2284,7 @@
             border-radius: 8px;
             outline: 2px solid var(--dx-card-border);
             outline-offset: -2px;
-            transition: outline-color var(--DX-motion) ease;
+            transition: outline-color var(--DX-motion) var(--DX-ease);
             background: var(--dx-card-bg);
         }
 
@@ -2231,7 +2335,7 @@
             outline: 1.5px solid var(--dx-card-border);
             outline-offset: -1.5px;
             transition: max-height var(--DX-motion-page) var(--DX-ease),
-                        opacity var(--DX-motion) ease,
+                        opacity var(--DX-motion) var(--DX-ease),
                         padding var(--DX-motion-page) var(--DX-ease);
         }
 
@@ -2247,6 +2351,8 @@
             color: rgb(var(--DX-green));
             pointer-events: none;
         }
+
+
 
         @media (max-width: 480px) {
             .DX_Main_Box {
@@ -2285,12 +2391,13 @@
             box-shadow: var(--dx-panel-shadow);
             backdrop-filter: blur(20px) saturate(1.6);
             -webkit-backdrop-filter: blur(20px) saturate(1.6);
-            transition: background var(--DX-motion) ease,
-                        outline var(--DX-motion) ease,
-                        box-shadow var(--DX-motion) ease,
-                        color var(--DX-motion) ease,
-                        filter var(--DX-motion-fast) ease,
-                        transform var(--DX-motion-fast) ease;
+            pointer-events: auto !important;
+            transition: background var(--DX-motion) var(--DX-ease),
+                        outline var(--DX-motion) var(--DX-ease),
+                        box-shadow var(--DX-motion) var(--DX-ease),
+                        color var(--DX-motion) var(--DX-ease),
+                        filter var(--DX-motion-fast) var(--DX-ease),
+                        transform var(--DX-motion-fast) var(--DX-ease);
         }
 
         #duoxjs-hide-button:active {
@@ -2310,10 +2417,10 @@
             grid-area: 1 / 1;
             color: inherit;
             fill: currentColor !important;
-            transition: color var(--DX-motion) ease,
-                        opacity var(--DX-motion) ease,
-                        filter var(--DX-motion) ease,
-                        transform var(--DX-motion) ease;
+            transition: color var(--DX-motion) var(--DX-ease),
+                        opacity var(--DX-motion) var(--DX-ease),
+                        filter var(--DX-motion) var(--DX-ease),
+                        transform var(--DX-motion) var(--DX-ease);
         }
 
         #duoxjs-hide-button svg path {
@@ -2347,8 +2454,8 @@
         }
 
         #DX_Main_Content {
-            transition: opacity var(--DX-motion) ease,
-                        filter var(--DX-motion) ease;
+            transition: opacity var(--DX-motion) var(--DX-ease),
+                        filter var(--DX-motion) var(--DX-ease);
         }
 
         #DX_Main_Content.dx-disabled > *:not(#DX_User_Row):not(#DX_User_Row_Divider):not(#DX_Page_AccountManager) {
@@ -2361,13 +2468,39 @@
             -webkit-tap-highlight-color: transparent;
         }
 
-        #DX_Root button:focus,
-        #DX_Root button:focus-visible,
-        #DX_Root button:active {
+        #DX_Root button:focus-visible {
             outline-style: solid !important;
             outline-width: 2px !important;
-            outline-color: var(--focus-outline, var(--dx-card-border)) !important;
+            outline-color: var(--focus-outline, rgba(var(--DX-blue), 0.5)) !important;
             outline-offset: -2px !important;
+        }
+
+
+
+        .DX_Btn:focus,
+        .DX_Btn:active,
+        .DX_Sm_Btn:focus,
+        .DX_Sm_Btn:active,
+        .DX_Acc_Btn:focus,
+        .DX_Acc_Btn:active,
+        .DX_Quest_Get_Btn:focus,
+        .DX_Quest_Get_Btn:active,
+        .DX_Shop_Btn:focus,
+        .DX_Shop_Btn:active,
+        .DX_Input_Btn:focus,
+        .DX_Input_Btn:active {
+            outline: 2px solid rgba(0, 0, 0, 0.2);
+            outline-offset: -2px;
+        }
+
+        .DX_Btn_Blue_Ghost:focus,
+        .DX_Btn_Blue_Ghost:active,
+        .DX_Btn_Eel:focus,
+        .DX_Btn_Eel:active,
+        .DX_Hash_Btn:focus,
+        .DX_Hash_Btn:active {
+            outline: 2px solid var(--dx-card-border);
+            outline-offset: -2px;
         }
 
         .DX_Modal_Overlay {
@@ -2395,7 +2528,8 @@
 
         .DX_Modal_Box {
             background: var(--dx-bg);
-            border: 1px solid var(--dx-card-border);
+            outline: 2px solid var(--dx-card-border);
+            outline-offset: -2px;
             border-radius: 16px;
             padding: 20px;
             width: 270px;
@@ -2421,7 +2555,7 @@
             border-bottom: 4px solid #2b70c9;
             border-radius: 16px;
             padding: 13px 16px;
-            transition: filter 0.1s, color 0.1s;
+            transition: filter var(--DX-motion-fast) var(--DX-ease), color var(--DX-motion-fast) var(--DX-ease);
             font-weight: 700;
             letter-spacing: .8px;
             background: #1cb0f6;
@@ -2436,7 +2570,7 @@
             border-bottom: 4px solid #e0a500;
             border-radius: 16px;
             padding: 13px 16px;
-            transition: filter 0.1s, color 0.1s;
+            transition: filter var(--DX-motion-fast) var(--DX-ease), color var(--DX-motion-fast) var(--DX-ease);
             font-weight: 700;
             letter-spacing: .8px;
             background: #ffc800;
@@ -2465,21 +2599,24 @@
 
         #DX_User_Row {
             cursor: pointer;
-            transition: filter var(--DX-motion-fast) ease,
-                        transform var(--DX-motion-fast) ease,
-                        background var(--DX-motion) ease,
-                        border-color var(--DX-motion) ease;
+            transition: filter var(--DX-motion-fast) var(--DX-ease),
+                        transform var(--DX-motion-fast) var(--DX-ease),
+                        background var(--DX-motion) var(--DX-ease),
+                        outline-color var(--DX-motion) var(--DX-ease);
         }
 
         #DX_User_Row:hover {
             filter: brightness(0.9);
             transform: scale(1.02);
-            background: var(--dx-card-bg-hover, var(--dx-card-bg));
-            border-color: rgb(var(--DX-blue));
+            background: var(--dx-card-hover);
+            outline-color: rgb(var(--DX-blue));
         }
         #DX_User_Row:active {
-            transform: scale(0.98);
+            filter: brightness(0.9);
+            transform: scale(0.97);
         }
+
+
 
         @media (hover: none) {
             .DX_Btn:hover,
@@ -2533,7 +2670,7 @@
   const uiHtml = `
         <div class="DX_Notif_Main dx-light" id="DX_Notif_Main"></div>
         <div class="DX_Main" id="DX_Main">
-            <div class="DX_HStack_8" style="align-self: flex-end;">
+            <div class="DX_HStack_8" style="align-self: flex-end; pointer-events: none;">
                 <button type="button" class="DX_Btn DX_Btn_Eel DX_NoSel dx-light" id="duoxjs-hide-button">
                     <span class="DX_Hide_Icon_Stack">${icons.hideBtn}${icons.showBtn}</span>
                     <span id="hide-show-text" class="DX_T1 DX_NoSel" style="font-size: 14px; line-height: 1; color: inherit;">Hide</span>
@@ -2593,9 +2730,9 @@
                             <span class="DX_Sm_Btn_Label" style="color: #fff;">UPDATE</span>
                         </button>
                     </div>
-                    <div id="DX_Main_Content" class="dx-disabled" style="display: flex; flex-direction: column; gap: 8px; width: 100%; transition: opacity var(--DX-motion) ease, filter var(--DX-motion) ease;">
+                    <div id="DX_Main_Content" class="dx-disabled" style="display: flex; flex-direction: column; gap: 8px; width: 100%; transition: opacity var(--DX-motion) var(--DX-ease), filter var(--DX-motion) var(--DX-ease);">
                         <div class="DX_Divider" id="DX_User_Row_Divider" style="display: none;"></div>
-                        <div class="DX_Profile_Block" id="DX_User_Row" style="display: none; position: relative; background: var(--dx-card-bg); border: 1.5px solid var(--dx-card-border); border-radius: 8px; padding: 10px; align-items: center; gap: 8px; cursor: pointer;">
+                        <div class="DX_Profile_Block" id="DX_User_Row" style="display: none; position: relative; background: var(--dx-card-bg); outline: 1.5px solid var(--dx-card-border); outline-offset: -1px; border-radius: 8px; padding: 10px; align-items: center; gap: 8px; cursor: pointer;">
                             <div class="DX_Avatar" id="DX_Avatar">${icons.avatar}</div>
                             <div class="DX_VStack_4" style="flex: 1 0 0; min-width: 0; align-items: flex-start;">
                                 <p class="DX_T1 DX_NoSel" id="DX_UName" style="font-size: 14px; align-self: stretch; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; padding-right: 16px;"></p>
@@ -2621,7 +2758,7 @@
                             </div>
                         </div>
                         <div class="DX_HStack_8" style="align-self: stretch; align-items: center;">
-                            <div class="DX_Btn DX_Btn_Icon DX_Btn_Eel DX_NoSel" id="DX_Conn_Btn" style="transition: background var(--DX-motion) ease, outline var(--DX-motion) ease, color var(--DX-motion) ease; pointer-events: none;">
+                            <div class="DX_Btn DX_Btn_Icon DX_Btn_Eel DX_NoSel" id="DX_Conn_Btn" style="transition: background var(--DX-motion) var(--DX-ease), outline var(--DX-motion) var(--DX-ease), color var(--DX-motion) var(--DX-ease); pointer-events: none;">
                                 <span id="DX_Conn_Ico" style="display: flex; align-items: center; justify-content: center; flex-shrink: 0; width: 20px; height: 20px;"></span>
                             </div>
                             <div class="DX_Btn DX_Btn_Eel DX_NoSel" id="DX_Mode_Toggle_Btn" style="display: flex; align-items: center; justify-content: center; gap: 6px; font-size: 13px; font-weight: 700; border-radius: 8px; flex: 1; color: var(--dx-text); cursor: pointer; padding: 0 8px; white-space: nowrap;">
@@ -2636,7 +2773,7 @@
                         <div id="DX_Native_Sections" style="display: flex; flex-direction: column; gap: 8px; width: 100%;">
                             <div class="DX_Farm_Sec">
                                 <div class="DX_HStack_4" style="align-self: stretch; min-width: 0;">
-                                    <p class="DX_T1 DX_NoSel" style="font-size: 14px; font-weight: 600;">How much XP would you like to get?</p>
+                                    <p class="DX_T1 DX_NoSel" style="font-size: 14px; font-weight: 600;">How much XP to farm?</p>
                                 </div>
                                 <div class="DX_HStack_8">
                                     <button class="DX_Hash_Btn" id="DX_XP_Hash" data-inf="false" title="Toggle infinite loops">${icons.hash}</button>
@@ -2654,7 +2791,7 @@
                             <div class="DX_Divider"></div>
                             <div class="DX_Farm_Sec">
                                 <div class="DX_HStack_4" style="align-self: stretch; min-width: 0;">
-                                    <p class="DX_T1 DX_NoSel" style="font-size: 14px; font-weight: 600;">How many Gems would you like to get?</p>
+                                    <p class="DX_T1 DX_NoSel" style="font-size: 14px; font-weight: 600;">How many Gems to farm?</p>
                                 </div>
                                 <div class="DX_HStack_8">
                                     <button class="DX_Hash_Btn dx-inf-active" id="DX_Gem_Hash" data-inf="true" title="Toggle infinite loops">${icons.inf}<span class="DX_Hash_Lbl">Infinite</span></button>
@@ -2672,7 +2809,7 @@
                             <div class="DX_Divider"></div>
                             <div class="DX_Farm_Sec">
                                 <div class="DX_HStack_4" style="align-self: stretch; min-width: 0;">
-                                    <p class="DX_T1 DX_NoSel" style="font-size: 14px; font-weight: 600;">How many Streak Days to restore?</p>
+                                    <p class="DX_T1 DX_NoSel" style="font-size: 14px; font-weight: 600;">How many streak days to restore?</p>
                                 </div>
                                 <div class="DX_HStack_8">
                                     <button class="DX_Hash_Btn" id="DX_Streak_Hash" data-inf="false" title="Toggle infinite loops">${icons.hash}</button>
@@ -2691,7 +2828,7 @@
                         <div id="DX_Solver_Sections" style="display: none; flex-direction: column; gap: 8px; width: 100%;">
                             <div class="DX_Farm_Sec">
                                 <div class="DX_HStack_4" style="align-self: stretch; min-width: 0;">
-                                    <p class="DX_T1 DX_NoSel" style="font-size: 14px; font-weight: 600;">How many Path lessons to solve?</p>
+                                    <p class="DX_T1 DX_NoSel" style="font-size: 14px; font-weight: 600;">How many path lessons to solve?</p>
                                 </div>
                                 <div class="DX_HStack_8">
                                     <button class="DX_Hash_Btn dx-inf-active" id="DX_Path_Hash" data-inf="true" title="Toggle infinite loops">${icons.inf}<span class="DX_Hash_Lbl">Infinite</span></button>
@@ -2709,7 +2846,7 @@
                             <div class="DX_Divider"></div>
                             <div class="DX_Farm_Sec">
                                 <div class="DX_HStack_4" style="align-self: stretch; min-width: 0;">
-                                    <p class="DX_T1 DX_NoSel" style="font-size: 14px; font-weight: 600;">How many Practice lessons to solve?</p>
+                                    <p class="DX_T1 DX_NoSel" style="font-size: 14px; font-weight: 600;">How many practice lessons to solve?</p>
                                 </div>
                                 <div class="DX_HStack_8">
                                     <button class="DX_Hash_Btn dx-inf-active" id="DX_Practice_Hash" data-inf="true" title="Toggle infinite loops">${icons.inf}<span class="DX_Hash_Lbl">Infinite</span></button>
@@ -2729,7 +2866,7 @@
                         <div class="DX_Btn DX_Btn_Blue_Ghost DX_NoSel DX_Nav_Btn" id="DX_Extra_Btn">
                             <div class="DX_Nav_Btn_L">
                                 <img class="DX_NoSel" src="https://d35aaqx5ub95lt.cloudfront.net/vendor/7159c0b5d4250a5aea4f396d53f17f0c.svg" alt="" style="width: 22px; height: 22px; object-fit: contain; flex-shrink: 0;">
-                                <p class="DX_Nav_Title DX_NoSel">Extra</p>
+                                <p class="DX_Nav_Title DX_NoSel">Extra Features</p>
                             </div>
                             ${icons.arrowRight}
                         </div>
@@ -2747,69 +2884,6 @@
                             <p class="DX_T2 DX_NoSel">Additional utilities and statistics</p>
                         </div>
                     </div>
-                    <div class="DX_Btn DX_Btn_Blue_Ghost DX_NoSel DX_Nav_Btn" id="DX_Shop_Btn">
-                        <div class="DX_Nav_Btn_L">
-                            <img class="DX_NoSel" src="https://d35aaqx5ub95lt.cloudfront.net/vendor/0e58a94dda219766d98c7796b910beee.svg" alt="" style="width: 22px; height: 22px; object-fit: contain; flex-shrink: 0;">
-                            <p class="DX_Nav_Title DX_NoSel">Shop Items</p>
-                        </div>
-                        ${icons.arrowRight}
-                    </div>
-                    <div class="DX_Btn DX_Btn_Blue_Ghost DX_NoSel DX_Nav_Btn" id="DX_Quest_Nav_Btn">
-                        <div class="DX_Nav_Btn_L">
-                            <img class="DX_NoSel" src="https://d35aaqx5ub95lt.cloudfront.net/vendor/7ef36bae3f9d68fc763d3451b5167836.svg" alt="" style="width: 22px; height: 22px; object-fit: contain; flex-shrink: 0;">
-                            <p class="DX_Nav_Title DX_NoSel">Quests Center</p>
-                        </div>
-                        ${icons.arrowRight}
-                    </div>
-                    <div class="DX_Btn DX_Btn_Blue_Ghost DX_NoSel DX_Nav_Btn" id="DX_Tools_Nav_Btn">
-                        <div class="DX_Nav_Btn_L">
-                            <img class="DX_NoSel" src="${DUO_LEAGUES_CDN}a8e5c18e80054228b2c61168846ff643.svg" alt="" style="width: 22px; height: 22px; object-fit: contain; flex-shrink: 0;">
-                            <p class="DX_Nav_Title DX_NoSel">Social Tools</p>
-                        </div>
-                        ${icons.arrowRight}
-                    </div>
-                    <div class="DX_Btn DX_Btn_Blue_Ghost DX_NoSel DX_Nav_Btn" id="DX_Feed_Nav_Btn">
-                        <div class="DX_Nav_Btn_L">
-                            <img class="DX_NoSel" src="${DUO_LEAGUES_CDN}2ceb401cae52712705b66a77df83ce40.svg" alt="" style="width: 22px; height: 22px; object-fit: contain; flex-shrink: 0;">
-                            <p class="DX_Nav_Title DX_NoSel">Activity Feed</p>
-                        </div>
-                        ${icons.arrowRight}
-                    </div>
-                    <div class="DX_Btn DX_Btn_Blue_Ghost DX_NoSel DX_Nav_Btn" id="DX_XPSummaries_Btn">
-                        <div class="DX_Nav_Btn_L">
-                            <img class="DX_NoSel" src="${icons.xpIcon}" alt="" style="width: 22px; height: 22px; object-fit: contain; flex-shrink: 0;">
-                            <p class="DX_Nav_Title DX_NoSel">XP Summaries</p>
-                        </div>
-                        ${icons.arrowRight}
-                    </div>
-                    <div class="DX_Btn DX_Btn_Blue_Ghost DX_NoSel DX_Nav_Btn" id="DX_Board_Nav_Btn">
-                        <div class="DX_Nav_Btn_L">
-                            <img id="DX_Board_Nav_Ico" src="${leagueBadgeUrl()}" alt="" style="width: 22px; height: 22px; flex-shrink: 0; object-fit: contain;">
-                            <p class="DX_Nav_Title DX_NoSel">Leaderboard</p>
-                        </div>
-                        ${icons.arrowRight}
-                    </div>
-                    <div class="DX_Divider"></div>
-                    <div class="DX_Farm_Sec">
-                        <div class="DX_Compact_Task">
-                            <div class="DX_Row_Text">
-                                <p class="DX_T1 DX_NoSel">Remove Hearts</p>
-                                <p class="DX_T2 DX_NoSel">Drain hearts from this account</p>
-                            </div>
-                            <div class="DX_HStack_8" style="width: auto; flex-shrink: 0;">
-                                <div class="DX_Set_Input_Wrap" style="width: 80px; flex-shrink: 0;">
-                                    <input type="number" class="DX_Input DX_NoSel" id="DX_Hearts_Input" placeholder="1-5" min="1" max="5">
-                                </div>
-                                <button class="DX_Sm_Btn DX_NoSel" id="DX_Hearts_Btn" disabled>
-                                    <span class="DX_Sm_Btn_Label" style="color: #fff;">RUN</span>
-                                </button>
-                            </div>
-                        </div>
-                        <div class="DX_Prog_Wrap" id="DX_Hearts_Prog" style="align-self: stretch;">
-                            <div class="DX_Prog_Fill" id="DX_Hearts_Fill"></div>
-                        </div>
-                    </div>
-                    <div class="DX_Divider"></div>
                     <div class="DX_Farm_Sec">
                         <div class="DX_Compact_Task">
                             <div class="DX_Row_Text">
@@ -2832,6 +2906,69 @@
                             <div class="DX_Prog_Fill" id="DX_League_Fill"></div>
                         </div>
                     </div>
+                    <div class="DX_Divider"></div>
+                    <div class="DX_Farm_Sec">
+                        <div class="DX_Compact_Task">
+                            <div class="DX_Row_Text">
+                                <p class="DX_T1 DX_NoSel">Remove Hearts</p>
+                                <p class="DX_T2 DX_NoSel">Drain hearts from this account</p>
+                            </div>
+                            <div class="DX_HStack_8" style="width: auto; flex-shrink: 0;">
+                                <div class="DX_Set_Input_Wrap" style="width: 80px; flex-shrink: 0;">
+                                    <input type="number" class="DX_Input DX_NoSel" id="DX_Hearts_Input" placeholder="1-5" min="1" max="5">
+                                </div>
+                                <button class="DX_Sm_Btn DX_NoSel" id="DX_Hearts_Btn" disabled>
+                                    <span class="DX_Sm_Btn_Label" style="color: #fff;">RUN</span>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="DX_Prog_Wrap" id="DX_Hearts_Prog" style="align-self: stretch;">
+                            <div class="DX_Prog_Fill" id="DX_Hearts_Fill"></div>
+                        </div>
+                    </div>
+                    <div class="DX_Divider"></div>
+                    <div class="DX_Btn DX_Btn_Blue_Ghost DX_NoSel DX_Nav_Btn" id="DX_Shop_Btn">
+                        <div class="DX_Nav_Btn_L">
+                            <img class="DX_NoSel" src="https://d35aaqx5ub95lt.cloudfront.net/vendor/0e58a94dda219766d98c7796b910beee.svg" alt="" style="width: 22px; height: 22px; object-fit: contain; flex-shrink: 0;">
+                            <p class="DX_Nav_Title DX_NoSel">Shop Items</p>
+                        </div>
+                        ${icons.arrowRight}
+                    </div>
+                    <div class="DX_Btn DX_Btn_Blue_Ghost DX_NoSel DX_Nav_Btn" id="DX_Quest_Nav_Btn">
+                        <div class="DX_Nav_Btn_L">
+                            <img class="DX_NoSel" src="https://d35aaqx5ub95lt.cloudfront.net/vendor/7ef36bae3f9d68fc763d3451b5167836.svg" alt="" style="width: 22px; height: 22px; object-fit: contain; flex-shrink: 0;">
+                            <p class="DX_Nav_Title DX_NoSel">Quest Center</p>
+                        </div>
+                        ${icons.arrowRight}
+                    </div>
+                    <div class="DX_Btn DX_Btn_Blue_Ghost DX_NoSel DX_Nav_Btn" id="DX_Tools_Nav_Btn">
+                        <div class="DX_Nav_Btn_L">
+                            <img class="DX_NoSel" src="${DUO_LEAGUES_CDN}a8e5c18e80054228b2c61168846ff643.svg" alt="" style="width: 22px; height: 22px; object-fit: contain; flex-shrink: 0;">
+                            <p class="DX_Nav_Title DX_NoSel">Social Tools</p>
+                        </div>
+                        ${icons.arrowRight}
+                    </div>
+                    <div class="DX_Btn DX_Btn_Blue_Ghost DX_NoSel DX_Nav_Btn" id="DX_Board_Nav_Btn">
+                        <div class="DX_Nav_Btn_L">
+                            <img id="DX_Board_Nav_Ico" src="${leagueBadgeUrl()}" alt="" style="width: 22px; height: 22px; flex-shrink: 0; object-fit: contain;">
+                            <p class="DX_Nav_Title DX_NoSel">Leaderboard</p>
+                        </div>
+                        ${icons.arrowRight}
+                    </div>
+                    <div class="DX_Btn DX_Btn_Blue_Ghost DX_NoSel DX_Nav_Btn" id="DX_XPSummaries_Btn">
+                        <div class="DX_Nav_Btn_L">
+                            <img class="DX_NoSel" src="${icons.xpIcon}" alt="" style="width: 22px; height: 22px; object-fit: contain; flex-shrink: 0;">
+                            <p class="DX_Nav_Title DX_NoSel">XP Summaries</p>
+                        </div>
+                        ${icons.arrowRight}
+                    </div>
+                    <div class="DX_Btn DX_Btn_Blue_Ghost DX_NoSel DX_Nav_Btn" id="DX_Feed_Nav_Btn">
+                        <div class="DX_Nav_Btn_L">
+                            <img class="DX_NoSel" src="${DUO_LEAGUES_CDN}2ceb401cae52712705b66a77df83ce40.svg" alt="" style="width: 22px; height: 22px; object-fit: contain; flex-shrink: 0;">
+                            <p class="DX_Nav_Title DX_NoSel">Activity Feed</p>
+                        </div>
+                        ${icons.arrowRight}
+                    </div>
                 </div>
                 <div class="DX_Page" id="DX_Page_Settings">
                     <div class="DX_HStack_4 DX_NoSel DX_Back_Btn" id="DX_Settings_Back_Btn">
@@ -2840,9 +2977,7 @@
                     </div>
                     <div class="DX_HStack_4 DX_NoSel" style="align-self: stretch; gap: 8px; margin-bottom: 8px;">
                         <span style="color: var(--dx-text); width: 34px; height: 34px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
-                            <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg" style="flex-shrink: 0;">
-                                <path d="M 22.76,10.58 L 22.76,13.42 L 19.99,14.60 L 19.48,15.81 L 20.61,18.61 L 18.61,20.61 L 15.81,19.48 L 14.60,19.99 L 13.42,22.76 L 10.58,22.76 L 9.40,19.99 L 8.19,19.48 L 5.39,20.61 L 3.39,18.61 L 4.52,15.81 L 4.01,14.60 L 1.24,13.42 L 1.24,10.58 L 4.01,9.40 L 4.52,8.19 L 3.39,5.39 L 5.39,3.39 L 8.19,4.52 L 9.40,4.01 L 10.58,1.24 L 13.42,1.24 L 14.60,4.01 L 15.81,4.52 L 18.61,3.39 L 20.61,5.39 L 19.48,8.19 L 19.99,9.40 Z" /><circle cx="12" cy="12" r="4.32" />
-                            </svg>
+                            <img src="https://d35aaqx5ub95lt.cloudfront.net/images/103c3f969d4037b39a2771330f5a3bd8.svg" style="width: 30px; height: 30px; object-fit: contain; flex-shrink: 0;">
                         </span>
                         <div class="DX_Row_Text">
                             <p class="DX_T1 DX_NoSel" style="font-size: 14px; font-weight: 600;">Settings</p>
@@ -2851,23 +2986,14 @@
                     </div>
                     <div style="align-self: stretch; display: flex; flex-direction: column; width: 100%; gap: 8px;">
                         <style>
-                            .DX_Select.dropup .DX_Select_Options { top: auto; bottom: calc(100% + 8px); transform: translateY(10px); }
-                            .DX_Select.dropup.open .DX_Select_Options { transform: translateY(0); }
-                            .DX_Select_Option { border-left: 3px solid transparent; transition: background var(--DX-motion-fast) ease, border-color var(--DX-motion-fast) ease; }
-                            .DX_Select_Option.selected {
-                                background: linear-gradient(90deg, rgba(var(--DX-blue), 0.1) 0%, transparent 100%);
-                                color: var(--dx-text);
-                                border-left: 3px solid rgba(var(--DX-blue), 0.5);
-                            }
                             #DX_Page_Settings .DX_HStack_Auto { margin: 0 !important; }
                             #DX_Page_Settings .DX_VStack_8 { gap: 8px; }
-                            #DX_Page_Settings .DX_Select, #DX_Page_Settings .DX_Select_Options { border-radius: 8px !important; }
                         </style>
                         <div class="DX_VStack_8" style="align-self: stretch;">
                             <div class="DX_Setting_Row">
                                 <div class="DX_Row_Text">
                                     <p class="DX_T1 DX_NoSel">Loop Interval</p>
-                                    <p class="DX_T2 DX_NoSel">Interval between loops</p>
+                                    <p class="DX_T2 DX_NoSel">Delay interval between loops</p>
                                 </div>
                                 <div class="DX_HStack_8" style="width: auto;">
                                     <div class="DX_Set_Input_Wrap" style="width: 116px;">
@@ -2880,7 +3006,7 @@
                             <div class="DX_Setting_Row">
                                 <div class="DX_Row_Text">
                                     <p class="DX_T1 DX_NoSel">XP Overshoot</p>
-                                    <p class="DX_T2 DX_NoSel">Extra XP above target (30-500, 0 off)</p>
+                                    <p class="DX_T2 DX_NoSel">Extra XP buffer (30–500 XP, 0 to disable)</p>
                                 </div>
                                 <div class="DX_HStack_8" style="width: auto;">
                                     <div class="DX_Set_Input_Wrap" style="width: 116px;">
@@ -2893,7 +3019,7 @@
                             <div class="DX_Setting_Row">
                                 <div class="DX_Row_Text">
                                     <p class="DX_T1 DX_NoSel">Notification Position</p>
-                                    <p class="DX_T2 DX_NoSel">Set where alerts should appear</p>
+                                    <p class="DX_T2 DX_NoSel">Set the notification pop-up position</p>
                                 </div>
                                 <div class="DX_HStack_8" style="width: auto;">
                                     <div class="DX_Select" id="DX_Notif_Select" data-value="bottom_center" style="width: 146px; font-size: 13px;">
@@ -2915,7 +3041,7 @@
                             <div class="DX_Setting_Row">
                                 <div class="DX_Row_Text">
                                     <p class="DX_T1 DX_NoSel">On-Client Duolingo Max</p>
-                                    <p class="DX_T2 DX_NoSel">Unlock Max on client side</p>
+                                    <p class="DX_T2 DX_NoSel">Unlock Duolingo Max client-side</p>
                                 </div>
                                 <div class="DX_HStack_8" style="width: auto;">
                                     <div class="DX_Toggle" id="DX_LocalMax_Toggle"><div class="DX_Toggle_Knob"></div></div>
@@ -2925,7 +3051,7 @@
                             <div class="DX_Setting_Row">
                                 <div class="DX_Row_Text">
                                     <p class="DX_T1 DX_NoSel">Safe Streak Farming</p>
-                                    <p class="DX_T2 DX_NoSel">Prevent streak exceeding account age</p>
+                                    <p class="DX_T2 DX_NoSel">Prevent streak days from exceeding account age</p>
                                 </div>
                                 <div class="DX_HStack_8" style="width: auto;">
                                     <div class="DX_Toggle" id="DX_SafeStreak_Toggle"><div class="DX_Toggle_Knob"></div></div>
@@ -2935,7 +3061,7 @@
                             <div class="DX_Setting_Row">
                                 <div class="DX_Row_Text">
                                     <p class="DX_T1 DX_NoSel">EZ Quiz</p>
-                                    <p class="DX_T2 DX_NoSel">Enable custom lesson &amp; instant story</p>
+                                    <p class="DX_T2 DX_NoSel">Enable custom lessons and instant stories</p>
                                 </div>
                                 <div class="DX_HStack_8" style="width: auto;">
                                     <div class="DX_Toggle" id="DX_EZQuiz_Toggle"><div class="DX_Toggle_Knob"></div></div>
@@ -2945,15 +3071,14 @@
                             <div class="DX_Setting_Row">
                                 <div class="DX_Row_Text">
                                     <p class="DX_T1 DX_NoSel">EZ Quiz Question Count</p>
-                                    <p class="DX_T2 DX_NoSel">Set the number of questions for custom lessons</p>
+                                    <p class="DX_T2 DX_NoSel">Set the question count for custom lessons</p>
                                 </div>
                                 <div class="DX_HStack_8" style="width: auto;">
-                                    <div class="DX_Select dropup" id="DX_EZQuizLength_Select" data-value="5" style="width: 146px; font-size: 13px;">
+                                    <div class="DX_Select dropup" id="DX_EZQuizLength_Select" data-value="5" style="width: 90px; font-size: 13px;">
                                         <div class="DX_Select_Trigger">
                                             <span class="DX_Select_Text">5</span>${icons.chevron}
                                         </div>
                                         <div class="DX_Select_Options">
-                                            <div class="DX_Select_Option" data-value="default">Default</div>
                                             <div class="DX_Select_Option" data-value="1">1</div>
                                             <div class="DX_Select_Option" data-value="2">2</div>
                                             <div class="DX_Select_Option" data-value="3">3</div>
@@ -3023,7 +3148,7 @@
                             <div class="DX_Setting_Row">
                                 <div class="DX_Row_Text">
                                     <p class="DX_T1 DX_NoSel">Auto Join League</p>
-                                    <p class="DX_T2 DX_NoSel">Joins a league for you on launch</p>
+                                    <p class="DX_T2 DX_NoSel">Automatically join a league on startup</p>
                                 </div>
                                 <div class="DX_HStack_8" style="width: auto;">
                                     <div class="DX_Toggle" id="DX_AutoJoin_Toggle"><div class="DX_Toggle_Knob"></div></div>
@@ -3033,7 +3158,7 @@
                             <div class="DX_Setting_Row">
                                 <div class="DX_Row_Text">
                                     <p class="DX_T1 DX_NoSel">Auto Block League</p>
-                                    <p class="DX_T2 DX_NoSel">Blocks league users for you on launch</p>
+                                    <p class="DX_T2 DX_NoSel">Automatically block league users on startup</p>
                                 </div>
                                 <div class="DX_HStack_8" style="width: auto;">
                                     <div class="DX_Toggle" id="DX_AutoBlock_Toggle"><div class="DX_Toggle_Knob"></div></div>
@@ -3043,7 +3168,7 @@
                             <div class="DX_Setting_Row">
                                 <div class="DX_Row_Text">
                                     <p class="DX_T1 DX_NoSel">Auto Reach Rank</p>
-                                    <p class="DX_T2 DX_NoSel">Farms to your saved rank on launch</p>
+                                    <p class="DX_T2 DX_NoSel">Automatically farm to target rank on startup</p>
                                 </div>
                                 <div class="DX_HStack_8" style="width: auto;">
                                     <div class="DX_Toggle" id="DX_AutoReach_Toggle"><div class="DX_Toggle_Knob"></div></div>
@@ -3053,7 +3178,7 @@
                             <div class="DX_Setting_Row">
                                 <div class="DX_Row_Text">
                                     <p class="DX_T1 DX_NoSel">Auto Keep Streak</p>
-                                    <p class="DX_T2 DX_NoSel">Keeps your streak for you on launch</p>
+                                    <p class="DX_T2 DX_NoSel">Automatically maintain streak on startup</p>
                                 </div>
                                 <div class="DX_HStack_8" style="width: auto;">
                                     <div class="DX_Toggle" id="DX_AutoStreak_Toggle"><div class="DX_Toggle_Knob"></div></div>
@@ -3063,7 +3188,7 @@
                             <div class="DX_Setting_Row">
                                 <div class="DX_Row_Text">
                                     <p class="DX_T1 DX_NoSel">Auto Quest Saver</p>
-                                    <p class="DX_T2 DX_NoSel">Saves your quests for you on launch</p>
+                                    <p class="DX_T2 DX_NoSel">Automatically complete quests on startup</p>
                                 </div>
                                 <div class="DX_HStack_8" style="width: auto;">
                                     <div class="DX_Toggle" id="DX_AutoQuest_Toggle"><div class="DX_Toggle_Knob"></div></div>
@@ -3163,7 +3288,7 @@
                         <img class="DX_NoSel" src="https://d35aaqx5ub95lt.cloudfront.net/vendor/0e58a94dda219766d98c7796b910beee.svg" alt="" style="width: 34px; height: 34px; object-fit: contain; flex-shrink: 0;">
                         <div class="DX_Row_Text">
                             <p class="DX_T1 DX_NoSel" style="font-size: 14px; font-weight: 600;">Shop Items</p>
-                            <p class="DX_T2 DX_NoSel">Purchase boosts and powerups</p>
+                            <p class="DX_T2 DX_NoSel">Purchase boosts and power-ups</p>
                         </div>
                     </div>
                     <input type="text" class="DX_Search DX_NoSel" id="DX_Shop_Search" placeholder="Search items..." style="">
@@ -3180,14 +3305,14 @@
                         <img class="DX_NoSel" src="https://d35aaqx5ub95lt.cloudfront.net/vendor/7ef36bae3f9d68fc763d3451b5167836.svg" alt="" style="width: 34px; height: 34px; flex-shrink: 0; object-fit: contain;">
                         <div class="DX_Row_Text">
                             <p class="DX_T1 DX_NoSel" style="font-size: 14px; font-weight: 600;">Quest Center</p>
-                            <p class="DX_T2 DX_NoSel">Manage and view your quests</p>
+                            <p class="DX_T2 DX_NoSel">Manage and view your daily quests</p>
                         </div>
                     </div>
                     <div class="DX_Farm_Sec">
                         <div class="DX_HStack_Auto" style="align-self: stretch;">
                             <p class="DX_T1 DX_NoSel" style="font-size: 14px; font-weight: 600;">Quest Operations</p>
-                            <button class="DX_Sm_Btn DX_NoSel" id="DX_Quest_Force_Btn" disabled style="height: 28px; padding: 0 10px; min-width: 66px;">
-                                <span class="DX_Sm_Btn_Label" style="color: #fff; font-size: 11px;">FORCE ALL</span>
+                            <button class="DX_Sm_Btn DX_NoSel" id="DX_Quest_Force_Btn" disabled style="height: 28px; padding: 0 12px; min-width: auto; border-radius: var(--DX-r-s);">
+                                <span class="DX_Sm_Btn_Label" style="color: #fff; font-size: 11px; font-weight: 800; letter-spacing: 0.5px;">FORCE ALL</span>
                             </button>
                         </div>
                         <div class="DX_Prog_Wrap" id="DX_QuestForce_Prog" style="align-self: stretch;">
@@ -3208,14 +3333,14 @@
                         <img class="DX_NoSel" src="https://d35aaqx5ub95lt.cloudfront.net/images/super/11db6cd6f69cb2e3c5046b915be8e669.svg" alt="" style="width: 34px; height: 34px; object-fit: contain; flex-shrink: 0;">
                         <div class="DX_Row_Text">
                             <p class="DX_T1 DX_NoSel" style="font-size: 14px; font-weight: 600;">Account Manager</p>
-                            <p class="DX_T2 DX_NoSel">Switch profiles and manage accounts</p>
+                            <p class="DX_T2 DX_NoSel">Switch and manage saved profiles</p>
                         </div>
                     </div>
                     <div class="DX_Farm_Sec">
                         <div class="DX_HStack_Auto" style="align-self: stretch;">
-                            <p class="DX_T1 DX_NoSel" style="font-size: 14px; font-weight: 600;">Manage Accounts</p>
-                            <button class="DX_Sm_Btn DX_NoSel" id="DX_AccSave_Btn" style="height: 28px; padding: 0 10px; min-width: auto; border-radius: 6px;">
-                                <span class="DX_Sm_Btn_Label" style="color: #fff; font-size: 10px;">SAVE CURRENT</span>
+                            <p class="DX_T1 DX_NoSel" style="font-size: 14px; font-weight: 600;">Saved Profiles</p>
+                            <button class="DX_Sm_Btn DX_NoSel" id="DX_AccSave_Btn" style="height: 28px; padding: 0 12px; min-width: auto; border-radius: var(--DX-r-s);">
+                                <span class="DX_Sm_Btn_Label" style="color: #fff; font-size: 11px; font-weight: 800; letter-spacing: 0.5px;">SAVE CURRENT</span>
                             </button>
                         </div>
                     </div>
@@ -3239,7 +3364,7 @@
                         </div>
                     </div>
                     <div class="DX_Divider"></div>
-                    <div id="DX_Terms_Content" class="DX_Scroll_Inner DX_Selectable" style="max-height: 250px; font-size: 11px; line-height: 1.5; color: var(--dx-text); white-space: pre-wrap; padding: 10px; background: var(--dx-card-bg); border: 1.5px solid var(--dx-card-border); border-radius: var(--DX-r-s); align-self: stretch; text-align: left;">Loading terms...</div>
+                    <div id="DX_Terms_Content" class="DX_Scroll_Inner DX_Selectable" style="max-height: 250px; font-size: 11px; line-height: 1.5; color: var(--dx-text); white-space: pre-wrap; padding: 10px; background: var(--dx-card-bg); outline: 1.5px solid var(--dx-card-border); outline-offset: -1px; border-radius: var(--DX-r-s); align-self: stretch; text-align: left;">Loading terms...</div>
                     <div class="DX_Divider"></div>
                     <div class="DX_HStack_8" style="margin-top: 4px;">
                         <button class="DX_Sm_Btn DX_Btn_Eel DX_NoSel" id="DX_Terms_Decline_Btn" style="flex: 1; outline-color: transparent;">
@@ -3259,7 +3384,7 @@
                         <img class="DX_NoSel" src="${DUO_LEAGUES_CDN}a8e5c18e80054228b2c61168846ff643.svg" alt="" style="width: 34px; height: 34px; object-fit: contain; flex-shrink: 0;">
                         <div class="DX_Row_Text">
                             <p class="DX_T1 DX_NoSel" style="font-size: 14px; font-weight: 600;">Social Tools</p>
-                            <p class="DX_T2 DX_NoSel">Interact with other users</p>
+                            <p class="DX_T2 DX_NoSel">Interact with other Duolingo users</p>
                         </div>
                     </div>
                     <div class="DX_VStack_8" style="align-self: stretch;">
@@ -3269,7 +3394,7 @@
                         <div class="DX_Compact_Task">
                             <div class="DX_Row_Text">
                                 <p class="DX_T1 DX_NoSel">Block / Unblock</p>
-                                <p class="DX_T2 DX_NoSel">Block or unblock the user above</p>
+                                <p class="DX_T2 DX_NoSel">Block or unblock the specified user</p>
                             </div>
                             <div class="DX_Select" id="DX_Block_Select" data-value="block" style="width: 98px; flex-shrink: 0;">
                                 <div class="DX_Select_Trigger">
@@ -3287,7 +3412,7 @@
                         <div class="DX_Compact_Task">
                             <div class="DX_Row_Text">
                                 <p class="DX_T1 DX_NoSel">Follow / Unfollow</p>
-                                <p class="DX_T2 DX_NoSel">Follow or unfollow the user above</p>
+                                <p class="DX_T2 DX_NoSel">Follow or unfollow the specified user</p>
                             </div>
                             <div class="DX_Select" id="DX_FollowSingle_Select" data-value="follow" style="width: 98px; flex-shrink: 0;">
                                 <div class="DX_Select_Trigger">
@@ -3305,7 +3430,7 @@
                         <div class="DX_Compact_Task">
                             <div class="DX_Row_Text">
                                 <p class="DX_T1 DX_NoSel">Send Gift</p>
-                                <p class="DX_T2 DX_NoSel">Gift an item to the user above</p>
+                                <p class="DX_T2 DX_NoSel">Gift an item to the specified user</p>
                             </div>
                             <div class="DX_Select" id="DX_Gift_Select" data-value="streak_freeze_gift" style="width: 98px; flex-shrink: 0;">
                                 <div class="DX_Select_Trigger">
@@ -3323,7 +3448,7 @@
                         <div class="DX_Compact_Task">
                             <div class="DX_Row_Text">
                                 <p class="DX_T1 DX_NoSel">Friend Streak / Quest</p>
-                                <p class="DX_T2 DX_NoSel">Start a streak or quest with them</p>
+                                <p class="DX_T2 DX_NoSel">Start a Friends Quest or Friends Streak</p>
                             </div>
                             <div class="DX_Select" id="DX_Friend_Select" data-value="streak" style="width: 98px; flex-shrink: 0;">
                                 <div class="DX_Select_Trigger">
@@ -3594,6 +3719,7 @@
   };
   let uiHidden = localStorage.getItem("dx_ui_hidden") === "true";
   let hideCollapseTimer = null;
+  let hideShowContentTimer = null;
   let panelCorner = localStorage.getItem("dx_panel_corner") || "br";
   let oldToken = null;
   let delayMs = (() => {
@@ -3616,6 +3742,8 @@
   let leagueCheckBusy = false;
   let xpHistoryBusy = false;
   let feedBusy = false;
+  let checkForUpdatesBusy = false;
+  let accRefreshBusy = false;
   const DX_DRAG_SNAP_MS = 400;
 
   function wait(ms) {
@@ -3872,23 +4000,71 @@
       iconMarkup = icons.warning;
     }
 
+    let cleanTitle = title || "";
+    const titleMap = {
+      "Auto Keep Streak": "Auto Streak",
+      "Auto Reach Rank": "Auto League",
+      "Goal Reached": "Auto League",
+      "Auto League Stopped": "Auto League",
+      "Auto Quest Saver": "Quest Center",
+      "Quest Center": "Quest Center",
+      Shop: "Shop Items",
+      "Send Gift": "Social Tools",
+      "Mass Follow": "Social Tools",
+      "Mass Unfollow": "Social Tools",
+      "Mass Block": "Social Tools",
+      "Mass Unblock": "Social Tools",
+      "Follow User": "Social Tools",
+      "Unfollow User": "Social Tools",
+      "Block User": "Social Tools",
+      "Unblock User": "Social Tools",
+      "Quest Invite": "Social Tools",
+      "Streak Invite": "Social Tools",
+      "Leaderboard Status": "Leaderboard",
+      Status: "Auto Solver",
+      "Invalid Input": "Auto Solver",
+    };
+    if (titleMap[cleanTitle]) {
+      cleanTitle = titleMap[cleanTitle];
+    }
+
+    let cleanBody = body || "";
+    if (cleanBody && typeof cleanBody === "string") {
+      cleanBody = cleanBody.trim();
+      if (cleanBody.length > 0) {
+        cleanBody = cleanBody.charAt(0).toUpperCase() + cleanBody.slice(1);
+        if (!/[.!?]$/.test(cleanBody)) {
+          cleanBody += ".";
+        }
+      }
+    }
+
     element.innerHTML = `
             <div class="DX_Notif_Ico">${iconMarkup}</div>
-            <div style="flex: 1 0 0;">
-                <div class="DX_T1 DX_NoSel"></div>
-                <div class="DX_T2 DX_NoSel" style="margin-top: 2px;"></div>
+            <div>
+                <div class="DX_Notif_Title DX_NoSel"></div>
+                <div class="DX_Notif_Body DX_NoSel"></div>
             </div>
         `;
-    const titleEl = element.querySelector(".DX_T1");
-    const bodyEl = element.querySelector(".DX_T2");
-    if (titleEl) titleEl.textContent = title || "";
-    if (bodyEl) bodyEl.textContent = body || "";
+    const titleEl = element.querySelector(".DX_Notif_Title");
+    const bodyEl = element.querySelector(".DX_Notif_Body");
+    if (titleEl) titleEl.textContent = cleanTitle;
+    if (bodyEl) bodyEl.textContent = cleanBody;
 
     container.prepend(element);
 
     const h = element.offsetHeight;
     const atTop = notifPos.indexOf("top") === 0;
-    element.style.transform = `translateY(${atTop ? -(h + 20) : h + 20}px) scale(0.9)`;
+
+    const isLeft = notifPos.indexOf("left") !== -1;
+    const isRight = notifPos.indexOf("right") !== -1;
+    let initTransform = `translate3d(0, ${atTop ? -40 : 40}px, 0) scale(0.85)`;
+    if (isLeft) {
+      initTransform = "translate3d(-40px, 0, 0) scale(0.85)";
+    } else if (isRight) {
+      initTransform = "translate3d(40px, 0, 0) scale(0.85)";
+    }
+    element.style.transform = initTransform;
 
     let removeTimer;
     const dismiss = () => {
@@ -4007,12 +4183,16 @@
 
   function accSaveCurrent() {
     if (!user || !token || !userId) {
-      notify("warning", "Account Manager", "Please wait for connection.");
+      notify(
+        "warning",
+        "Account Manager",
+        "Please wait for the connection to complete.",
+      );
       return;
     }
     const all = accGetAll();
     if (all.find((a) => a.id == userId)) {
-      notify("info", "Account Manager", "This account is already saved.");
+      notify("info", "Account Manager", "This profile is already saved.");
       return;
     }
     const pic = bestAvatarUrl(user.picture);
@@ -4024,7 +4204,11 @@
       status: "ok",
     });
     accSetAll(all);
-    notify("success", "Account Manager", `Saved account: ${user.username}`);
+    notify(
+      "success",
+      "Account Manager",
+      `Successfully saved profile: ${user.username}`,
+    );
     renderAccounts();
     accRefreshAll();
   }
@@ -4033,13 +4217,13 @@
     const all = accGetAll().filter((a) => a.id != id);
     accSetAll(all);
     renderAccounts();
-    notify("success", "Account Manager", "Account removed from list.");
+    notify("success", "Account Manager", "Profile removed from list.");
   }
 
   function accLogin(id) {
     const acc = accGetAll().find((a) => a.id == id);
     if (!acc) {
-      notify("error", "Account Manager", "Account not found.");
+      notify("error", "Account Manager", "Profile not found.");
       return;
     }
     const payload = readToken(acc.token);
@@ -4172,7 +4356,7 @@
       actionDiv.className = "DX_Acc_Action_Row";
       actionDiv.innerHTML = `
                 ${canLogin ? `<button class="DX_Acc_Btn login" data-id="${acc.id}">LOG IN</button>` : ""}
-                <button class="DX_Acc_Btn del" data-id="${acc.id}"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button>
+                <button class="DX_Acc_Btn del" data-id="${acc.id}"><img src="https://d35aaqx5ub95lt.cloudfront.net/images/bd13fa941b2407b4914296afe4435646.svg" style="width: 12px; height: 12px; object-fit: contain; flex-shrink: 0;"></button>
             `;
       card.appendChild(actionDiv);
       card.querySelector(".del").addEventListener("click", (e) => {
@@ -4190,74 +4374,82 @@
   }
 
   async function accRefreshAll() {
-    const all = accGetAll();
-    if (!all.length) return;
+    if (accRefreshBusy) return;
+    accRefreshBusy = true;
+    try {
+      const all = accGetAll();
+      if (!all.length) return;
 
-    let changed = false;
-    await Promise.all(
-      all.map(async (acc) => {
-        try {
-          const res = await fetchApi(
-            "GET",
-            `https://www.duolingo.com/2017-06-30/users/${acc.id}?fields=id,username,picture,deactivated`,
-            null,
-            {
-              accept: "application/json",
-              authorization: "Bearer " + acc.token,
-              "content-type": "application/json",
-              origin: "https://www.duolingo.com",
-              "User-Agent": dxUserAgent,
-              "x-amzn-trace-id": "User=" + acc.id,
-            },
-            null,
-            true,
-          );
+      let changed = false;
+      await Promise.all(
+        all.map(async (acc) => {
+          try {
+            const res = await fetchApi(
+              "GET",
+              `https://www.duolingo.com/2017-06-30/users/${acc.id}?fields=id,username,picture,deactivated`,
+              null,
+              {
+                accept: "application/json",
+                authorization: "Bearer " + acc.token,
+                "content-type": "application/json",
+                origin: "https://www.duolingo.com",
+                "User-Agent": dxUserAgent,
+                "x-amzn-trace-id": "User=" + acc.id,
+              },
+              null,
+              true,
+            );
 
-          let newStatus = acc.status || "ok";
-          if (res.status === 200) {
-            const fresh = safeJsonParse(res.responseText);
-            if (fresh) {
-              const pic = bestAvatarUrl(fresh.picture);
+            let newStatus = acc.status || "ok";
+            if (res.status === 200) {
+              const fresh = safeJsonParse(res.responseText);
+              if (fresh) {
+                const pic = bestAvatarUrl(fresh.picture);
 
-              if (fresh.username && fresh.username !== acc.username) {
-                acc.username = fresh.username;
-                changed = true;
+                if (fresh.username && fresh.username !== acc.username) {
+                  acc.username = fresh.username;
+                  changed = true;
+                }
+                if (pic !== undefined && pic !== acc.pic) {
+                  acc.pic = pic;
+                  changed = true;
+                }
+
+                newStatus = fresh.deactivated === true ? "banned" : "ok";
+              } else {
+                newStatus = "ok";
               }
-              if (pic !== undefined && pic !== acc.pic) {
-                acc.pic = pic;
-                changed = true;
-              }
-
-              newStatus = fresh.deactivated === true ? "banned" : "ok";
-            } else {
-              newStatus = "ok";
+            } else if (res.status === 401 || res.status === 400) {
+              newStatus = "relogin";
+            } else if (res.status === 404) {
+              newStatus = "banned";
             }
-          } else if (res.status === 401 || res.status === 400) {
-            newStatus = "relogin";
-          } else if (res.status === 404) {
-            newStatus = "banned";
-          }
 
-          if (acc.status !== newStatus) {
-            acc.status = newStatus;
-            changed = true;
+            if (acc.status !== newStatus) {
+              acc.status = newStatus;
+              changed = true;
+            }
+          } catch {
+            if (acc.status !== "error") {
+              acc.status = "error";
+              changed = true;
+            }
           }
-        } catch {
-          if (acc.status !== "error") {
-            acc.status = "error";
-            changed = true;
-          }
-        }
-      }),
-    );
+        }),
+      );
 
-    if (changed) {
-      accSetAll(all);
-      renderAccounts();
+      if (changed) {
+        accSetAll(all);
+        renderAccounts();
+      }
+    } finally {
+      accRefreshBusy = false;
     }
   }
 
   async function checkForUpdates() {
+    if (checkForUpdatesBusy) return;
+    checkForUpdatesBusy = true;
     const availableKey = "dx_update_available_version";
     const now = Date.now();
 
@@ -4281,7 +4473,10 @@
         localStorage.removeItem(availableKey);
         hideUpdateBanner();
       }
-    } catch {}
+    } catch {
+    } finally {
+      checkForUpdatesBusy = false;
+    }
   }
 
   let notifPos = "bottom_center";
@@ -4452,25 +4647,21 @@
 
     const loaderHtml = `
             <div style="width: 20px; height: 20px; position: relative; display: flex; align-items: center; justify-content: center;">
-                <div class="dx-spinner" style="position: absolute; top: 0; left: 0; transition: opacity var(--DX-motion) ease, transform var(--DX-motion) var(--DX-ease);"></div>
-                <svg class="dx-tick-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="position: absolute; width: 20px; height: 20px; stroke-dasharray: 50; stroke-dashoffset: 50; opacity: 0; transition: stroke-dashoffset var(--DX-motion-page) var(--DX-ease), opacity var(--DX-motion) ease, background-color var(--DX-motion) ease; border-radius: 50%; padding: 3px; box-sizing: border-box;">
-                    <polyline points="20 6 9 17 4 12"></polyline>
-                </svg>
+                <div class="dx-spinner" style="position: absolute; top: 0; left: 0; transition: opacity var(--DX-motion) var(--DX-ease), transform var(--DX-motion) var(--DX-ease);"></div>
+                <img class="dx-tick-icon" src="https://d35aaqx5ub95lt.cloudfront.net/images/b377ec812acb8c96d87d52e8009478ad.svg" style="position: absolute; width: 20px; height: 20px; opacity: 0; transform: scale(0.5); transition: transform var(--DX-motion) var(--DX-ease), opacity var(--DX-motion) var(--DX-ease); object-fit: contain; flex-shrink: 0;">
             </div>
         `;
 
+    btn.style.background = "var(--dx-card-bg)";
+    btn.style.outline = "2px solid var(--dx-card-border)";
+    btn.style.color = "var(--dx-text)";
+
     if (status === "connecting") {
       if (text) text.innerText = "Connecting";
-      btn.style.background = "var(--dx-card-bg)";
-      btn.style.outline = "2px solid var(--dx-card-border)";
-      btn.style.color = "var(--dx-text)";
       icon.innerHTML = loaderHtml;
       content.classList.add("dx-disabled");
     } else if (status === "connected") {
       if (text) text.innerText = "Connected";
-      btn.style.background = "rgba(88, 204, 2, 1)";
-      btn.style.outline = "2px solid rgba(88, 204, 2, 1)";
-      btn.style.color = "#fff";
       content.classList.remove("dx-disabled");
 
       if (!icon.querySelector(".dx-spinner")) {
@@ -4485,34 +4676,13 @@
           spinner.style.transform =
             "scale3d(0.1, 0.1, 1) rotate3d(0, 0, 1, 90deg)";
           tick.style.opacity = "1";
-          tick.style.strokeDashoffset = "0";
-          tick.style.stroke = "#fff";
+          tick.style.transform = "scale(1)";
         }
       }, 50);
-
-      setTimeout(() => {
-        if (status === "connected") {
-          btn.style.background = "rgba(88, 204, 2, 0.15)";
-          btn.style.outline = "2px solid rgba(88, 204, 2, 0.5)";
-          btn.style.color = "var(--dx-text)";
-
-          const tick = icon.querySelector(".dx-tick-icon");
-          if (tick) {
-            tick.style.backgroundColor = "transparent";
-            tick.style.stroke = "rgb(88, 204, 2)";
-          }
-        }
-      }, 3000);
     } else if (status === "logged_out") {
       if (text) text.innerText = "Logged Out";
-      btn.style.background = "rgba(238, 85, 85, 1)";
-      btn.style.outline = "2px solid rgba(238, 85, 85, 1)";
-      btn.style.color = "#fff";
       icon.innerHTML = `
-                <svg class="dx-cross-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="width: 20px; height: 20px; padding: 3px; box-sizing: border-box; transition: stroke var(--DX-motion) ease;">
-                    <line x1="18" y1="6" x2="6" y2="18"></line>
-                    <line x1="6" y1="6" x2="18" y2="18"></line>
-                </svg>
+                <img class="dx-cross-icon" src="https://d35aaqx5ub95lt.cloudfront.net/images/bd13fa941b2407b4914296afe4435646.svg" style="width: 20px; height: 20px; object-fit: contain; flex-shrink: 0;">
             `;
       content.classList.add("dx-disabled");
 
@@ -4531,19 +4701,6 @@
         const statsRow = document.getElementById("DX_User_Stats_Row");
         if (statsRow) statsRow.style.display = "none";
       }
-
-      setTimeout(() => {
-        if (status === "logged_out") {
-          btn.style.background = "rgba(238, 85, 85, 0.15)";
-          btn.style.outline = "2px solid rgba(238, 85, 85, 0.5)";
-          btn.style.color = "var(--dx-text)";
-
-          const cross = icon.querySelector(".dx-cross-icon");
-          if (cross) {
-            cross.style.stroke = "rgb(238, 85, 85)";
-          }
-        }
-      }, 3000);
 
       [
         "DX_XP_Btn",
@@ -4767,11 +4924,13 @@
     const declineBtn = document.getElementById("DX_Terms_Decline_Btn");
     const acceptBtn = document.getElementById("DX_Terms_Accept_Btn");
 
-    pageEl.style.transition =
-      "opacity 0.15s ease, filter 0.15s ease, -webkit-transform 0.15s ease, transform 0.15s ease";
+    const easeCurve = "cubic-bezier(0.34, 1.15, 0.64, 1)";
+    const fadeCurve = "cubic-bezier(0.4, 0, 0.2, 1)";
+
+    pageEl.style.transition = `opacity 0.2s ${fadeCurve}, filter 0.2s ${fadeCurve}, transform 0.2s ${fadeCurve}`;
     pageEl.style.opacity = "0";
-    pageEl.style.filter = "blur(3px)";
-    pageEl.style.transform = "scale3d(0.98, 0.98, 1)";
+    pageEl.style.filter = "blur(6px)";
+    pageEl.style.transform = "scale(0.96)";
 
     const startHeight = mainBox.offsetHeight;
 
@@ -4794,21 +4953,26 @@
       mainBox.style.height = startHeight + "px";
       void mainBox.offsetHeight;
 
-      const easeCurve = "cubic-bezier(0.34, 1.15, 0.64, 1)";
-      mainBox.style.transition = `height 0.3s ${easeCurve}`;
+      mainBox.style.transition = `height 0.4s ${easeCurve}`;
       mainBox.style.height = targetHeight + "px";
 
-      pageEl.style.opacity = "1";
-      pageEl.style.filter = "none";
-      pageEl.style.transform = "scale3d(1, 1, 1)";
+      setTimeout(() => {
+        pageEl.style.transition = `filter 0.3s ${fadeCurve}, opacity 0.3s ${fadeCurve}, transform 0.3s ${easeCurve}`;
+        pageEl.style.filter = "none";
+        pageEl.style.opacity = "1";
+        pageEl.style.transform = "scale(1)";
+      }, 50);
 
       setTimeout(() => {
         mainBox.style.height = "auto";
         mainBox.style.transition = "";
         pageEl.style.transition = "";
+        pageEl.style.filter = "";
+        pageEl.style.opacity = "";
+        pageEl.style.transform = "";
         relayout();
-      }, 300);
-    }, 150);
+      }, 400);
+    }, 200);
   }
 
   function loadEulaAndTos() {
@@ -5525,57 +5689,59 @@
 
     stopBtn("DX_XP_Btn");
 
-    for (let i = 0; i < loops; i++) {
-      if (!farmStates.xp) {
-        break;
+    try {
+      for (let i = 0; i < loops; i++) {
+        if (!farmStates.xp) {
+          break;
+        }
+
+        const success = await playStory(469, sig);
+        if (!farmStates.xp) break;
+        if (success) {
+          totalXp += maxPerReq;
+          doneIters++;
+          user.totalXp += maxPerReq;
+          showUser();
+        }
+
+        if (!isInfinite) {
+          setProgress("DX_XP", (doneIters / expectedIters) * 100);
+        }
+
+        await waitStop(delayMs, sig);
       }
 
-      const success = await playStory(469, sig);
-      if (!farmStates.xp) break;
-      if (success) {
-        totalXp += maxPerReq;
-        doneIters++;
-        user.totalXp += maxPerReq;
-        showUser();
+      if (!isInfinite && remAmount >= minPerReq && farmStates.xp) {
+        const success = await playStory(
+          Math.min(remAmount - minPerReq, 469),
+          sig,
+        );
+        if (success) {
+          totalXp += remAmount;
+          doneIters++;
+          user.totalXp += remAmount;
+          showUser();
+        }
+        setProgress("DX_XP", 100);
       }
 
-      if (!isInfinite) {
-        setProgress("DX_XP", (doneIters / expectedIters) * 100);
+      const completed = farmStates.xp;
+      if (totalXp > 0) {
+        addStat("xp", totalXp);
+        notify(
+          "success",
+          completed ? "XP Farm Complete" : "XP Farm Stopped",
+          `Farmed ${totalXp} XP.`,
+        );
+        refreshStats(true);
       }
 
-      await waitStop(delayMs, sig);
+      clearProgress("DX_XP", completed);
+    } finally {
+      farmStates.xp = false;
+      farmCtl.xp = null;
+      resetBtn("DX_XP_Btn", "RUN");
     }
-
-    if (!isInfinite && remAmount >= minPerReq && farmStates.xp) {
-      const success = await playStory(
-        Math.min(remAmount - minPerReq, 469),
-        sig,
-      );
-      if (success) {
-        totalXp += remAmount;
-        doneIters++;
-        user.totalXp += remAmount;
-        showUser();
-      }
-      setProgress("DX_XP", 100);
-    }
-
-    const completed = farmStates.xp;
-    if (totalXp > 0) {
-      addStat("xp", totalXp);
-      notify(
-        "success",
-        completed ? "XP Farm Complete" : "XP Farm Stopped",
-        `Farmed ${totalXp} XP.`,
-      );
-      refreshStats(true);
-    }
-
-    clearProgress("DX_XP", completed);
-
-    farmStates.xp = false;
-    farmCtl.xp = null;
-    resetBtn("DX_XP_Btn", "RUN");
   }
 
   async function checkGems(signal) {
@@ -5627,16 +5793,6 @@
         null,
         signal,
       );
-      if (res.status === 200) {
-        await waitStop(300, signal);
-        res = await fetchApi(
-          "PATCH",
-          `https://www.duolingo.com/2023-05-23/users/${userId}/rewards/${rewardId}`,
-          payload,
-          null,
-          signal,
-        );
-      }
       return res.status === 200;
     } catch {
       return false;
@@ -5651,63 +5807,65 @@
     let doneLoops = 0;
     const sig = farmSignal("gem");
 
-    while (farmStates.gem && (isInfinite || doneLoops < targetLoops)) {
-      let available = await checkGems(sig);
-      if (!farmStates.gem) break;
-
-      if (available.length === 0) {
-        await waitStop(delayMs * 2, sig);
-        continue;
-      }
-
-      if (farmStates.gem && (isInfinite || doneLoops < targetLoops)) {
-        const results = await Promise.all(
-          available.map((r) => claimGem(r.id, sig)),
-        );
+    try {
+      while (farmStates.gem && (isInfinite || doneLoops < targetLoops)) {
+        let available = await checkGems(sig);
         if (!farmStates.gem) break;
 
-        let batchGained = 0;
-        results.forEach((ok, idx) => {
-          if (ok) batchGained += available[idx].amount || 0;
-        });
-        if (batchGained > 0) {
-          totalGained += batchGained;
-          if (user) {
-            user.gems = (user.gems || 0) + batchGained;
-            showUser();
+        if (available.length === 0) {
+          await waitStop(delayMs * 2, sig);
+          continue;
+        }
+
+        if (farmStates.gem && (isInfinite || doneLoops < targetLoops)) {
+          const results = await Promise.all(
+            available.map((r) => claimGem(r.id, sig)),
+          );
+          if (!farmStates.gem) break;
+
+          let batchGained = 0;
+          results.forEach((ok, idx) => {
+            if (ok) batchGained += available[idx].amount || 0;
+          });
+          if (batchGained > 0) {
+            totalGained += batchGained;
+            if (user) {
+              user.gems = (user.gems || 0) + batchGained;
+              showUser();
+            }
           }
+
+          await waitStop(150, sig);
+
+          doneLoops++;
+
+          if (!isInfinite) {
+            setProgress("DX_Gem", (doneLoops / targetLoops) * 100);
+          }
+
+          await waitStop(Math.max(50, delayMs - 50), sig);
         }
 
-        await waitStop(150, sig);
-
-        doneLoops++;
-
-        if (!isInfinite) {
-          setProgress("DX_Gem", (doneLoops / targetLoops) * 100);
-        }
-
-        await waitStop(Math.max(50, delayMs - 50), sig);
+        await waitStop(delayMs, sig);
       }
 
-      await waitStop(delayMs, sig);
+      const completed = farmStates.gem;
+      if (totalGained > 0) {
+        addStat("gems", totalGained);
+        notify(
+          "success",
+          completed ? "Gem Farm Complete" : "Gem Farm Stopped",
+          `+${totalGained} gems acquired.`,
+        );
+        refreshStats(true);
+      }
+
+      clearProgress("DX_Gem", completed);
+    } finally {
+      farmStates.gem = false;
+      farmCtl.gem = null;
+      resetBtn("DX_Gem_Btn", "RUN");
     }
-
-    const completed = farmStates.gem;
-    if (totalGained > 0) {
-      addStat("gems", totalGained);
-      notify(
-        "success",
-        completed ? "Gem Farm Complete" : "Gem Farm Stopped",
-        `+${totalGained} gems acquired.`,
-      );
-      refreshStats(true);
-    }
-
-    clearProgress("DX_Gem", completed);
-
-    farmStates.gem = false;
-    farmCtl.gem = null;
-    resetBtn("DX_Gem_Btn", "RUN");
   }
 
   async function completePracticeSession(endSecs, signal) {
@@ -5847,57 +6005,59 @@
     let savedDays = 0;
     const sig = farmSignal("streak");
 
-    while (farmStates.streak && (isInfinite || doneLoops < targetDays)) {
-      const endSecs = wallClockToSeconds(
-        tz,
-        base.year,
-        base.month,
-        base.day - 1 - doneLoops,
-        12,
-        0,
-        0,
-      );
+    try {
+      while (farmStates.streak && (isInfinite || doneLoops < targetDays)) {
+        const endSecs = wallClockToSeconds(
+          tz,
+          base.year,
+          base.month,
+          base.day - 1 - doneLoops,
+          12,
+          0,
+          0,
+        );
 
-      if (farmStates.streak) {
-        const ok = await completePracticeSession(endSecs, sig);
-        if (ok && user) {
-          savedDays++;
-          user.streak++;
-          showUser();
+        if (farmStates.streak) {
+          const ok = await completePracticeSession(endSecs, sig);
+          if (ok && user) {
+            savedDays++;
+            user.streak++;
+            showUser();
+          }
         }
+
+        doneLoops++;
+
+        if (!isInfinite) {
+          setProgress("DX_Streak", (doneLoops / targetDays) * 100);
+        }
+
+        await waitStop(delayMs, sig);
       }
 
-      doneLoops++;
-
-      if (!isInfinite) {
-        setProgress("DX_Streak", (doneLoops / targetDays) * 100);
+      const completed = farmStates.streak;
+      if (savedDays > 0) {
+        addStat("streak", savedDays);
+        notify(
+          "success",
+          completed ? "Streak Restored" : "Streak Farm Stopped",
+          `Processed ${savedDays} days.`,
+        );
+        refreshStats(true);
+      } else if (completed && doneLoops > 0) {
+        notify(
+          "error",
+          "Streak Farm",
+          "No days could be saved. Please try again.",
+        );
       }
 
-      await waitStop(delayMs, sig);
+      clearProgress("DX_Streak", completed);
+    } finally {
+      farmStates.streak = false;
+      farmCtl.streak = null;
+      resetBtn("DX_Streak_Btn", "RUN");
     }
-
-    const completed = farmStates.streak;
-    if (savedDays > 0) {
-      addStat("streak", savedDays);
-      notify(
-        "success",
-        completed ? "Streak Restored" : "Streak Farm Stopped",
-        `Processed ${savedDays} days.`,
-      );
-      refreshStats(true);
-    } else if (completed && doneLoops > 0) {
-      notify(
-        "error",
-        "Streak Farm",
-        "No days could be saved. Please try again.",
-      );
-    }
-
-    clearProgress("DX_Streak", completed);
-
-    farmStates.streak = false;
-    farmCtl.streak = null;
-    resetBtn("DX_Streak_Btn", "RUN");
   }
 
   async function keepStreak() {
@@ -6140,111 +6300,113 @@
     let joinAttemptCount = 0;
     const sig = farmSignal("league");
 
-    while (farmStates.league) {
-      try {
-        const res = await fetchApi(
-          "GET",
-          `${config.api.leaderboards}/users/${userId}?client_unlocked=true&_=${Date.now()}`,
-          null,
-          null,
-          sig,
-        );
-        if (!farmStates.league) break;
-
-        if (res.status !== 200) {
-          await waitStop(3000, sig);
-          continue;
-        }
-
-        const data = safeJsonParse(res.responseText, {});
-        leagueDataCache = data;
-        leagueDataTs = Date.now();
-        applyLeagueSummary(data);
-        const activeRanks = data?.active?.cohort?.rankings || [];
-        const cRankings = activeRanks.find((u) => u.user_id == userId);
-
-        if (!cRankings) {
-          if (joinAttemptCount === 0) {
-            joinAttemptCount = 1;
-            notify(
-              "info",
-              "Auto League",
-              "You are not in a league yet. Joining now...",
-            );
-            await joinLeague();
-            await waitStop(3000, sig);
-            continue;
-          } else if (joinAttemptCount < 10) {
-            joinAttemptCount++;
-            try {
-              const ok = await playStory(0, sig);
-              if (ok && user) {
-                user.totalXp += 30;
-                showUser();
-              }
-            } catch {}
-            await waitStop(3000, sig);
-            continue;
-          }
-          notify(
-            "error",
-            "League Error",
-            "Could not confirm league join status after 10 checks. Please try again later.",
+    try {
+      while (farmStates.league) {
+        try {
+          const res = await fetchApi(
+            "GET",
+            `${config.api.leaderboards}/users/${userId}?client_unlocked=true&_=${Date.now()}`,
+            null,
+            null,
+            sig,
           );
-          break;
-        }
-
-        const cRankPos = activeRanks.indexOf(cRankings) + 1;
-        const tUserRanking = activeRanks[targetRank - 1];
-
-        if (!tUserRanking || cRankPos <= targetRank) {
-          if (farmStates.league) {
-            notify("success", "Goal Reached", `Reached Rank #${targetRank}!`);
-          }
-          setProgress("DX_League", 100);
-          break;
-        }
-
-        const scoreGap = tUserRanking.score - cRankings.score;
-        const progressPct = Math.min(
-          95,
-          Math.floor((cRankings.score / tUserRanking.score) * 100),
-        );
-
-        setProgress("DX_League", progressPct);
-
-        const room = parseInt(localStorage.getItem("dx_xp_room")) || 0;
-        const overshoot = room > 0 ? Math.min(500, Math.max(30, room)) : 5;
-
-        if (scoreGap + overshoot > 0) {
-          const bonus = Math.min(469, Math.max(0, scoreGap - 30 + overshoot));
-          const ok = await playStory(bonus, sig);
           if (!farmStates.league) break;
-          if (ok) {
-            user.totalXp += 30 + bonus;
-            showUser();
-          } else {
-            await waitStop(2000, sig);
+
+          if (res.status !== 200) {
+            await waitStop(3000, sig);
+            continue;
           }
+
+          const data = safeJsonParse(res.responseText, {});
+          leagueDataCache = data;
+          leagueDataTs = Date.now();
+          applyLeagueSummary(data);
+          const activeRanks = data?.active?.cohort?.rankings || [];
+          const cRankings = activeRanks.find((u) => u.user_id == userId);
+
+          if (!cRankings) {
+            if (joinAttemptCount === 0) {
+              joinAttemptCount = 1;
+              notify(
+                "info",
+                "Auto League",
+                "You are not in a league yet. Joining now...",
+              );
+              await joinLeague();
+              await waitStop(3000, sig);
+              continue;
+            } else if (joinAttemptCount < 10) {
+              joinAttemptCount++;
+              try {
+                const ok = await playStory(0, sig);
+                if (ok && user) {
+                  user.totalXp += 30;
+                  showUser();
+                }
+              } catch {}
+              await waitStop(3000, sig);
+              continue;
+            }
+            notify(
+              "error",
+              "League Error",
+              "Could not confirm league join status after 10 checks. Please try again later.",
+            );
+            break;
+          }
+
+          const cRankPos = activeRanks.indexOf(cRankings) + 1;
+          const tUserRanking = activeRanks[targetRank - 1];
+
+          if (!tUserRanking || cRankPos <= targetRank) {
+            if (farmStates.league) {
+              notify("success", "Goal Reached", `Reached Rank #${targetRank}!`);
+            }
+            setProgress("DX_League", 100);
+            break;
+          }
+
+          const scoreGap = tUserRanking.score - cRankings.score;
+          const progressPct = Math.min(
+            95,
+            Math.floor((cRankings.score / tUserRanking.score) * 100),
+          );
+
+          setProgress("DX_League", progressPct);
+
+          const room = parseInt(localStorage.getItem("dx_xp_room")) || 0;
+          const overshoot = room > 0 ? Math.min(500, Math.max(30, room)) : 5;
+
+          if (scoreGap + overshoot > 0) {
+            const bonus = Math.min(469, Math.max(0, scoreGap - 30 + overshoot));
+            const ok = await playStory(bonus, sig);
+            if (!farmStates.league) break;
+            if (ok) {
+              user.totalXp += 30 + bonus;
+              showUser();
+            } else {
+              await waitStop(2000, sig);
+            }
+          }
+
+          await waitStop(delayMs, sig);
+        } catch {
+          await waitStop(3000, sig);
         }
-
-        await waitStop(delayMs, sig);
-      } catch {
-        await waitStop(3000, sig);
       }
+
+      const completed = farmStates.league;
+      if (!completed) {
+        notify("warning", "Auto League Stopped", "Rank targeting aborted.");
+      }
+
+      clearProgress("DX_League", completed);
+      refreshStats(true);
+    } finally {
+      farmStates.league = false;
+      farmCtl.league = null;
+      resetBtn("DX_League_Btn", "RUN");
     }
-
-    const completed = farmStates.league;
-    if (!completed) {
-      notify("warning", "Auto League Stopped", "Rank targeting aborted.");
-    }
-
-    clearProgress("DX_League", completed);
-    refreshStats(true);
-
-    farmStates.league = false;
-    farmCtl.league = null;
-    resetBtn("DX_League_Btn", "RUN");
   }
 
   function showConfirmModal(onConfirm) {
@@ -6683,59 +6845,6 @@
                 ${bruteHtml}
             `;
 
-      const actBtn = qItem.querySelector(".DX_Quest_Get_Btn");
-      if (actBtn) {
-        actBtn.addEventListener("click", async () => {
-          actBtn.disabled = true;
-          actBtn.innerText = "...";
-
-          try {
-            const tMetric = actBtn.dataset.m;
-            const tQId = actBtn.dataset.id;
-            let tAmt = parseInt(actBtn.dataset.amt);
-            if (tMetric && tMetric !== "QUESTS") {
-              tAmt = Math.max(tAmt, 2000);
-            }
-
-            const updLoad = {
-              metric_updates: [{ metric: tMetric, quantity: tAmt }],
-              timezone: accountTimezone(),
-              timestamp: timeQuest(tQId),
-            };
-
-            let res = await fetchApi(
-              "POST",
-              `${config.api.goals}/users/${userId}/progress/batch`,
-              updLoad,
-              setGoalHeaders(token),
-            );
-            if (res.status === 200) {
-              await wait(300);
-              res = await fetchApi(
-                "POST",
-                `${config.api.goals}/users/${userId}/progress/batch`,
-                updLoad,
-                setGoalHeaders(token),
-              );
-            }
-
-            if (res.status === 200) {
-              actBtn.innerText = "✓";
-              notify("success", "Quest updated", "Progress injected.");
-              getQuests(true);
-            } else {
-              actBtn.innerText = "BRUTE";
-              actBtn.disabled = false;
-              notify("error", "Quest Failed", "Could not inject progress.");
-            }
-          } catch {
-            actBtn.innerText = "BRUTE";
-            actBtn.disabled = false;
-            notify("error", "Network Error", "Could not inject progress.");
-          }
-        });
-      }
-
       cont.appendChild(qItem);
     });
   }
@@ -6755,7 +6864,7 @@
       : null;
 
     if (targets.length === 0) {
-      notify("info", "Quest Operations", "All quests are already complete.");
+      notify("info", "Quest Center", "All daily quests are already complete.");
       return;
     }
 
@@ -6783,15 +6892,6 @@
           payload,
           setGoalHeaders(token),
         );
-        if (res.status === 200) {
-          await wait(300);
-          res = await fetchApi(
-            "POST",
-            `${config.api.goals}/users/${userId}/progress/batch`,
-            payload,
-            setGoalHeaders(token),
-          );
-        }
         if (res.status !== 200) allOk = false;
         setProgress("DX_QuestForce", ((i + 1) / targets.length) * 100);
       }
@@ -6805,7 +6905,11 @@
       clearProgress("DX_QuestForce", allOk);
       getQuests(true);
     } catch {
-      notify("error", "Network Error", "Failed mass operation.");
+      notify(
+        "error",
+        "Quest Center",
+        "Network error: Failed to execute mass operation.",
+      );
       clearProgress("DX_QuestForce", false);
     }
 
@@ -6995,11 +7099,11 @@
           if (r.ok) {
             btn.className = "DX_Shop_Btn got";
             btn.innerText = "✓";
-            notify("success", "Power-Ups", `${item.name} applied.`);
+            notify("success", "Shop", `Successfully applied ${item.name}.`);
           } else {
             btn.className = "DX_Shop_Btn fail";
             btn.innerText = "ERR";
-            notify("error", "Power-Ups", r.msg);
+            notify("error", "Shop", r.msg);
           }
           setTimeout(() => {
             btn.className = "DX_Shop_Btn";
@@ -7055,7 +7159,11 @@
         if (result.ok) {
           btn.className = "DX_Shop_Btn got";
           btn.innerText = "✓";
-          notify("success", "Shop Success", `Acquired ${item.displayName}.`);
+          notify(
+            "success",
+            "Shop",
+            `Successfully acquired ${item.displayName}.`,
+          );
           setTimeout(() => {
             btn.className = "DX_Shop_Btn";
             btn.innerText = "GET";
@@ -7063,7 +7171,7 @@
         } else {
           btn.className = "DX_Shop_Btn fail";
           btn.innerText = "ERR";
-          notify("error", "Shop Failed", `${item.displayName}: ${result.msg}`);
+          notify("error", "Shop", `${item.displayName}: ${result.msg}`);
           setTimeout(() => {
             btn.className = "DX_Shop_Btn";
             btn.innerText = "GET";
@@ -7139,7 +7247,11 @@
         `Profile is now ${modePriv ? "Private" : "Public"}.`,
       );
     } catch {
-      notify("error", "Update Failed", "Could not change privacy settings.");
+      notify(
+        "error",
+        "Privacy Settings",
+        "Failed to update profile privacy status.",
+      );
     }
   }
 
@@ -7191,7 +7303,7 @@
 
   async function ensureEmailVerified() {
     if (!user) {
-      notify("error", "Social Tools", "Wait for connection.");
+      notify("error", "Social Tools", "Please connect your account first.");
       return false;
     }
     if (user.emailVerified) return true;
@@ -7272,47 +7384,48 @@
 
     let list = [];
     try {
-      const res = await fetchApi(
-        "GET",
-        `${config.api.friends}/users/${userId}/following?viewerId=${userId}`,
-      );
-      if (res.status === 200) {
-        list = safeJsonParse(res.responseText, {}).following?.users || [];
-      }
-    } catch {}
-
-    if (list.length === 0) {
-      notify("info", "Mass Unfollow", "You are not following anyone.");
-      farmStates.unfollow = false;
-      resetBtn("DX_Follow_Btn", "RUN");
-      return;
-    }
-
-    let done = 0;
-    let ok = 0;
-    for (const entry of list) {
-      if (!farmStates.unfollow) break;
       try {
         const res = await fetchApi(
-          "DELETE",
-          `${config.api.friends}/users/${userId}/follow/${entry.userId}`,
+          "GET",
+          `${config.api.friends}/users/${userId}/following?viewerId=${userId}`,
         );
-        if (res.status === 200) ok++;
+        if (res.status === 200) {
+          list = safeJsonParse(res.responseText, {}).following?.users || [];
+        }
       } catch {}
-      done++;
-      setProgress("DX_Follow", (done / list.length) * 100);
-      await wait(delayMs);
-    }
 
-    const completed = farmStates.unfollow;
-    notify(
-      "success",
-      completed ? "Mass Unfollow Complete" : "Mass Unfollow Stopped",
-      `Unfollowed ${ok} user(s).`,
-    );
-    clearProgress("DX_Follow", completed);
-    farmStates.unfollow = false;
-    resetBtn("DX_Follow_Btn", "RUN");
+      if (list.length === 0) {
+        notify("info", "Mass Unfollow", "You are not following anyone.");
+        return;
+      }
+
+      let done = 0;
+      let ok = 0;
+      for (const entry of list) {
+        if (!farmStates.unfollow) break;
+        try {
+          const res = await fetchApi(
+            "DELETE",
+            `${config.api.friends}/users/${userId}/follow/${entry.userId}`,
+          );
+          if (res.status === 200) ok++;
+        } catch {}
+        done++;
+        setProgress("DX_Follow", (done / list.length) * 100);
+        await wait(delayMs);
+      }
+
+      const completed = farmStates.unfollow;
+      notify(
+        "success",
+        completed ? "Mass Unfollow Complete" : "Mass Unfollow Stopped",
+        `Unfollowed ${ok} user(s).`,
+      );
+      clearProgress("DX_Follow", completed);
+    } finally {
+      farmStates.unfollow = false;
+      resetBtn("DX_Follow_Btn", "RUN");
+    }
   }
 
   async function massUnblock() {
@@ -7327,48 +7440,49 @@
 
     let list = [];
     try {
-      const res = await fetchApi(
-        "GET",
-        `${config.api.users}/${userId}?fields=blockedUserIds`,
-      );
-      if (res.status === 200) {
-        list = safeJsonParse(res.responseText, {}).blockedUserIds || [];
-      }
-    } catch {}
-
-    if (list.length === 0) {
-      notify("info", "Mass Unblock", "You have not blocked anyone.");
-      farmStates.unblock = false;
-      resetBtn("DX_Block_Mass_Btn", "RUN");
-      return;
-    }
-
-    let done = 0;
-    let ok = 0;
-    for (const blockedId of list) {
-      if (!farmStates.unblock) break;
       try {
         const res = await fetchApi(
-          "DELETE",
-          `${config.api.friends}/users/${userId}/block/${blockedId}`,
+          "GET",
+          `${config.api.users}/${userId}?fields=blockedUserIds`,
         );
-        if (res.status === 200) ok++;
+        if (res.status === 200) {
+          list = safeJsonParse(res.responseText, {}).blockedUserIds || [];
+        }
       } catch {}
-      done++;
-      setProgress("DX_Block_Mass", (done / list.length) * 100);
-      await wait(delayMs);
-    }
 
-    const completed = farmStates.unblock;
-    if (ok > 0) autoBlockCohortKey = null;
-    notify(
-      "success",
-      completed ? "Mass Unblock Complete" : "Mass Unblock Stopped",
-      `Unblocked ${ok} user(s).`,
-    );
-    clearProgress("DX_Block_Mass", completed);
-    farmStates.unblock = false;
-    resetBtn("DX_Block_Mass_Btn", "RUN");
+      if (list.length === 0) {
+        notify("info", "Mass Unblock", "You have not blocked anyone.");
+        return;
+      }
+
+      let done = 0;
+      let ok = 0;
+      for (const blockedId of list) {
+        if (!farmStates.unblock) break;
+        try {
+          const res = await fetchApi(
+            "DELETE",
+            `${config.api.friends}/users/${userId}/block/${blockedId}`,
+          );
+          if (res.status === 200) ok++;
+        } catch {}
+        done++;
+        setProgress("DX_Block_Mass", (done / list.length) * 100);
+        await wait(delayMs);
+      }
+
+      const completed = farmStates.unblock;
+      if (ok > 0) autoBlockCohortKey = null;
+      notify(
+        "success",
+        completed ? "Mass Unblock Complete" : "Mass Unblock Stopped",
+        `Unblocked ${ok} user(s).`,
+      );
+      clearProgress("DX_Block_Mass", completed);
+    } finally {
+      farmStates.unblock = false;
+      resetBtn("DX_Block_Mass_Btn", "RUN");
+    }
   }
 
   async function getCohortIds(force = true) {
@@ -7391,69 +7505,70 @@
     farmStates.follow = true;
     stopBtn("DX_Follow_Btn");
 
-    const ids = new Set();
-    const cohort = await getCohortIds();
-    if (Array.isArray(cohort)) cohort.forEach((id) => ids.add(String(id)));
-
     try {
-      const res = await fetchApi(
-        "GET",
-        `${config.api.friends}/users/${userId}/followers?viewerId=${userId}`,
-      );
-      if (res.status === 200) {
-        (safeJsonParse(res.responseText, {}).followers?.users || []).forEach(
-          (u) => ids.add(String(u.userId)),
-        );
-      }
-    } catch {}
+      const ids = new Set();
+      const cohort = await getCohortIds();
+      if (Array.isArray(cohort)) cohort.forEach((id) => ids.add(String(id)));
 
-    ids.delete(String(userId));
-    try {
-      const res = await fetchApi(
-        "GET",
-        `${config.api.friends}/users/${userId}/following?viewerId=${userId}`,
-      );
-      if (res.status === 200) {
-        (safeJsonParse(res.responseText, {}).following?.users || []).forEach(
-          (u) => ids.delete(String(u.userId)),
-        );
-      }
-    } catch {}
-
-    const list = [...ids];
-    if (list.length === 0) {
-      notify("info", "Mass Follow", "No new users to follow.");
-      farmStates.follow = false;
-      resetBtn("DX_Follow_Btn", "RUN");
-      return;
-    }
-
-    let done = 0;
-    let ok = 0;
-    for (const id of list) {
-      if (!farmStates.follow) break;
       try {
         const res = await fetchApi(
-          "POST",
-          `${config.api.friends}/users/${userId}/follow/${id}`,
-          { component: "profile_header_button" },
+          "GET",
+          `${config.api.friends}/users/${userId}/followers?viewerId=${userId}`,
         );
-        if (res.status === 200 || res.status === 201) ok++;
+        if (res.status === 200) {
+          (safeJsonParse(res.responseText, {}).followers?.users || []).forEach(
+            (u) => ids.add(String(u.userId)),
+          );
+        }
       } catch {}
-      done++;
-      setProgress("DX_Follow", (done / list.length) * 100);
-      await wait(delayMs);
-    }
 
-    const completed = farmStates.follow;
-    notify(
-      "success",
-      completed ? "Mass Follow Complete" : "Mass Follow Stopped",
-      `Followed ${ok} user(s).`,
-    );
-    clearProgress("DX_Follow", completed);
-    farmStates.follow = false;
-    resetBtn("DX_Follow_Btn", "RUN");
+      ids.delete(String(userId));
+      try {
+        const res = await fetchApi(
+          "GET",
+          `${config.api.friends}/users/${userId}/following?viewerId=${userId}`,
+        );
+        if (res.status === 200) {
+          (safeJsonParse(res.responseText, {}).following?.users || []).forEach(
+            (u) => ids.delete(String(u.userId)),
+          );
+        }
+      } catch {}
+
+      const list = [...ids];
+      if (list.length === 0) {
+        notify("info", "Mass Follow", "No new users to follow.");
+        return;
+      }
+
+      let done = 0;
+      let ok = 0;
+      for (const id of list) {
+        if (!farmStates.follow) break;
+        try {
+          const res = await fetchApi(
+            "POST",
+            `${config.api.friends}/users/${userId}/follow/${id}`,
+            { component: "profile_header_button" },
+          );
+          if (res.status === 200 || res.status === 201) ok++;
+        } catch {}
+        done++;
+        setProgress("DX_Follow", (done / list.length) * 100);
+        await wait(delayMs);
+      }
+
+      const completed = farmStates.follow;
+      notify(
+        "success",
+        completed ? "Mass Follow Complete" : "Mass Follow Stopped",
+        `Followed ${ok} user(s).`,
+      );
+      clearProgress("DX_Follow", completed);
+    } finally {
+      farmStates.follow = false;
+      resetBtn("DX_Follow_Btn", "RUN");
+    }
   }
 
   async function blockLeagueUsers(options = {}) {
@@ -7521,18 +7636,21 @@
     farmStates.blockmass = true;
     stopBtn("DX_Block_Mass_Btn");
 
-    const result = await blockLeagueUsers();
-    const completed = farmStates.blockmass;
-    if (!result.skipped) {
-      notify(
-        "success",
-        completed ? "Mass Block Complete" : "Mass Block Stopped",
-        `Blocked ${result.ok} user(s).`,
-      );
+    try {
+      const result = await blockLeagueUsers();
+      const completed = farmStates.blockmass;
+      if (!result.skipped) {
+        notify(
+          "success",
+          completed ? "Mass Block Complete" : "Mass Block Stopped",
+          `Blocked ${result.ok} user(s).`,
+        );
+      }
+      clearProgress("DX_Block_Mass", completed);
+    } finally {
+      farmStates.blockmass = false;
+      resetBtn("DX_Block_Mass_Btn", "RUN");
     }
-    clearProgress("DX_Block_Mass", completed);
-    farmStates.blockmass = false;
-    resetBtn("DX_Block_Mass_Btn", "RUN");
   }
 
   const powerUpItems = [
@@ -8106,7 +8224,7 @@
         { reaction: reaction },
       );
       if (res.status === 200) {
-        notify("success", "Leaderboard Status", "Status updated.");
+        notify("success", "Leaderboard Status", "Status successfully updated.");
 
         const me = leagueDataCache?.active?.cohort?.rankings?.find(
           (r) => String(r.user_id) === String(userId),
@@ -8119,11 +8237,11 @@
       notify(
         "error",
         "Leaderboard Status",
-        `Failed with status ${res.status}.`,
+        `Failed to update status (Status ${res.status}).`,
       );
       return false;
     } catch {
-      notify("error", "Leaderboard Status", "Request failed.");
+      notify("error", "Leaderboard Status", "Network error: Request failed.");
       return false;
     }
   }
@@ -8331,8 +8449,8 @@
   function nearestCorner() {
     const wrap = document.getElementById("DX_Main");
     const r = wrap.getBoundingClientRect();
-    const cx = r.left + r.width / 2 - dxVpOffsetLeft();
-    const cy = r.top + r.height / 2 - dxVpOffsetTop();
+    const cx = r.left + r.width / 2;
+    const cy = r.top + r.height / 2;
     return (
       (cy < dxVpHeight() / 2 ? "t" : "b") + (cx < dxVpWidth() / 2 ? "l" : "r")
     );
@@ -8346,10 +8464,17 @@
     const left = panelCorner.charAt(1) === "l";
     const offTop = dxVpOffsetTop();
     const offLeft = dxVpOffsetLeft();
+    const layoutW = window.innerWidth;
+    const layoutH = window.innerHeight;
+
     wrap.style.left = left ? m + offLeft + "px" : "auto";
-    wrap.style.right = left ? "auto" : m + "px";
+    wrap.style.right = left
+      ? "auto"
+      : m + (layoutW - (offLeft + dxVpWidth())) + "px";
     wrap.style.top = top ? m + offTop + "px" : "auto";
-    wrap.style.bottom = top ? "auto" : m + "px";
+    wrap.style.bottom = top
+      ? "auto"
+      : m + (layoutH - (offTop + dxVpHeight())) + "px";
     wrap.style.flexDirection = top ? "column" : "column-reverse";
     wrap.style.alignItems = left ? "flex-start" : "flex-end";
     wrap.style.setProperty(
@@ -8541,24 +8666,103 @@
     const togHide = document.getElementById("duoxjs-hide-button");
     if (!wrap || !mBox || !lblTxt || !togHide) return;
 
+    const easeCurve = "cubic-bezier(0.34, 1.15, 0.64, 1)";
+    const fadeCurve = "cubic-bezier(0.4, 0, 0.2, 1)";
+
+    mBox.dataset.isAnimating = "true";
+    clearTimeout(hideCollapseTimer);
+    clearTimeout(hideShowContentTimer);
+
     if (uiHidden) {
-      clearTimeout(hideCollapseTimer);
       togHide.classList.add("duoxjs-show-mode");
       lblTxt.innerText = "Show";
-      mBox.classList.add("dx-hidden");
-      hideCollapseTimer = setTimeout(() => {
-        mBox.classList.add("dx-collapsed");
-        wrap.classList.add("dx-panel-hidden");
-      }, 400);
-    } else {
-      clearTimeout(hideCollapseTimer);
-      wrap.classList.remove("dx-panel-hidden");
-      mBox.classList.remove("dx-collapsed");
+
+      const startW = mBox.offsetWidth;
+      const startH = mBox.offsetHeight;
+
+      mBox.style.transition = "none";
+      mBox.style.width = startW + "px";
+      mBox.style.height = startH + "px";
+      mBox.style.padding = "16px";
+      mBox.style.opacity = "1";
+      mBox.style.filter = "blur(0px)";
+      mBox.style.transform = "scale(1)";
       void mBox.offsetHeight;
-      mBox.classList.remove("dx-hidden");
+
+      mBox.style.transition = `opacity 0.2s ${fadeCurve}, filter 0.2s ${fadeCurve}, transform 0.2s ${fadeCurve}`;
+      mBox.style.opacity = "0";
+      mBox.style.filter = "blur(6px)";
+      mBox.style.transform = "scale3d(0.96, 0.96, 1)";
+
+      hideCollapseTimer = setTimeout(() => {
+        mBox.style.transition = `height 0.4s ${easeCurve}, width 0.4s ${easeCurve}, padding 0.4s ${easeCurve}`;
+        mBox.style.height = "0px";
+        mBox.style.width = "0px";
+        mBox.style.padding = "0px";
+        wrap.classList.add("dx-panel-hidden");
+
+        hideCollapseTimer = setTimeout(() => {
+          mBox.classList.add("dx-hidden");
+          mBox.classList.add("dx-collapsed");
+          mBox.style.transition = "";
+          mBox.style.opacity = "";
+          mBox.style.filter = "";
+          mBox.style.transform = "";
+          mBox.style.height = "";
+          mBox.style.width = "";
+          mBox.style.padding = "";
+          mBox.dataset.isAnimating = "false";
+        }, 400);
+      }, 200);
+    } else {
       togHide.classList.remove("duoxjs-show-mode");
       lblTxt.innerText = "Hide";
-      relayout();
+
+      mBox.style.transition = "none";
+      mBox.classList.remove("dx-collapsed");
+      mBox.classList.remove("dx-hidden");
+      wrap.classList.remove("dx-panel-hidden");
+
+      const targetW = dxPageWidth();
+      mBox.style.width = targetW + "px";
+      mBox.style.height = "auto";
+      mBox.style.padding = "16px";
+
+      const cap = dxMaxHeight();
+      const natural = mBox.offsetHeight;
+      const targetH = Math.min(natural, cap);
+
+      mBox.style.width = "0px";
+      mBox.style.height = "0px";
+      mBox.style.padding = "0px";
+      mBox.style.opacity = "0";
+      mBox.style.filter = "blur(6px)";
+      mBox.style.transform = "scale3d(0.96, 0.96, 1)";
+      void mBox.offsetHeight;
+
+      mBox.style.transition = `height 0.4s ${easeCurve}, width 0.4s ${easeCurve}, padding 0.4s ${easeCurve}`;
+      mBox.style.width = targetW + "px";
+      mBox.style.height = targetH + "px";
+      mBox.style.padding = "16px";
+
+      hideShowContentTimer = setTimeout(() => {
+        mBox.style.transition = `opacity 0.3s ${fadeCurve}, filter 0.3s ${fadeCurve}, transform 0.3s ${easeCurve}, height 0.4s ${easeCurve}, width 0.4s ${easeCurve}, padding 0.4s ${easeCurve}`;
+        mBox.style.opacity = "1";
+        mBox.style.filter = "none";
+        mBox.style.transform = "scale(1)";
+      }, 50);
+
+      hideCollapseTimer = setTimeout(() => {
+        mBox.style.transition = "";
+        mBox.style.opacity = "";
+        mBox.style.filter = "";
+        mBox.style.transform = "";
+        mBox.style.height = "";
+        mBox.style.width = "";
+        mBox.style.padding = "";
+        mBox.dataset.isAnimating = "false";
+        relayout();
+      }, 400);
     }
   }
 
@@ -8589,7 +8793,7 @@
         const storedLen = localStorage.getItem("dx_ez_quiz_len") || "5";
         const qTxt = qSel.querySelector(".DX_Select_Text");
         if (qTxt) {
-          qTxt.innerText = storedLen === "default" ? "Default" : storedLen;
+          qTxt.innerText = storedLen;
         }
         qSel.setAttribute("data-value", storedLen);
         qSel.querySelectorAll(".DX_Select_Option").forEach((opt) => {
@@ -8941,26 +9145,13 @@
     if (localStorage.getItem("dx_ez_quiz") !== "true") return;
     if (document.getElementById("DX_EZQuiz_Script")) return;
     const storedLen = localStorage.getItem("dx_ez_quiz_len") || "5";
+    clearPrefetchedSessionsCache();
     const script = document.createElement("script");
     script.id = "DX_EZQuiz_Script";
     script.textContent = `
             (function() {
                 const ezQuizLen = "${storedLen}";
                 const STORY_RX = /https?:\\/\\/stories\\.duolingo\\.com\\/api2\\/stories\\//;
-
-                try {
-                    const req = indexedDB.open("duolingo");
-                    req.onsuccess = function(e) {
-                        const db = e.target.result;
-                        if (db.objectStoreNames.contains("prefetchedSessions")) {
-                            try {
-                                const tx = db.transaction("prefetchedSessions", "readwrite");
-                                tx.objectStore("prefetchedSessions").clear();
-                            } catch (err) {}
-                        }
-                        db.close();
-                    };
-                } catch (err) {}
 
                 function modStory(j) {
                     try {
@@ -9074,7 +9265,7 @@
                                                 svg: "https://simg-ssl.duolingo.com/world-characters/avatars/falstaff_avatar_icon.svg"
                                             }
                                         },
-                                        prompt: "What is the best tool for Duolingo?",
+                                        prompt: "What is the best free tool for Duolingo?",
                                         choices: ["DuoXJS by LibreDuo"],
                                         correctIndex: 0,
                                         options: [{
@@ -9254,42 +9445,52 @@
                     }
                 }
 
+                function solverFindNextButton() {
+                    let nextButton = document.querySelector('[data-test="player-next"]') ||
+                        document.querySelector('[data-test="stories-player-continue"]') ||
+                        document.querySelector('[data-test="stories-player-done"]');
+
+                    if (!nextButton) {
+                        const btns = Array.from(document.querySelectorAll('button:not(#DX_Root *), [role="button"]:not(#DX_Root *)'));
+                        nextButton = btns.find(btn => {
+                            const txt = (btn.textContent || btn.innerText || "").toUpperCase().trim();
+                            return txt === "CONTINUE" || txt === "NO THANKS";
+                        });
+                    }
+                    return nextButton;
+                }
+
                 async function solverClickCheck() {
                     try {
                         let nextButtonNormal = document.querySelector('[data-test="player-next"]');
                         let storiesContinueButton = document.querySelector('[data-test="stories-player-continue"]');
                         let storiesDoneButton = document.querySelector('[data-test="stories-player-done"]');
 
-                        let nextButtonAriaValueNormal = nextButtonNormal ? nextButtonNormal.getAttribute('aria-disabled') : null;
-                        let nextButtonAriaValueStoriesContinue = storiesContinueButton ? storiesContinueButton.disabled : null;
+                        let nextButton = solverFindNextButton();
+                        if (!nextButton) return;
 
-                        let nextButton = nextButtonNormal || storiesContinueButton || storiesDoneButton;
-                        let nextButtonAriaValue = nextButtonAriaValueNormal || nextButtonAriaValueStoriesContinue || storiesDoneButton;
-
-                        if (!nextButton) {
-                            const btns = Array.from(document.querySelectorAll('button:not(#DX_Root *), [role="button"]:not(#DX_Root *)'));
-                            nextButton = btns.find(btn => {
-                                const txt = (btn.textContent || btn.innerText || "").toUpperCase().trim();
-                                return txt === "CONTINUE" || txt === "NO THANKS";
-                            });
-                            nextButtonAriaValue = null;
+                        let nextButtonAriaValue = null;
+                        if (nextButton === nextButtonNormal) {
+                            nextButtonAriaValue = nextButtonNormal.getAttribute('aria-disabled');
+                        } else if (nextButton === storiesContinueButton) {
+                            nextButtonAriaValue = storiesContinueButton.disabled;
+                        } else if (nextButton === storiesDoneButton) {
+                            nextButtonAriaValue = storiesDoneButton;
                         }
 
-                        if (nextButton) {
-                            if (String(nextButtonAriaValue) === 'true') {
-                                logOnce(3, window.sol, document.querySelector('.RMEuZ._1GVfY'));
-                            } else if (String(nextButtonAriaValue) === 'false' && (nextButton.classList.length === 7 && nextButton.matches('._1rcV8._1VYyp._1ursp._7jW2t._3DbUj._38g3s._2oGJR'))) {
-                                nextButton.click();
-                                await new Promise(r => setTimeout(r, 50));
+                        if (String(nextButtonAriaValue) === 'true') {
+                            logOnce(3, window.sol, document.querySelector('.RMEuZ._1GVfY'));
+                        } else if (String(nextButtonAriaValue) === 'false' && (nextButton.classList.length === 7 && nextButton.matches('._1rcV8._1VYyp._1ursp._7jW2t._3DbUj._38g3s._2oGJR'))) {
+                            nextButton.click();
+                            await new Promise(r => setTimeout(r, 50));
 
-                                if (nextButton && nextButton.classList.contains('_2oGJR')) {
-                                    logOnce(1, window.sol, document.querySelector('.RMEuZ._1GVfY'));
-                                } else if (nextButton && nextButton.classList.contains('_3S8jJ')) {
-                                    logOnce(2, window.sol, document.querySelector('.RMEuZ._1GVfY'));
-                                }
-                            } else {
-                                nextButton.click();
+                            if (nextButton && nextButton.classList.contains('_2oGJR')) {
+                                logOnce(1, window.sol, document.querySelector('.RMEuZ._1GVfY'));
+                            } else if (nextButton && nextButton.classList.contains('_3S8jJ')) {
+                                logOnce(2, window.sol, document.querySelector('.RMEuZ._1GVfY'));
                             }
+                        } else {
+                            nextButton.click();
                         }
                     } catch (error) {
                         console.error(error);
@@ -9312,18 +9513,7 @@
                     }) : Promise.resolve();
 
                     try {
-                        let nextButton = document.querySelector('[data-test="player-next"]') ||
-                            document.querySelector('[data-test="stories-player-continue"]') ||
-                            document.querySelector('[data-test="stories-player-done"]');
-
-                        if (!nextButton) {
-                            const btns = Array.from(document.querySelectorAll('button:not(#DX_Root *), [role="button"]:not(#DX_Root *)'));
-                            nextButton = btns.find(btn => {
-                                const txt = (btn.textContent || btn.innerText || "").toUpperCase().trim();
-                                return txt === "CONTINUE" || txt === "NO THANKS";
-                            });
-                        }
-
+                        let nextButton = solverFindNextButton();
                         if (nextButton) {
                             nextButton.click();
                             clicked = true;
@@ -9340,7 +9530,11 @@
                 }
 
                 function solverGetCleanButtonText(button) {
+                    if (button._cleanText !== undefined) {
+                        return button._cleanText;
+                    }
                     const rubyElements = button.querySelectorAll('ruby');
+                    let resultText = '';
                     if (rubyElements.length > 0) {
                         let text = '';
                         rubyElements.forEach(ruby => {
@@ -9349,11 +9543,13 @@
                                 text += span.textContent;
                             });
                         });
-                        return text.trim();
+                        resultText = text.trim();
                     } else {
                         const textElement = button.querySelector('[data-test="challenge-tap-token-text"]');
-                        return textElement ? textElement.innerText.trim() : button.innerText.trim();
+                        resultText = textElement ? textElement.innerText.trim() : button.innerText.trim();
                     }
+                    button._cleanText = resultText;
+                    return resultText;
                 }
 
                 function solverDetermineChallengeType() {
@@ -10209,7 +10405,7 @@
       if (e.detail && typeof e.detail.isAutoMode !== "undefined") {
         isAutoMode = e.detail.isAutoMode;
         updateSolveButtonText(isAutoMode ? "PAUSE SOLVE" : "SOLVE ALL");
-        if (isAutoMode) {
+        if (isAutoMode && (autoPathEnabled || autoPracticeEnabled)) {
           setUiHiddenState(true);
         }
       }
@@ -10287,20 +10483,18 @@
     setInterval(bgCheck, 2500);
     setInterval(async () => {
       if (!user) return;
-      await refreshStats();
-      autoKeepStreak();
-      autoReachRank();
-      autoBlockLeague();
-    }, 30000);
-
-    setInterval(() => {
-      if (!user) return;
-      refreshQuestCenter();
-    }, 30000);
-
-    setInterval(() => {
-      if (!user) return;
-      refreshPageData(pageId);
+      try {
+        await refreshStats();
+        await Promise.allSettled([
+          autoKeepStreak(),
+          autoReachRank(),
+          autoBlockLeague(),
+          refreshQuestCenter(),
+          refreshPageData(pageId),
+        ]);
+      } catch (err) {
+        console.error("[DuoXJS] Background loop error:", err);
+      }
     }, 30000);
 
     ["XP", "Gem", "Streak", "Path", "Practice"].forEach(toggleInf);
@@ -10438,6 +10632,75 @@
       .addEventListener("click", () => {
         forceQuests();
       });
+
+    const questCont = document.getElementById("DX_Quest_Container");
+    if (questCont) {
+      questCont.addEventListener("click", async (event) => {
+        const actBtn = event.target.closest(".DX_Quest_Get_Btn");
+        if (!actBtn || actBtn.disabled) return;
+
+        actBtn.disabled = true;
+        actBtn.innerText = "...";
+
+        try {
+          const tMetric = actBtn.dataset.m;
+          const tQId = actBtn.dataset.id;
+          let tAmt = parseInt(actBtn.dataset.amt);
+          if (tMetric && tMetric !== "QUESTS") {
+            tAmt = Math.max(tAmt, 2000);
+          }
+
+          const updLoad = {
+            metric_updates: [{ metric: tMetric, quantity: tAmt }],
+            timezone: accountTimezone(),
+            timestamp: timeQuest(tQId),
+          };
+
+          const res = await fetchApi(
+            "POST",
+            `${config.api.goals}/users/${userId}/progress/batch`,
+            updLoad,
+            setGoalHeaders(token),
+          );
+
+          if (res.status === 200) {
+            actBtn.innerText = "✓";
+            notify(
+              "success",
+              "Quest Center",
+              "Daily quest progress successfully injected.",
+            );
+            getQuests(true);
+          } else {
+            actBtn.disabled = false;
+            actBtn.innerText = "ERR";
+            actBtn.classList.add("fail");
+            setTimeout(() => {
+              actBtn.innerText = "BRUTE";
+              actBtn.classList.remove("fail");
+            }, 2000);
+            notify(
+              "error",
+              "Quest Center",
+              "Failed to brute-force quest progress.",
+            );
+          }
+        } catch {
+          actBtn.disabled = false;
+          actBtn.innerText = "ERR";
+          actBtn.classList.add("fail");
+          setTimeout(() => {
+            actBtn.innerText = "BRUTE";
+            actBtn.classList.remove("fail");
+          }, 2000);
+          notify(
+            "error",
+            "Quest Center",
+            "Failed to brute-force quest progress.",
+          );
+        }
+      });
+    }
 
     document.getElementById("DX_Block_Btn").addEventListener("click", () => {
       const name = document.getElementById("DX_Tools_User").value.trim();
@@ -10859,24 +11122,28 @@
         sy = p.clientY;
 
         clearTimeout(hideCollapseTimer);
+        clearTimeout(hideShowContentTimer);
         const mBox = document.getElementById("DX_Main_Box");
         if (mBox) {
-          const prevBoxTrans = mBox.style.transition;
           mBox.style.transition = "none";
+          mBox.style.opacity = "";
+          mBox.style.filter = "";
+          mBox.style.transform = "";
+          mBox.style.height = "";
+          mBox.style.width = "";
+          mBox.style.padding = "";
+          mBox.dataset.isAnimating = "false";
           mBox.classList.toggle("dx-hidden", uiHidden);
           mBox.classList.toggle("dx-collapsed", uiHidden);
           void mBox.offsetHeight;
-          mBox.style.transition = prevBoxTrans;
         }
-        const prevWrapTrans = dxWrap.style.transition;
-        dxWrap.style.transition = "none";
-        void dxWrap.offsetHeight;
-        dxWrap.style.transition = prevWrapTrans;
 
-        const r = dxWrap.getBoundingClientRect();
-        ox = r.left;
-        oy = r.top;
         dxWrap.style.transition = "none";
+        const r = dxWrap.getBoundingClientRect();
+        const offLeft = dxVpOffsetLeft();
+        const offTop = dxVpOffsetTop();
+        ox = r.left - offLeft;
+        oy = r.top - offTop;
       };
       let tick = false;
       const onMove = (e) => {
@@ -10961,8 +11228,7 @@
     if (qSel) {
       const storedLen = localStorage.getItem("dx_ez_quiz_len") || "5";
       qSel.setAttribute("data-value", storedLen);
-      qSel.querySelector(".DX_Select_Text").innerText =
-        storedLen === "default" ? "Default" : storedLen;
+      qSel.querySelector(".DX_Select_Text").innerText = storedLen;
       qSel.querySelectorAll(".DX_Select_Option").forEach((opt) => {
         opt.classList.toggle(
           "selected",
@@ -11186,6 +11452,21 @@
       });
     }
     initAutoSolverObserver();
+
+    document.addEventListener("mouseup", () => {
+      setTimeout(() => {
+        const active = document.activeElement;
+        if (
+          active &&
+          active.closest &&
+          active.closest(
+            "#DX_Root button, #DX_Root [role='button'], #DX_User_Row",
+          )
+        ) {
+          active.blur();
+        }
+      }, 0);
+    });
 
     window.DX_checkForUpdates = () => checkForUpdates();
     window.DX_resetUpdateCheck = () => {
