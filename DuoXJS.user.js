@@ -8491,9 +8491,15 @@
       const w = dxPageWidth(pageId) + "px";
       if (box.style.width !== w) box.style.width = w;
       const cap = dxMaxHeight();
-      box.style.maxHeight = "none";
-      const natural = box.offsetHeight;
-      box.style.maxHeight = cap + "px";
+
+      const isCollapsed =
+        box.classList.contains("dx-collapsed") || box.offsetHeight === 0;
+      const natural = isCollapsed ? 0 : box.scrollHeight;
+
+      if (box.style.maxHeight !== cap + "px") {
+        box.style.maxHeight = cap + "px";
+      }
+
       const needScroll = natural > cap + 4;
       if (box.classList.contains("dx-scroll") !== needScroll)
         box.classList.toggle("dx-scroll", needScroll);
