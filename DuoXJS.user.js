@@ -874,7 +874,6 @@
         .DX_Main_Box {
             display: flex;
             width: 325px;
-            max-width: calc(100vw - 16px);
             padding: 16px;
             box-sizing: border-box;
             flex-direction: column;
@@ -3006,7 +3005,7 @@
                             <div class="DX_Setting_Row">
                                 <div class="DX_Row_Text">
                                     <p class="DX_T1 DX_NoSel">XP Overshoot</p>
-                                    <p class="DX_T2 DX_NoSel">Extra XP buffer for Auto League (0 to disable)</p>
+                                    <p class="DX_T2 DX_NoSel">Extra XP buffer for Auto League</p>
                                 </div>
                                 <div class="DX_HStack_8" style="width: auto;">
                                     <div class="DX_Set_Input_Wrap" style="width: 116px;">
@@ -3072,7 +3071,7 @@
                             <div class="DX_Setting_Row">
                                 <div class="DX_Row_Text">
                                     <p class="DX_T1 DX_NoSel">EZ Quiz Question Count</p>
-                                    <p class="DX_T2 DX_NoSel">Set the question count for custom lessons</p>
+                                    <p class="DX_T2 DX_NoSel">Set the question count</p>
                                 </div>
                                 <div class="DX_HStack_8" style="width: auto;">
                                     <div class="DX_Select dropup" id="DX_EZQuizLength_Select" data-value="5" style="width: 90px; font-size: 13px;">
@@ -4038,8 +4037,6 @@
       "Quest Invite": "Social Tools",
       "Streak Invite": "Social Tools",
       "Leaderboard Status": "Leaderboard",
-      Status: "Auto Solver",
-      "Invalid Input": "Auto Solver",
     };
     if (titleMap[cleanTitle]) {
       cleanTitle = titleMap[cleanTitle];
@@ -5727,6 +5724,17 @@
               user.totalXp += awarded;
               showUser();
             }
+            if (leagueDataCache) {
+              const ranks = leagueDataCache.active?.cohort?.rankings || [];
+              const me = ranks.find((u) => u.user_id == userId);
+              if (me) {
+                me.score += awarded;
+                ranks.sort((a, b) => b.score - a.score);
+              }
+            }
+            if (pageId === "Board") {
+              showLeagueBoard(leagueDataCache);
+            }
             if (!isInfinite && totalXp >= targetAmount) break;
           } else {
             consecutiveFailures++;
@@ -5770,7 +5778,6 @@
         if (user) user.totalXp = xpBefore + serverConfirmed;
 
         if (gap < minPerReq) break;
-
       }
 
       const completed = farmStates.xp;
@@ -5789,6 +5796,7 @@
       farmStates.xp = false;
       farmCtl.xp = null;
       resetBtn("DX_XP_Btn", "RUN");
+      leagueDataTs = 0;
     }
   }
 
@@ -6214,7 +6222,7 @@
 
   async function autoReachRank(knownRank) {
     if (localStorage.getItem("dx_auto_reach_rank") !== "true") return;
-    if (!userId || farmStates.league) return;
+    if (!userId || farmStates.league || farmStates.xp) return;
     const target = parseInt(localStorage.getItem("dx_league_target")) || 1;
     const rank = knownRank === undefined ? await getLeagueRank() : knownRank;
     if (rank && rank > target) {
@@ -6504,6 +6512,9 @@
                   ranks.sort((a, b) => b.score - a.score);
                 }
               }
+              if (pageId === "Board") {
+                showLeagueBoard(leagueDataCache);
+              }
             } else {
               await waitStop(2000, sig);
             }
@@ -6526,6 +6537,7 @@
       farmStates.league = false;
       farmCtl.league = null;
       resetBtn("DX_League_Btn", "RUN");
+      leagueDataTs = 0;
     }
   }
 
@@ -8549,8 +8561,7 @@
   }
 
   function dxPageWidth() {
-    const base = 325;
-    return Math.min(base, dxVpWidth() - dxMargin() * 2);
+    return 325;
   }
 
   function dxMaxHeight() {
@@ -8587,16 +8598,34 @@
   function positionPanel() {
     const wrap = document.getElementById("DX_Main");
     if (!wrap) return;
+    const activeEl = document.activeElement;
+    const keyboardUp =
+      activeEl &&
+      (activeEl.tagName === "INPUT" || activeEl.tagName === "TEXTAREA") &&
+      wrap.contains(activeEl);
+
     const m = dxMargin();
-    const top = panelCorner.charAt(0) === "t";
+    const top = keyboardUp ? true : panelCorner.charAt(0) === "t";
     const left = panelCorner.charAt(1) === "l";
     const offTop = dxVpOffsetTop();
     const offLeft = dxVpOffsetLeft();
 
+    const isVpShrunkY = window.innerHeight - dxVpHeight() > 40;
+    const isVpShrunkX = window.innerWidth - dxVpWidth() > 40;
+
+    const extraRight =
+      isVpShrunkX || offLeft > 0
+        ? window.innerWidth - (offLeft + dxVpWidth())
+        : 0;
+    const extraBottom =
+      isVpShrunkY || offTop > 0
+        ? window.innerHeight - (offTop + dxVpHeight())
+        : 0;
+
     wrap.style.left = left ? m + offLeft + "px" : "auto";
-    wrap.style.right = left ? "auto" : m + "px";
+    wrap.style.right = left ? "auto" : m + extraRight + "px";
     wrap.style.top = top ? m + offTop + "px" : "auto";
-    wrap.style.bottom = top ? "auto" : m + "px";
+    wrap.style.bottom = top ? "auto" : m + extraBottom + "px";
     wrap.style.flexDirection = top ? "column" : "column-reverse";
     wrap.style.alignItems = left ? "flex-start" : "flex-end";
     wrap.style.setProperty(
@@ -11731,15 +11760,34 @@
             (e.target.tagName === "INPUT" || e.target.tagName === "TEXTAREA")
           ) {
             const target = e.target;
-            suppressScrollRestoreUntil = Date.now() + 1200;
+            suppressScrollRestoreUntil = Date.now() + 2000;
+            relayout();
             setTimeout(() => {
-              suppressScrollRestoreUntil = Date.now() + 900;
-              target.scrollIntoView({ behavior: "smooth", block: "center" });
-            }, 150);
+              suppressScrollRestoreUntil = Date.now() + 1500;
+              target.scrollIntoView({ behavior: "auto", block: "center" });
+            }, 100);
             setTimeout(() => {
-              suppressScrollRestoreUntil = Date.now() + 600;
-              target.scrollIntoView({ behavior: "smooth", block: "center" });
-            }, 700);
+              suppressScrollRestoreUntil = Date.now() + 1000;
+              target.scrollIntoView({ behavior: "auto", block: "center" });
+            }, 500);
+            setTimeout(() => {
+              suppressScrollRestoreUntil = Date.now() + 500;
+              target.scrollIntoView({ behavior: "auto", block: "center" });
+            }, 1000);
+          }
+        },
+        true,
+      );
+      dxRootEl.addEventListener(
+        "blur",
+        (e) => {
+          if (
+            e.target &&
+            (e.target.tagName === "INPUT" || e.target.tagName === "TEXTAREA")
+          ) {
+            setTimeout(() => {
+              relayout();
+            }, 50);
           }
         },
         true,
