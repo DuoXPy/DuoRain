@@ -8675,14 +8675,11 @@
           (activeEl.tagName === "INPUT" || activeEl.tagName === "TEXTAREA") &&
           box.contains(activeEl)
         ) {
-          let offsetTop = 0;
-          let current = activeEl;
-          while (current && current !== box && box.contains(current)) {
-            offsetTop += current.offsetTop;
-            current = current.offsetParent;
-          }
+          const targetRect = activeEl.getBoundingClientRect();
+          const boxRect = box.getBoundingClientRect();
+          const relativeTop = targetRect.top - boxRect.top + box.scrollTop;
           const targetScroll =
-            offsetTop - box.offsetHeight / 2 + activeEl.offsetHeight / 2;
+            relativeTop - box.offsetHeight / 2 + activeEl.offsetHeight / 2;
           box.scrollTop = Math.max(0, targetScroll);
         }
       }
@@ -8808,7 +8805,6 @@
       const needsScroll = natH > maxH;
       const finalH = Math.min(natH < 50 ? 200 : natH, maxH);
       mainBox.style.maxHeight = maxH + "px";
-      mainBox.classList.toggle("dx-scroll", needsScroll);
 
       mainBox.style.height = sH + "px";
       void mainBox.offsetHeight;
@@ -8834,6 +8830,7 @@
         activePage.style.width = "";
         activePage.style.minWidth = "";
         mainBox.dataset.isAnimating = "false";
+        mainBox.classList.toggle("dx-scroll", needsScroll);
         relayout();
       }, 400);
     }, 200);
@@ -9047,7 +9044,6 @@
       const finalH = Math.min(natH < 50 ? 200 : natH, maxH);
 
       mainBox.style.maxHeight = maxH + "px";
-      mainBox.classList.toggle("dx-scroll", needsScroll);
 
       mainBox.style.width = sW + "px";
       mainBox.style.height = sH + "px";
@@ -9080,6 +9076,7 @@
         tPage.style.minWidth = "";
         pageId = tPageId;
         mainBox.dataset.isAnimating = "false";
+        mainBox.classList.toggle("dx-scroll", needsScroll);
         relayout();
 
         refreshPageData(tPageId);
