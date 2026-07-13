@@ -8666,8 +8666,26 @@
         needScroll &&
         box.scrollTop !== prevScroll &&
         Date.now() > suppressScrollRestoreUntil
-      )
+      ) {
         box.scrollTop = prevScroll;
+      } else if (Date.now() <= suppressScrollRestoreUntil) {
+        const activeEl = document.activeElement;
+        if (
+          activeEl &&
+          (activeEl.tagName === "INPUT" || activeEl.tagName === "TEXTAREA") &&
+          box.contains(activeEl)
+        ) {
+          let offsetTop = 0;
+          let current = activeEl;
+          while (current && current !== box && box.contains(current)) {
+            offsetTop += current.offsetTop;
+            current = current.offsetParent;
+          }
+          const targetScroll =
+            offsetTop - box.offsetHeight / 2 + activeEl.offsetHeight / 2;
+          box.scrollTop = Math.max(0, targetScroll);
+        }
+      }
     }
     positionPanel();
   }
@@ -11763,53 +11781,19 @@
             e.target &&
             (e.target.tagName === "INPUT" || e.target.tagName === "TEXTAREA")
           ) {
-            const target = e.target;
             suppressScrollRestoreUntil = Date.now() + 2000;
             relayout();
-
-            const doScroll = () => {
-              let container = target.parentElement;
-              while (container && container !== document.body) {
-                const overflowY = window.getComputedStyle(container).overflowY;
-                if (
-                  overflowY === "auto" ||
-                  overflowY === "scroll" ||
-                  container.id === "DX_Main_Box"
-                ) {
-                  break;
-                }
-                container = container.parentElement;
-              }
-              if (container) {
-                let offsetTop = 0;
-                let current = target;
-                while (
-                  current &&
-                  current !== container &&
-                  container.contains(current)
-                ) {
-                  offsetTop += current.offsetTop;
-                  current = current.offsetParent;
-                }
-                const targetScroll =
-                  offsetTop -
-                  container.offsetHeight / 2 +
-                  target.offsetHeight / 2;
-                container.scrollTop = Math.max(0, targetScroll);
-              }
-            };
-
             setTimeout(() => {
               suppressScrollRestoreUntil = Date.now() + 1500;
-              doScroll();
+              relayout();
             }, 100);
             setTimeout(() => {
               suppressScrollRestoreUntil = Date.now() + 1000;
-              doScroll();
+              relayout();
             }, 500);
             setTimeout(() => {
               suppressScrollRestoreUntil = Date.now() + 500;
-              doScroll();
+              relayout();
             }, 1000);
           }
         },
