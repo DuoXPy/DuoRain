@@ -1,3 +1,7 @@
+## [1.0.2]
+
+- Various bug fixes
+
 ## [1.0.1]
 
 - Reordered the Extra Features menu options to: Auto League, Remove Hearts, Shop Items, Quest Center, Social Tools, Leaderboard, XP Summaries, and Activity Feed

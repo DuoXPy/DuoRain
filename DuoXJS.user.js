@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name                DuoXJS
 // @namespace           https://github.com/LibreDuo/DuoXJS
-// @version             1.0.1
+// @version             1.0.2
 // @description         Free userscript utility for Duolingo
 // @author              LibreDuo
 // @license             MIT
@@ -120,8 +120,8 @@
       "https://d35aaqx5ub95lt.cloudfront.net/images/icons/398e4298a3b39ce566050e5c041949ef.svg",
   };
 
-  const dxVersion = "1.0.1";
-  const dxScriptVersion = "1.0.1";
+  const dxVersion = "1.0.2";
+  const dxScriptVersion = "1.0.2";
   const dxUpdateMetaUrl =
     "https://raw.githubusercontent.com/LibreDuo/DuoXJS/main/DuoXJS.meta.js";
   const dxUpdatePageUrl = "https://github.com/LibreDuo/DuoXJS";
@@ -8603,7 +8603,15 @@
     const wrap = document.getElementById("DX_Main");
     if (!wrap) return;
     const activeEl = document.activeElement;
+    const isMobile =
+      /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+        navigator.userAgent,
+      );
+    const isVpShrunkY = window.innerHeight - dxVpHeight() > 40;
+    const isVpShrunkX = window.innerWidth - dxVpWidth() > 40;
+    const isTouch = "ontouchstart" in window || navigator.maxTouchPoints > 0;
     const keyboardUp =
+      (isMobile || (isTouch && isVpShrunkY)) &&
       activeEl &&
       (activeEl.tagName === "INPUT" || activeEl.tagName === "TEXTAREA") &&
       wrap.contains(activeEl);
@@ -8613,9 +8621,6 @@
     const left = panelCorner.charAt(1) === "l";
     const offTop = dxVpOffsetTop();
     const offLeft = dxVpOffsetLeft();
-
-    const isVpShrunkY = window.innerHeight - dxVpHeight() > 40;
-    const isVpShrunkX = window.innerWidth - dxVpWidth() > 40;
 
     const extraRight =
       isVpShrunkX || offLeft > 0
