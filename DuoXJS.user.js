@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name                DuoXJS
 // @namespace           https://github.com/LibreDuo/DuoXJS
-// @version             1.1.0
+// @version             1.2.0
 // @description         Free userscript utility for Duolingo
 // @author              LibreDuo
 // @license             MIT
@@ -131,8 +131,8 @@
       "https://d35aaqx5ub95lt.cloudfront.net/images/icons/398e4298a3b39ce566050e5c041949ef.svg",
   };
 
-  const dxVersion = "1.1.0";
-  const dxScriptVersion = "1.1.0";
+  const dxVersion = "1.2.0";
+  const dxScriptVersion = "1.2.0";
   const dxUpdateMetaUrl =
     "https://raw.githubusercontent.com/LibreDuo/DuoXJS/main/DuoXJS.meta.js";
   const dxUpdatePageUrl = "https://github.com/LibreDuo/DuoXJS";
@@ -2692,6 +2692,8 @@
                 background: var(--dx-card-bg) !important;
             }
         }
+
+
     `;
 
   const loadCss = `
@@ -3122,8 +3124,8 @@
                                     <div class="DX_Toggle" id="DX_SafeStreak_Toggle"><div class="DX_Toggle_Knob"></div></div>
                                 </div>
                             </div>
-                            <div class="DX_Divider"></div>
 
+                            <div class="DX_Divider"></div>
                             <div class="DX_Setting_Row">
                                 <div class="DX_Row_Text">
                                     <p class="DX_T1 DX_NoSel">Lesson Shortener</p>
@@ -3248,6 +3250,16 @@
                                 </div>
                                 <div class="DX_HStack_8" style="width: auto;">
                                     <div class="DX_Toggle" id="DX_AutoStreak_Toggle"><div class="DX_Toggle_Knob"></div></div>
+                                </div>
+                            </div>
+                            <div class="DX_Divider"></div>
+                            <div class="DX_Setting_Row">
+                                <div class="DX_Row_Text">
+                                    <p class="DX_T1 DX_NoSel">Auto Save Quest</p>
+                                    <p class="DX_T2 DX_NoSel">Automatically claim/save completed quests</p>
+                                </div>
+                                <div class="DX_HStack_8" style="width: auto;">
+                                    <div class="DX_Toggle" id="DX_AutoQuest_Toggle"><div class="DX_Toggle_Knob"></div></div>
                                 </div>
                             </div>
 
@@ -3659,16 +3671,7 @@
                                     <div class="DX_Toggle" id="DX_AutoSolver_Toggle"><div class="DX_Toggle_Knob"></div></div>
                                 </div>
                             </div>
-                            <div class="DX_Divider"></div>
-                            <div class="DX_Setting_Row">
-                                <div class="DX_Row_Text">
-                                    <p class="DX_T1 DX_NoSel">Safe Solver Mode</p>
-                                    <p class="DX_T2 DX_NoSel">Mimic human typing speed and delays in lessons</p>
-                                </div>
-                                <div class="DX_HStack_8" style="width: auto;">
-                                    <div class="DX_Toggle" id="DX_SafeSolver_Toggle"><div class="DX_Toggle_Knob"></div></div>
-                                </div>
-                            </div>
+
                             <div class="DX_Divider"></div>
                             <div class="DX_Setting_Row">
                                 <div class="DX_Row_Text">
@@ -3750,9 +3753,6 @@
   if (localStorage.getItem("dx_safe_streak") === null) {
     localStorage.setItem("dx_safe_streak", "true");
   }
-  if (localStorage.getItem("dx_safe_solver") === null) {
-    localStorage.setItem("dx_safe_solver", "false");
-  }
 
   if (localStorage.getItem("dx_path_inf") === null) {
     localStorage.setItem("dx_path_inf", "true");
@@ -3778,9 +3778,19 @@
   let autoPracticeEnabled = localStorage.getItem("dx_auto_practice") === "true";
   let autoLegendaryEnabled =
     localStorage.getItem("dx_auto_legendary") === "true";
-  let pathLessonsRemaining = Infinity;
-  let practiceLessonsRemaining = Infinity;
-  let legendaryLessonsRemaining = Infinity;
+  const pathInf = localStorage.getItem("dx_path_inf") !== "false";
+  const practiceInf = localStorage.getItem("dx_practice_inf") !== "false";
+  const legendaryInf = localStorage.getItem("dx_legendary_inf") !== "false";
+
+  let pathLessonsRemaining = pathInf
+    ? Infinity
+    : parseInt(localStorage.getItem("dx_path_rem") || "0", 10) || Infinity;
+  let practiceLessonsRemaining = practiceInf
+    ? Infinity
+    : parseInt(localStorage.getItem("dx_practice_rem") || "0", 10) || Infinity;
+  let legendaryLessonsRemaining = legendaryInf
+    ? Infinity
+    : parseInt(localStorage.getItem("dx_legendary_rem") || "0", 10) || Infinity;
   let hasDecrementedForCurrentLesson = false;
 
   let isAutoMode = false;
@@ -4848,7 +4858,10 @@
     }
   }
 
+  let navChangeRunId = 0;
+
   async function onNavChange() {
+    const currentRunId = ++navChangeRunId;
     const path = window.location.pathname;
     const isLesson =
       path.includes("/lesson") ||
@@ -4942,7 +4955,10 @@
         }, 500);
       } else {
         if (autoPathEnabled) {
+          cachedCurrentCourseData = null;
           const hasActive = await hasActivePathLesson();
+          if (currentRunId !== navChangeRunId) return;
+
           if (!hasActive) {
             autoPathEnabled = false;
             localStorage.setItem("dx_auto_path", "false");
@@ -4952,38 +4968,81 @@
               "Auto Lesson Completed",
               "No unfinished lessons found. Stopping Auto Lesson.",
             );
+            if (autoLegendaryEnabled) {
+              const legendaryUrl = await getLegendaryUrl().catch(() => null);
+              if (currentRunId !== navChangeRunId) return;
+
+              if (legendaryUrl) {
+                window.location.href = legendaryUrl;
+              } else {
+                autoLegendaryEnabled = false;
+                localStorage.setItem("dx_auto_legendary", "false");
+                resetBtn("DX_AutoLegendary_Btn", "RUN");
+                notify(
+                  "warning",
+                  "Auto Legendary Completed",
+                  "No unfinished Legendary lessons found. Stopping Auto Legendary.",
+                );
+              }
+            }
           } else if (autoLegendaryEnabled) {
             const legendaryUrl = await getLegendaryUrl().catch(() => null);
-            window.location.href =
-              legendaryUrl || "https://duolingo.com/lesson";
+            if (currentRunId !== navChangeRunId) return;
+
+            if (legendaryUrl) {
+              window.location.href = legendaryUrl;
+            } else {
+              autoLegendaryEnabled = false;
+              localStorage.setItem("dx_auto_legendary", "false");
+              resetBtn("DX_AutoLegendary_Btn", "RUN");
+              notify(
+                "warning",
+                "Legendary Lessons Completed",
+                "No unfinished Legendary lessons found. Reverting to normal lessons.",
+              );
+              window.location.href = "https://www.duolingo.com/lesson";
+            }
           } else {
-            window.location.href = "https://duolingo.com/lesson";
+            window.location.href = "https://www.duolingo.com/lesson";
           }
         } else if (autoPracticeEnabled) {
+          cachedCurrentCourseData = null;
           if (autoLegendaryEnabled) {
             const legendaryUrl = await getLegendaryUrl().catch(() => null);
-            window.location.href =
-              legendaryUrl || "https://duolingo.com/practice";
+            if (currentRunId !== navChangeRunId) return;
+
+            if (legendaryUrl) {
+              window.location.href = legendaryUrl;
+            } else {
+              autoLegendaryEnabled = false;
+              localStorage.setItem("dx_auto_legendary", "false");
+              resetBtn("DX_AutoLegendary_Btn", "RUN");
+              notify(
+                "warning",
+                "Legendary Lessons Completed",
+                "No unfinished Legendary lessons found. Reverting to normal practice.",
+              );
+              window.location.href = "https://www.duolingo.com/practice";
+            }
           } else {
-            window.location.href = "https://duolingo.com/practice";
+            window.location.href = "https://www.duolingo.com/practice";
           }
         } else if (autoLegendaryEnabled) {
+          cachedCurrentCourseData = null;
           const legendaryUrl = await getLegendaryUrl().catch(() => null);
+          if (currentRunId !== navChangeRunId) return;
+
           if (legendaryUrl) {
             window.location.href = legendaryUrl;
           } else {
-            notify(
-              "warning",
-              "Auto Legendary",
-              "No legendary lesson found to solve. Stopping...",
-            );
             autoLegendaryEnabled = false;
             localStorage.setItem("dx_auto_legendary", "false");
-            const legendaryBtn = document.getElementById(
-              "DX_AutoLegendary_Btn",
+            resetBtn("DX_AutoLegendary_Btn", "RUN");
+            notify(
+              "warning",
+              "Auto Legendary Completed",
+              "No unfinished Legendary lessons found. Stopping Auto Legendary.",
             );
-            if (legendaryBtn) resetBtn("DX_AutoLegendary_Btn", "RUN");
-            window.dispatchEvent(new CustomEvent("DX_StopSolver"));
           }
         }
       }
@@ -5755,21 +5814,56 @@
     return currentCourseFetchPromise;
   }
 
+  function extractAllUnitsFromCourse(course) {
+    if (!course) return [];
+    let units = [];
+    if (Array.isArray(course.pathSectioned)) {
+      for (const section of course.pathSectioned) {
+        if (section && Array.isArray(section.units)) {
+          units.push(...section.units);
+        }
+      }
+    }
+    if (units.length === 0 && Array.isArray(course.units)) {
+      units = course.units;
+    }
+    if (units.length === 0 && Array.isArray(course.sections)) {
+      for (const section of course.sections) {
+        if (section && Array.isArray(section.units)) {
+          units.push(...section.units);
+        }
+      }
+    }
+    if (units.length === 0 && course.path) {
+      if (Array.isArray(course.path)) {
+        units = course.path;
+      } else if (Array.isArray(course.path.units)) {
+        units = course.path.units;
+      } else if (Array.isArray(course.path.sections)) {
+        for (const sec of course.path.sections) {
+          if (sec && Array.isArray(sec.units)) {
+            units.push(...sec.units);
+          }
+        }
+      }
+    }
+    return units;
+  }
+
   async function hasActivePathLesson() {
     const course = await fetchCurrentCourse();
-    if (!course || !course.pathSectioned) return true;
+    if (!course) return true;
     try {
-      for (let s = 0; s < course.pathSectioned.length; s++) {
-        const section = course.pathSectioned[s];
-        if (!section || !section.units) continue;
-        for (let u = 0; u < section.units.length; u++) {
-          const unit = section.units[u];
-          if (!unit || !unit.levels) continue;
-          const foundActive = unit.levels.some(
-            (l) => l.state === "active" || l.state === "unit_test",
-          );
-          if (foundActive) return true;
-        }
+      const units = extractAllUnitsFromCourse(course);
+      if (units.length === 0) return true;
+      for (const unit of units) {
+        if (!unit || !Array.isArray(unit.levels)) continue;
+        const foundActive = unit.levels.some((l) => {
+          if (!l) return false;
+          const st = (l.state || l.status || "").toLowerCase();
+          return st === "active" || st === "unit_test" || st === "started";
+        });
+        if (foundActive) return true;
       }
       return false;
     } catch {
@@ -5778,41 +5872,38 @@
   }
 
   async function getLegendaryUrl() {
+    cachedCurrentCourseData = null;
     const course = await fetchCurrentCourse();
     if (!course) return null;
     try {
-      let ui = -1;
-      let li = -1;
+      const units = extractAllUnitsFromCourse(course);
+      for (let u = 0; u < units.length; u++) {
+        const unit = units[u];
+        if (!unit || !Array.isArray(unit.levels)) continue;
 
-      if (course.pathSectioned && Array.isArray(course.pathSectioned)) {
-        for (let s = 0; s < course.pathSectioned.length; s++) {
-          const section = course.pathSectioned[s];
-          if (!section || !section.units) continue;
+        const index = unit.levels.findIndex((l) => {
+          if (!l || l.type === "chest" || l.type === "CHEST") return false;
+          const st = (l.state || l.status || "").toLowerCase();
+          const sub = (l.subtype || "").toLowerCase();
+          const isPassed =
+            st === "passed" || st === "complete" || st === "completed";
+          const isAlreadyLegendary =
+            st === "legendary" ||
+            sub === "legendary" ||
+            l.hasLegendary === true ||
+            l.legendaryState === "passed";
+          return isPassed && !isAlreadyLegendary;
+        });
 
-          for (let u = 0; u < section.units.length; u++) {
-            const unit = section.units[u];
-            if (!unit || !unit.levels) continue;
-
-            const index = unit.levels.findIndex(
-              (l) => l.state === "passed" && l.type !== "chest",
-            );
-            if (index !== -1 && ui === -1) {
-              ui = unit.unitIndex;
-              li = index;
-              break;
-            }
-          }
-          if (ui !== -1) break;
+        if (index !== -1) {
+          const unitIdx =
+            typeof unit.unitIndex === "number" ? unit.unitIndex : u;
+          return `https://www.duolingo.com/lesson/unit/${unitIdx + 1}/legendary/${index + 1}`;
         }
       }
-
-      if (ui === -1 || li === -1) {
-        return null;
-      } else {
-        return `https://www.duolingo.com/lesson/unit/${ui + 1}/legendary/${li + 1}`;
-      }
+      return null;
     } catch (err) {
-      console.error(err);
+      console.error("Error finding legendary URL:", err);
       return null;
     }
   }
@@ -8505,81 +8596,128 @@
     const script = document.createElement("script");
     script.id = "DX_LocalMax_Script";
     script.textContent = `
-            (function() {
-                const TARGET_URL_REGEX = /https?:\\/\\/(?:[a-zA-Z0-9-]+\\.)?duolingo\\.[a-zA-Z]{2,6}(?:\\.[a-zA-Z]{2})?\\/\\d{4}-\\d{2}-\\d{2}\\/users\\/.+/;
-                const CUSTOM_SHOP_ITEMS = {
-                    gold_subscription: {
-                        itemName: "gold_subscription",
-                        subscriptionInfo: {
-                            vendor: "STRIPE",
-                            renewing: true,
-                            expectedExpiration: Date.now() + 31536000000
-                        }
-                    }
-                };
+      (function() {
+        const TARGET_URL_REGEX = /https?:\\/\\/(?:[a-zA-Z0-9-]+\\.)?duolingo\\.[a-zA-Z]{2,6}(?:\\.[a-zA-Z]{2})?\\/\\d{4}-\\d{2}-\\d{2}\\/users\\/.+/;
+        const CUSTOM_SHOP_ITEMS = {
+          gold_subscription: {
+            itemName: "gold_subscription",
+            subscriptionInfo: {
+              vendor: "STRIPE",
+              renewing: true,
+              expectedExpiration: Date.now() + 31536000000
+            }
+          },
+          max_subscription: {
+            itemName: "max_subscription",
+            subscriptionInfo: {
+              vendor: "STRIPE",
+              renewing: true,
+              expectedExpiration: Date.now() + 31536000000
+            }
+          }
+        };
 
-                const originalFetch = window.fetch;
-                window.fetch = function (resource, options) {
-                    const url = resource instanceof Request ? resource.url : resource;
-                    const method = resource instanceof Request ? resource.method : ((options && options.method) || 'GET');
-                    const m = method.toUpperCase();
-                    if (m === 'GET' && TARGET_URL_REGEX.test(url)) {
-                        return originalFetch.apply(this, arguments).then(async function (response) {
-                            const resp = response.clone();
-                            let raw = await resp.text();
-                            try {
-                                let data = JSON.parse(raw);
-                                data.hasPlus = true;
-                                if (!data.trackingProperties || typeof data.trackingProperties !== 'object') data.trackingProperties = {};
-                                data.trackingProperties.has_item_gold_subscription = true;
-                                data.shopItems = Object.assign({}, data.shopItems, CUSTOM_SHOP_ITEMS);
-                                raw = JSON.stringify(data);
-                            } catch { }
-                            let hdrs = response.headers;
-                            try { const obj = {}; response.headers.forEach((v, k) => obj[k] = v); hdrs = obj; } catch { }
-                            return new Response(raw, { status: response.status, statusText: response.statusText, headers: hdrs });
-                        });
-                    }
-                    return originalFetch.apply(this, arguments);
-                };
+        function patchUserData(data) {
+          if (!data || typeof data !== "object") return data;
+          data.hasPlus = true;
+          data.hasSuper = true;
+          data.hasMax = true;
+          data.tier = "MAX";
+          data.subscriberType = "MAX";
+          data.subscriber_type = "MAX";
+          data.hasUnlimitedHearts = true;
+          data.has_unlimited_hearts = true;
+          data.hasSuperPlus = true;
+          data.hasMaxTier = true;
+          if (!data.premiumFeatures || !Array.isArray(data.premiumFeatures)) {
+            data.premiumFeatures = ["UNLIMITED_HEARTS", "EXPLAIN_MY_ANSWER", "ROLEPLAY", "NO_ADS", "SUPER", "MAX"];
+          }
+          if (!data.trackingProperties || typeof data.trackingProperties !== "object") {
+            data.trackingProperties = {};
+          }
+          data.trackingProperties.has_item_gold_subscription = true;
+          data.trackingProperties.has_item_max_subscription = true;
+          data.trackingProperties.has_plus = true;
+          data.trackingProperties.has_super = true;
+          data.trackingProperties.has_max = true;
+          data.trackingProperties.subscriber_type = "MAX";
+          data.shopItems = Object.assign({}, data.shopItems, CUSTOM_SHOP_ITEMS);
+          return data;
+        }
 
-                const origOpen = XMLHttpRequest.prototype.open;
-                const origSend = XMLHttpRequest.prototype.send;
-                                        let data = JSON.parse(raw);
-                                        data.hasPlus = true;
-                                        if (!data.trackingProperties || typeof data.trackingProperties !== 'object') data.trackingProperties = {};
-                                        data.trackingProperties.has_item_gold_subscription = true;
-                                        data.shopItems = Object.assign({}, data.shopItems, CUSTOM_SHOP_ITEMS);
-                                        raw = JSON.stringify(data);
-                                    } catch { }
-                                    Object.defineProperty(xhr, 'responseText', { writable: true, value: raw });
-                                    Object.defineProperty(xhr, 'response', { writable: true, value: raw });
-                                } catch { }
-                            }
-                            if (origChange) origChange.apply(this, arguments);
-                        };
-                    }
-                    origSend.apply(this, arguments);
-                };
+        const originalFetch = window.fetch;
+        if (originalFetch) {
+          window.fetch = function (resource, options) {
+            const url = resource instanceof Request ? resource.url : resource;
+            const method = resource instanceof Request ? resource.method : ((options && options.method) || 'GET');
+            const m = String(method).toUpperCase();
+            if (m === 'GET' && TARGET_URL_REGEX.test(url)) {
+              return originalFetch.apply(this, arguments).then(async function (response) {
+                const resp = response.clone();
+                let raw = await resp.text();
+                try {
+                  let data = JSON.parse(raw);
+                  data = patchUserData(data);
+                  raw = JSON.stringify(data);
+                } catch (e) {}
+                let hdrs = response.headers;
+                try { const obj = {}; response.headers.forEach((v, k) => obj[k] = v); hdrs = obj; } catch (e) {}
+                return new Response(raw, { status: response.status, statusText: response.statusText, headers: hdrs });
+              });
+            }
+            return originalFetch.apply(this, arguments);
+          };
+        }
 
-                function remove(root = document) {
-                    const sections = root.querySelectorAll('section._3f-te');
-                    for (let i = 0; i < sections.length; i++) {
-                        const h2 = sections[i].querySelector('h2._203-l');
-                        if (h2 && h2.textContent.trim() === 'Manage subscription') {
-                            sections[i].remove();
-                            break;
-                        }
-                    }
+        const origOpen = XMLHttpRequest.prototype.open;
+        const origSend = XMLHttpRequest.prototype.send;
+        if (origOpen && origSend) {
+          XMLHttpRequest.prototype.open = function(method, url) {
+            this._url = url;
+            this._method = method;
+            return origOpen.apply(this, arguments);
+          };
+          XMLHttpRequest.prototype.send = function() {
+            if (this._method && String(this._method).toUpperCase() === 'GET' && this._url && TARGET_URL_REGEX.test(this._url)) {
+              const xhr = this;
+              const origChange = xhr.onreadystatechange;
+              xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                  try {
+                    let data = JSON.parse(xhr.responseText);
+                    data = patchUserData(data);
+                    const raw = JSON.stringify(data);
+                    Object.defineProperty(xhr, 'responseText', { writable: true, value: raw });
+                    Object.defineProperty(xhr, 'response', { writable: true, value: raw });
+                  } catch (e) {}
                 }
-                const observer = new MutationObserver(function () {
-                    remove();
-                });
-                observer.observe(document.documentElement, { childList: true, subtree: true });
-                remove();
-            })();
-        `;
-    document.documentElement.appendChild(script);
+                if (origChange) origChange.apply(this, arguments);
+              };
+            }
+            return origSend.apply(this, arguments);
+          };
+        }
+
+        function removeSubscriptionSection(root = document) {
+          try {
+            const sections = root.querySelectorAll('section._3f-te');
+            for (let i = 0; i < sections.length; i++) {
+              const h2 = sections[i].querySelector('h2._203-l');
+              if (h2 && h2.textContent.trim() === 'Manage subscription') {
+                sections[i].remove();
+                break;
+              }
+            }
+          } catch(e) {}
+        }
+        const observer = new MutationObserver(function () {
+          removeSubscriptionSection();
+        });
+        observer.observe(document.documentElement, { childList: true, subtree: true });
+        removeSubscriptionSection();
+      })();
+    `;
+    (document.head || document.documentElement).appendChild(script);
   }
 
   async function getCohort() {
@@ -9551,11 +9689,24 @@
       storiesDoneButton ||
       footerButton;
 
-    if (
-      document.querySelector('[data-test="story-start"]') &&
-      autoSolverEnabled
-    ) {
-      document.querySelector('[data-test="story-start"]').click();
+    const isAutoSolverActive =
+      autoSolverEnabled ||
+      autoPathEnabled ||
+      autoPracticeEnabled ||
+      autoLegendaryEnabled ||
+      isAutoMode;
+    if (isAutoSolverActive) {
+      const autoStartTargets = [
+        '[data-test="legendary-start-button"]',
+        '[data-test="story-start"]',
+        '[data-test="practice-hub-continue"]',
+        '[data-test="character-practice-continue"]',
+        '[data-test="alphabets-practice-continue"]',
+      ];
+      autoStartTargets.forEach((sel) => {
+        const startBtn = document.querySelector(sel);
+        if (startBtn) startBtn.click();
+      });
     }
 
     if (target) {
@@ -10038,44 +10189,29 @@
                 let solveAllRunToken = 0;
                 let isSolveBusy = false;
                 let currentQuestionId = null;
+                let prefetchedNextUrl = null;
                 let hasLoggedForCurrent = 0;
                 let reactTraverseUp = 1;
                 let findReactMainElementClass = '_3yE3H';
                 let hasDecrementedForCurrentLesson = false;
-                let justClickedNext = false;
-                let lastSolvedQuestionId = null;
-                let nextClickedTime = 0;
 
                 function bumpSolveAllRunToken() {
                     solveAllRunToken += 1;
                     return solveAllRunToken;
                 }
 
-                function logOnce(flag, sol, dom) {
-                    if ((flag === 2 && hasLoggedForCurrent === 0) || (flag === 3 && hasLoggedForCurrent === 2)) {
-                        hasLoggedForCurrent++;
-                        if (flag === 2) {
-                            window.dispatchEvent(new CustomEvent('DX_Notify', {
-                                detail: { type: 'error', title: 'Auto Solver', body: 'Solver has detected that it solved a question incorrectly.' }
-                            }));
-                        } else if (flag === 3) {
-                            window.dispatchEvent(new CustomEvent('DX_Notify', {
-                                detail: { type: 'error', title: 'Auto Solver', body: 'Solver has detected that it is stuck on a question.' }
-                            }));
-                        }
-                    }
-                }
-
                 function solverFindNextButton() {
                     let nextButton = document.querySelector('[data-test="player-next"]') ||
                         document.querySelector('[data-test="stories-player-continue"]') ||
-                        document.querySelector('[data-test="stories-player-done"]');
+                        document.querySelector('[data-test="stories-player-done"]') ||
+                        document.querySelector('[data-test="player-footer"] button') ||
+                        document.querySelector('footer button');
 
                     if (!nextButton) {
                         const btns = Array.from(document.querySelectorAll('button:not(#DX_Root *), [role="button"]:not(#DX_Root *)'));
                         nextButton = btns.find(btn => {
                             const txt = (btn.textContent || btn.innerText || "").toUpperCase().trim();
-                            return txt === "CONTINUE" || txt === "NO THANKS";
+                            return txt === "CONTINUE" || txt === "CHECK" || txt === "NEXT" || txt === "SKIP" || txt === "NO THANKS";
                         });
                     }
                     return nextButton;
@@ -10083,34 +10219,10 @@
 
                 async function solverClickCheck() {
                     try {
-                        let nextButtonNormal = document.querySelector('[data-test="player-next"]');
-                        let storiesContinueButton = document.querySelector('[data-test="stories-player-continue"]');
-                        let storiesDoneButton = document.querySelector('[data-test="stories-player-done"]');
-
                         let nextButton = solverFindNextButton();
                         if (!nextButton) return;
-
-                        let nextButtonAriaValue = null;
-                        if (nextButton === nextButtonNormal) {
-                            nextButtonAriaValue = nextButtonNormal.getAttribute('aria-disabled');
-                        } else if (nextButton === storiesContinueButton) {
-                            nextButtonAriaValue = storiesContinueButton.disabled;
-                        } else if (nextButton === storiesDoneButton) {
-                            nextButtonAriaValue = storiesDoneButton;
-                        }
-
-                        if (String(nextButtonAriaValue) === 'true') {
-                            logOnce(3, window.sol, document.querySelector('.RMEuZ._1GVfY'));
-                        } else if (String(nextButtonAriaValue) === 'false' && (nextButton.classList.length === 7 && nextButton.matches('._1rcV8._1VYyp._1ursp._7jW2t._3DbUj._38g3s._2oGJR'))) {
-                            nextButton.click();
-                            await new Promise(r => setTimeout(r, 50));
-
-                            if (nextButton && nextButton.classList.contains('_2oGJR')) {
-                                logOnce(1, window.sol, document.querySelector('.RMEuZ._1GVfY'));
-                            } else if (nextButton && nextButton.classList.contains('_3S8jJ')) {
-                                logOnce(2, window.sol, document.querySelector('.RMEuZ._1GVfY'));
-                            }
-                        } else {
+                        const isDisabled = nextButton.getAttribute('aria-disabled') === 'true' || nextButton.disabled;
+                        if (!isDisabled) {
                             nextButton.click();
                         }
                     } catch (error) {
@@ -10140,27 +10252,11 @@
                                 depth++;
                             }
                         }
-                    } catch (e) {
-                        console.error(e);
-                    }
+                    } catch {}
                     return null;
                 }
 
                 async function solverClickNext() {
-                    const challengeElement = document.querySelector('[data-test~="challenge"]');
-                    let observer = null;
-                    let clicked = false;
-                    const removalPromise = challengeElement ? new Promise((resolve) => {
-                        if (!document.body.contains(challengeElement)) return resolve();
-                        observer = new MutationObserver(() => {
-                            if (!document.body.contains(challengeElement)) {
-                                observer.disconnect();
-                                resolve();
-                            }
-                        });
-                        observer.observe(document.body, { childList: true, subtree: true });
-                    }) : Promise.resolve();
-
                     try {
                         const inStory = location.hostname.includes('stories.duolingo.com') ||
                             location.pathname.includes('/stories') ||
@@ -10174,24 +10270,17 @@
                             const continueFn = solverFindStoryContinue();
                             if (continueFn) {
                                 continueFn();
-                                clicked = true;
                                 return;
                             }
                         }
 
                         let nextButton = solverFindNextButton();
                         if (nextButton) {
-                            nextButton.click();
-                            clicked = true;
+                            const isDisabled = nextButton.getAttribute('aria-disabled') === 'true' || nextButton.disabled;
+                            if (!isDisabled) nextButton.click();
                         }
                     } catch (error) {
                         console.error(error);
-                    } finally {
-                        if (clicked && challengeElement) {
-                            await removalPromise;
-                        } else if (observer) {
-                            observer.disconnect();
-                        }
                     }
                 }
 
@@ -10205,63 +10294,97 @@
 
                 function solverDetermineChallengeType() {
                     try {
-                        if (document.getElementsByClassName("FmlUF").length > 0 && window.sol && ["arrange", "multiple-choice", "multiple_choice", "select-phrases", "point-to-phrase", "point_to_phrase", "match", "gap-fill", "gap_fill"].includes(window.sol.type)) {
-                            if (window.sol.type === "arrange") return "Story Arrange";
-                            else if (window.sol.type === "multiple-choice" || window.sol.type === "multiple_choice" || window.sol.type === "select-phrases") return "Story Multiple Choice";
-                            else if (window.sol.type === "point-to-phrase" || window.sol.type === "point_to_phrase") return "Story Point to Phrase";
-                            else if (window.sol.type === "match") return "Story Pairs";
-                            else if (window.sol.type === "gap-fill" || window.sol.type === "gap_fill") return "Story Gap Fill";
-                        } else {
-                            if (window.sol && window.sol.type) {
-                                const t = window.sol.type;
-                                if (t === 'patternTapComplete') return 'Pattern Tap Complete';
-                                else if (t === 'syllableTap') return 'Syllable Tap';
-                                else if (t === 'syllableListenTap') return 'Syllable Listen Tap';
-                                else if (t === 'tapCompleteTable') return 'Tap Complete Table';
-                                else if (t === 'typeCloze') return 'Type Cloze';
-                                else if (t === 'typeClozeTable') return 'Type Cloze Table';
-                                else if (t === 'tapClozeTable') return 'Tap Cloze Table';
-                                else if (t === 'typeCompleteTable') return 'Type Complete Table';
-                                else if (t === 'completeReverseTranslation') return 'Complete Reverse Translation';
-                                else if (t === 'listenMatch') return 'Listen Match';
-                                else if (t === 'judge') return 'Judge';
-                                else if (t === 'dialogue' || t === 'characterIntro' || t === 'selectTranscription') return 'Dialogue';
-                                else if (t === 'select' || t === 'characterSelect' || t === 'form' || t === 'readComprehension' || t === 'listenComprehension' || t === 'selectPronunciation') return 'Select Card';
-                                else if (t === 'orderTapComplete') return 'Order Tap Complete';
-                                else if (t === 'gap-fill' || t === 'gap_fill') return 'Story Gap Fill';
-                                else if (t === 'translate') return 'Translate';
-                                else if (t === 'tapComplete' || t === 'tapCloze') return 'Indices Run';
-                                else if (t === 'typeComplete') return 'Challenge Text Input';
-                                else if (t === 'transliterationAssist' || t === 'reverseAssist') return 'Challenge Choice';
-                                else if (t === 'listenTap') return 'Listen Tap';
-                                else if (t === 'listen') return 'Listen Type';
-                                else if (t === 'completeReverseTranslation') return 'Complete Reverse';
-                            }
+                        if (!window.sol) return false;
+                        const t = window.sol.type;
+                        const tl = t?.toLowerCase();
 
-                            if (document.querySelectorAll('[data-test*="challenge-speak"]').length > 0) return 'Challenge Speak';
-                            else if (document.querySelectorAll('[data-test*="challenge-name"]').length > 0 && document.querySelectorAll('[data-test="challenge-choice"]').length > 0) return 'Challenge Name';
-                            else if (document.querySelectorAll('[data-test="challenge challenge-characterWrite"]').length > 0) {
-                                if (document.querySelector('g._25Ktp')) return 'Character Write Drag';
-                                else if (document.querySelectorAll('path._1e5Zt').length > 0) return 'Character Write Draw';
-                                else return 'Character Write Freehand';
-                            } else if (document.querySelectorAll('[data-test="challenge challenge-listenSpeak"]').length > 0) return 'Listen Speak';
-                            else if (document.querySelectorAll('[data-test="challenge-choice"]').length > 0) {
-                                if (document.querySelectorAll('[data-test="challenge-text-input"]').length > 0) return 'Challenge Choice with Text Input';
-                                else return 'Challenge Choice';
-                            } else if (document.querySelectorAll('[data-test$="challenge-tap-token"]').length > 0) {
-                                if (window.sol.pairs !== undefined || window.sol.type === 'characterMatch' || window.sol.type === 'match') return 'Pairs';
-                                else if (window.sol.correctTokens !== undefined) return 'Tokens Run';
-                                else if (window.sol.correctIndices !== undefined) return 'Indices Run';
-                            } else if (document.querySelectorAll('[data-test="challenge-tap-token-text"]').length > 0) return 'Fill in the Gap';
-                            else if (document.querySelectorAll('[data-test="challenge-text-input"]').length > 0) return 'Challenge Text Input';
-                            else if (document.querySelectorAll('[data-test*="challenge-partialReverseTranslate"]').length > 0) return 'Partial Reverse';
-                            else if (document.querySelectorAll('textarea[data-test="challenge-translate-input"]').length > 0) return 'Challenge Translate Input';
-                            else if (document.querySelectorAll('[data-test="session-complete-slide"]').length > 0) return 'Session Complete';
-                            else if (document.querySelectorAll('[data-test="daily-quest-progress-slide"]').length > 0) return 'Daily Quest Progress';
-                            else if (document.querySelectorAll('[data-test="streak-slide"]').length > 0) return 'Streak';
-                            else if (document.querySelectorAll('[data-test="leaderboard-slide"]').length > 0) return 'Leaderboard';
-                            else return false;
+                        if (t === 'speak' || t === 'listenSpeak' ||
+                            document.querySelector('[data-test="challenge challenge-listenSpeak"]') ||
+                            document.querySelectorAll('[data-test*="challenge-speak"]').length > 0) return 'Challenge Speak';
+
+                        if (t === 'listenMatch') return 'Listen Match';
+
+                        const isStory = location.hostname.includes('stories.duolingo.com') ||
+                            location.pathname.includes('/stories') ||
+                            !!document.querySelector('.FmlUF') ||
+                            !!document.querySelector('[data-test="stories-choice"]') ||
+                            !!document.querySelector('[data-test="story-start"]') ||
+                            !!document.querySelector('[data-test="stories-player-continue"]') ||
+                            !!document.querySelector('[data-test="stories-player-done"]');
+
+                        if (isStory) {
+                            if (tl === 'arrange') return 'Story Arrange';
+                            if (tl === 'multiple-choice' || tl === 'multiple_choice' || tl === 'select-phrases' || tl === 'select_phrase' || tl === 'select-phrase' || tl === 'challenge_prompt' || tl === 'challenge-prompt') return 'Story Multiple Choice';
+                            if (tl === 'point-to-phrase' || tl === 'point_to_phrase') return 'Story Point to Phrase';
+                            if (tl === 'match') return 'Story Pairs';
+                            if (tl === 'gap-fill' || tl === 'gap_fill') return 'Story Gap Fill';
                         }
+
+                        if (tl === 'arrange') return 'Story Arrange';
+                        if (tl === 'multiple-choice' || tl === 'multiple_choice' || tl === 'select_phrase' || tl === 'select-phrase' || tl === 'challenge_prompt' || tl === 'challenge-prompt') return 'Story Multiple Choice';
+                        if (tl === 'point-to-phrase' || tl === 'point_to_phrase') return 'Story Point to Phrase';
+                        if (tl === 'gap-fill' || tl === 'gap_fill') return 'Story Gap Fill';
+
+                        if (t === 'typeCloze') return 'Type Cloze';
+                        if (t === 'typeClozeTable') return 'Type Cloze Table';
+                        if (t === 'tapClozeTable') return 'Tap Cloze Table';
+                        if (t === 'typeCompleteTable') return 'Type Complete Table';
+                        if (t === 'tapCompleteTable') return 'Tap Complete Table';
+                        if (t === 'patternTapComplete') return 'Pattern Tap Complete';
+                        if (t === 'syllableTap') return 'Syllable Tap';
+                        if (t === 'syllableListenTap') return 'Syllable Listen Tap';
+
+                        if (t === 'listenTap') return 'Listen Tap';
+                        if (t === 'listen') return 'Listen Type';
+                        if (t === 'translate') return 'Translate';
+                        if (t === 'completeReverseTranslation') return 'Complete Reverse';
+
+                        if (document.querySelectorAll('[data-test*="challenge-partialReverseTranslate"]').length > 0) return 'Partial Reverse';
+
+                        if (document.querySelectorAll('[data-test="challenge challenge-characterWrite"]').length > 0) {
+                            if (document.querySelector('g._25Ktp')) return 'Character Write Drag';
+                            if (document.querySelectorAll('path._1e5Zt').length > 0) return 'Character Write Draw';
+                            return 'Character Write Freehand';
+                        }
+
+                        if (t === 'judge') return 'Judge';
+                        if (t === 'dialogue' || t === 'characterIntro' || t === 'selectTranscription') return 'Dialogue';
+
+                        if (t === 'characterMatch' || t === 'match') {
+                            if (document.querySelectorAll('[data-test$="challenge-tap-token"]').length > 0) return 'Pairs';
+                        }
+
+                        if (t === 'select' || t === 'characterSelect' || t === 'form' ||
+                            t === 'readComprehension' || t === 'listenComprehension' ||
+                            t === 'selectPronunciation') {
+                            return 'Select Card';
+                        }
+
+                        if (document.querySelectorAll('[data-test*="challenge-name"]').length > 0 &&
+                            document.querySelectorAll('[data-test="challenge-choice"]').length > 0) return 'Challenge Name';
+
+                        if (document.querySelectorAll('[data-test="challenge-choice"]').length > 0) {
+                            if (document.querySelectorAll('[data-test="challenge-text-input"]').length > 0) return 'Challenge Choice with Text Input';
+                            return 'Challenge Choice';
+                        }
+
+                        if (t === 'orderTapComplete') return 'Order Tap Complete';
+
+                        if (document.querySelectorAll('[data-test$="challenge-tap-token"]').length > 0) {
+                            if (window.sol?.pairs !== undefined) return 'Pairs';
+                            if (window.sol?.correctTokens !== undefined) return 'Tokens Run';
+                            if (window.sol?.correctIndices !== undefined) return 'Indices Run';
+                        }
+                        if (document.querySelectorAll('[data-test="challenge-tap-token-text"]').length > 0) return 'Fill in the Gap';
+
+                        if (document.querySelectorAll('[data-test="challenge-text-input"]').length > 0) return 'Challenge Text Input';
+                        if (document.querySelectorAll('textarea[data-test="challenge-translate-input"]').length > 0) return 'Challenge Translate Input';
+
+                        if (document.querySelectorAll('[data-test="session-complete-slide"]').length > 0) return 'Session Complete';
+                        if (document.querySelectorAll('[data-test="daily-quest-progress-slide"]').length > 0) return 'Daily Quest Progress';
+                        if (document.querySelectorAll('[data-test="streak-slide"]').length > 0) return 'Streak';
+                        if (document.querySelectorAll('[data-test="leaderboard-slide"]').length > 0) return 'Leaderboard';
+                        return false;
                     } catch (error) {
                         console.log(error);
                         return 'error';
@@ -10272,43 +10395,22 @@
                     const sleep = (ms) => new Promise(r => setTimeout(r, ms));
 
                     async function typeHumanized(element, value, isContentEditable = false) {
-                        const wantsSafe = localStorage.getItem("dx_safe_solver") === "true";
                         if (!value) return;
 
                         if (isContentEditable) {
                             const setter = Object.getOwnPropertyDescriptor(Node.prototype, "textContent").set;
-                            if (!wantsSafe) {
-                                setter.call(element, value);
-                                element.dispatchEvent(new Event('input', { bubbles: true }));
-                                return;
-                            }
-                            const words = String(value).split(' ');
-                            let typed = '';
-                            for (let i = 0; i < words.length; i++) {
-                                typed += (i > 0 ? ' ' : '') + words[i];
-                                setter.call(element, typed);
-                                element.dispatchEvent(new Event('input', { bubbles: true }));
-                                await sleep(110 + Math.random() * 180);
-                            }
+                            if (setter) setter.call(element, value);
+                            else element.textContent = value;
+                            element.dispatchEvent(new Event('input', { bubbles: true }));
                         } else {
                             const isTextarea = element.tagName === 'TEXTAREA';
                             const prototype = isTextarea ? window.HTMLTextAreaElement.prototype : window.HTMLInputElement.prototype;
-                            const setter = Object.getOwnPropertyDescriptor(prototype, "value").set;
-                            if (!wantsSafe) {
-                                setter.call(element, value);
-                                element.dispatchEvent(new Event('input', { bubbles: true }));
-                                element.dispatchEvent(new Event('change', { bubbles: true }));
-                                return;
-                            }
-                            const words = String(value).split(' ');
-                            let typed = '';
-                            for (let i = 0; i < words.length; i++) {
-                                typed += (i > 0 ? ' ' : '') + words[i];
-                                setter.call(element, typed);
-                                element.dispatchEvent(new Event('input', { bubbles: true }));
-                                element.dispatchEvent(new Event('change', { bubbles: true }));
-                                await sleep(110 + Math.random() * 180);
-                            }
+                            const desc = Object.getOwnPropertyDescriptor(prototype, "value");
+                            const setter = desc ? desc.set : null;
+                            if (setter) setter.call(element, value);
+                            else element.value = value;
+                            element.dispatchEvent(new Event('input', { bubbles: true }));
+                            element.dispatchEvent(new Event('change', { bubbles: true }));
                         }
                     }
 
@@ -10337,24 +10439,44 @@
                         }
                     }
 
-
                     if (challengeType === 'Challenge Speak' || challengeType === 'Listen Match' || challengeType === 'Listen Speak') {
-
-                        const buttonSkip = document.querySelector('button[data-test="player-skip"]');
-                        buttonSkip?.click();
-
+                        const cantListenSelectors = [
+                            '[data-test="cant-listen-now-button"]',
+                            '[data-test="cant-speak-now-button"]',
+                            '[data-test="player-skip"]',
+                            'button[data-test="player-skip"]',
+                            '.vpDIE',
+                            '._8AMBh._2vfJy._3Qy5R._28UWu._3h0lA._1S2uf._1E9sc',
+                            '._1Qh5D._36g4N._2YF0P._28UWu._3h0lA._1S2uf._1E9sc'
+                        ];
+                        for (const sel of cantListenSelectors) {
+                            const btn = document.querySelector(sel);
+                            if (btn && !btn.disabled) {
+                                btn.click();
+                                await sleep(100);
+                                break;
+                            }
+                        }
                     } else if (challengeType === 'Challenge Choice' || challengeType === 'Challenge Choice with Text Input') {
                         if (challengeType === 'Challenge Choice with Text Input') {
                             let elm = document.querySelectorAll('[data-test="challenge-text-input"]')[0];
                             if (elm) {
-                                const val = window.sol.correctSolutions ? window.sol.correctSolutions[0].split(/(?<=^\S+)\s/)[1] : (window.sol.displayTokens ? window.sol.displayTokens.find(t => t.isBlank).text : window.sol.prompt);
+                                const parts = window.sol.correctSolutions ? window.sol.correctSolutions[0].split(/(?<=^\S+)\s/) : [];
+                                const val = parts.length > 1 ? parts[1] : (parts[0] || (window.sol.displayTokens ? window.sol.displayTokens.find(t => t.isBlank)?.text : window.sol.prompt));
                                 await typeHumanized(elm, val);
                             }
                         } else if (challengeType === 'Challenge Choice') {
-                            document.querySelectorAll("[data-test='challenge-choice']")[window.sol.correctIndex].click();
+                            document.querySelectorAll("[data-test='challenge-choice']")[window.sol.correctIndex]?.click();
                         }
 
                     } else if (challengeType === 'Pairs') {
+                        const cantListenBtn = document.querySelector('[data-test="cant-listen-now-button"]') || document.querySelector('button[data-test="player-skip"]');
+                        if (cantListenBtn && !cantListenBtn.disabled) {
+                            cantListenBtn.click();
+                            await sleep(50);
+                            return;
+                        }
+
                         const nl = document.querySelectorAll('[data-test*="challenge-tap-token"]:not(span)');
                         for (const pair of window.sol.pairs || []) {
                             for (let i = 0; i < nl.length; i++) {
@@ -10365,7 +10487,8 @@
                                     buttonText === pair.transliteration?.toLowerCase().trim() ||
                                     buttonText === pair.character?.toLowerCase().trim() ||
                                     buttonText === pair.learningToken?.toLowerCase().trim() ||
-                                    buttonText === pair.fromToken?.toLowerCase().trim();
+                                    buttonText === pair.fromToken?.toLowerCase().trim() ||
+                                    buttonText === pair.fallbackText?.toLowerCase().trim();
                                 if (matches) {
                                     btn.click();
                                     await sleep(50);
@@ -10387,8 +10510,14 @@
                                 const normalizedValue = value.toLowerCase().trim();
                                 const element1 = textToElementMap.get(keyPart);
                                 const element2 = textToElementMap.get(normalizedValue);
-                                if (element1 && !element1.disabled) element1.click();
-                                if (element2 && !element2.disabled) element2.click();
+                                if (element1 && !element1.disabled) {
+                                    element1.click();
+                                    await sleep(50);
+                                }
+                                if (element2 && !element2.disabled) {
+                                    element2.click();
+                                    await sleep(50);
+                                }
                             }
                         }
 
@@ -10405,9 +10534,9 @@
                             if (correctToken) {
                                 const correctAnswerText = correctToken.text;
                                 const currentRowElement = tableRowElements[rowIndex];
-                                let buttons = currentRowElement.querySelectorAll('button[data-test*="-challenge-tap-token"]');
+                                let buttons = currentRowElement?.querySelectorAll('button[data-test*="-challenge-tap-token"]');
                                 let clicked = false;
-                                if (buttons.length > 0) {
+                                if (buttons && buttons.length > 0) {
                                     for (let button of buttons) {
                                         const buttonText = solverGetCleanButtonText(button);
                                         if (buttonText === correctAnswerText && !button.disabled) {
@@ -10455,7 +10584,7 @@
                     } else if (challengeType === 'Challenge Text Input') {
                         let elm = document.querySelectorAll('[data-test="challenge-text-input"]')[0];
                         if (elm) {
-                            const val = window.sol.correctSolutions ? window.sol.correctSolutions[0] : (window.sol.displayTokens ? window.sol.displayTokens.find(t => t.isBlank).text : window.sol.prompt);
+                            const val = window.sol.correctSolutions ? window.sol.correctSolutions[0] : (window.sol.displayTokens ? window.sol.displayTokens.find(t => t.isBlank)?.text : window.sol.prompt);
                             await typeHumanized(elm, val);
                         }
 
@@ -10476,14 +10605,19 @@
                     } else if (challengeType === 'Challenge Name') {
                         let articles = window.sol.articles;
                         let correctSolutions = window.sol.correctSolutions[0];
-                        let matchingArticle = articles.find(article => correctSolutions.startsWith(article));
-                        let matchingIndex = matchingArticle !== undefined ? articles.indexOf(matchingArticle) : null;
-                        let remainingValue = correctSolutions.substring(matchingArticle.length);
-                        let selectedElement = document.querySelector('[data-test="challenge-choice"]:nth-child(' + (matchingIndex + 1) + ')');
-                        if (selectedElement) selectedElement.click();
-                        let elm = document.querySelector('[data-test="challenge-text-input"]');
-                        if (elm) {
-                            await typeHumanized(elm, remainingValue);
+                        let matchingArticle = articles ? articles.find(article => correctSolutions.startsWith(article)) : undefined;
+                        if (matchingArticle !== undefined) {
+                            let matchingIndex = articles.indexOf(matchingArticle);
+                            let remainingValue = correctSolutions.substring(matchingArticle.length).trim();
+                            let selectedElement = document.querySelector('[data-test="challenge-choice"]:nth-child(' + (matchingIndex + 1) + ')');
+                            if (selectedElement) {
+                                selectedElement.click();
+                                await sleep(50);
+                            }
+                            let elm = document.querySelector('[data-test="challenge-text-input"]');
+                            if (elm) {
+                                await typeHumanized(elm, remainingValue);
+                            }
                         }
 
                     } else if (challengeType === 'Type Cloze') {
@@ -10506,7 +10640,7 @@
                                 const input = tableRows[i].querySelector('input[type="text"]') || tableRows[i].querySelector('input');
                                 if (input) {
                                     const correctWord = answerCell.text;
-                                    const correctEnding = correctWord.slice(answerCell.damageStart);
+                                    const correctEnding = correctEnding = correctWord.slice(answerCell.damageStart);
                                     await typeHumanized(input, correctEnding);
                                 }
                             }
@@ -10555,20 +10689,25 @@
                         const targetButton = buttons.find(btn => solverGetCleanButtonText(btn).toLowerCase().trim() === correctText?.toLowerCase().trim());
                         if (targetButton) targetButton.click();
 
-                    } else if (challengeType === 'Complete Reverse Translation') {
-                        const blankTokens = window.sol.displayTokens.filter(t => t.isBlank);
+                    } else if (challengeType === 'Complete Reverse') {
+                        const blankTokens = window.sol.displayTokens?.filter(t => t.isBlank);
                         const inputFields = document.querySelectorAll('[data-test="challenge-text-input"]');
-                        for (let index = 0; index < inputFields.length; index++) {
-                            if (blankTokens[index]) {
-                                const answer = blankTokens[index].text;
-                                await typeHumanized(inputFields[index], answer);
+                        if (blankTokens && blankTokens.length > 1 && inputFields.length > 1) {
+                            for (let index = 0; index < inputFields.length; index++) {
+                                if (blankTokens[index]) {
+                                    await typeHumanized(inputFields[index], blankTokens[index].text);
+                                }
                             }
+                        } else {
+                            const answer = blankTokens?.[0]?.text || window.sol.correctSolutions?.[0] || '';
+                            const input = document.querySelector('[data-test="challenge-text-input"]');
+                            if (input) await typeHumanized(input, answer);
                         }
 
                     } else if (challengeType === 'Character Write Drag') {
                         const strokes = window.sol.strokes;
                         const createEvent = (type, x, y, buttons) => new MouseEvent(type, { bubbles: true, clientX: x, clientY: y, buttons, button: 0 });
-                        const normalize = (str) => str ? str.replace(/\\s/g, '') : '';
+                        const normalize = (str) => str ? str.replace(/\s/g, '') : '';
                         for (let i = 0; i < strokes.length; i++) {
                             const targetPathData = normalize(strokes[i].path);
                             let path, handle;
@@ -10601,7 +10740,7 @@
                     } else if (challengeType === 'Character Write Draw') {
                         const strokes = window.sol.strokes;
                         const createEvent = (type, x, y, buttons) => new MouseEvent(type, { bubbles: true, clientX: x, clientY: y, buttons, button: 0 });
-                        const normalize = (str) => str ? str.replace(/\\s/g, '') : '';
+                        const normalize = (str) => str ? str.replace(/\s/g, '') : '';
                         for (let i = 0; i < strokes.length; i++) {
                             const targetPathData = normalize(strokes[i].path);
                             let path, cursor;
@@ -10634,7 +10773,7 @@
                     } else if (challengeType === 'Character Write Freehand') {
                         const freehandStrokes = window.sol.strokes.filter(s => s.strokeDrawMode === 'FREEHAND');
                         const createEvent = (type, x, y, buttons) => new MouseEvent(type, { bubbles: true, clientX: x, clientY: y, buttons, button: 0 });
-                        const normalize = (str) => str ? str.replace(/\\s/g, '') : '';
+                        const normalize = (str) => str ? str.replace(/\s/g, '') : '';
                         for (let i = 0; i < freehandStrokes.length; i++) {
                             const targetPathData = normalize(freehandStrokes[i].path);
                             let path, svg;
@@ -10669,85 +10808,53 @@
                         const correctIndices = window.sol.correctIndices;
                         const choicesData = window.sol.choices;
                         const domButtons = Array.from(document.querySelectorAll('[data-test="word-bank"] [data-test$="challenge-tap-token"]'));
-                        correctIndices.forEach(index => {
+                        for (const index of correctIndices) {
                             const correctChoiceData = choicesData[index];
                             const correctText = correctChoiceData.text;
                             const matchingButton = domButtons.find(btn => solverGetCleanButtonText(btn) === correctText);
-                            if (matchingButton) matchingButton.click();
-                        });
+                            if (matchingButton) {
+                                matchingButton.click();
+                                await sleep(50);
+                            }
+                        }
 
                     } else if (challengeType === 'Story Arrange') {
-                        let choices = document.querySelectorAll('[data-test*="challenge-tap-token"]:not(span)');
+                        const arrangeChoices = document.querySelectorAll('[data-test*="challenge-tap-token"]:not(span)');
                         for (let i = 0; i < window.sol.phraseOrder.length; i++) {
-                            choices[window.sol.phraseOrder[i]].click();
+                            arrangeChoices[window.sol.phraseOrder[i]]?.click();
+                            await sleep(50);
                         }
                     } else if (challengeType === 'Story Multiple Choice') {
-                        let choices = document.querySelectorAll('[data-test="stories-choice"]');
-                        choices[window.sol.correctAnswerIndex].click();
+                        const storyChoices = document.querySelectorAll('[data-test="stories-choice"]');
+                        storyChoices[window.sol.correctAnswerIndex]?.click();
                     } else if (challengeType === 'Story Point to Phrase') {
-                        let choices = document.querySelectorAll('[data-test="challenge-tap-token-text"]');
-                        var correctIndex = -1;
-                        for (let i = 0; i < window.sol.parts.length; i++) {
-                            if (window.sol.parts[i].selectable === true) {
-                                correctIndex += 1;
+                        const phraseChoices = document.querySelectorAll('[data-test="challenge-tap-token-text"]');
+                        const parts = window.sol.transcriptParts || window.sol.parts || [];
+                        let phraseCorrectIndex = -1;
+                        for (let i = 0; i < parts.length; i++) {
+                            if (parts[i].selectable === true) {
+                                phraseCorrectIndex += 1;
                                 if (window.sol.correctAnswerIndex === i) {
-                                    choices[correctIndex].parentElement.click();
+                                    phraseChoices[phraseCorrectIndex]?.parentElement.click();
+                                    break;
                                 }
                             }
                         }
-
-                    } else if (challengeType === 'Story Pairs') {
-                        const storyButtons = document.querySelectorAll('[data-test*="challenge-tap-token"]:not(span)');
-                        const storyTexts = document.querySelectorAll('[data-test="challenge-tap-token-text"]');
-                        const textToElementMap = new Map();
-                        for (let i = 0; i < storyButtons.length; i++) {
-                            const text = storyTexts[i].innerText.toLowerCase().trim();
-                            textToElementMap.set(text, storyButtons[i]);
-                        }
-                        for (const key in window.sol.dictionary) {
-                            if (window.sol.dictionary.hasOwnProperty(key)) {
-                                const value = window.sol.dictionary[key];
-                                const keyPart = key.split(":")[1].toLowerCase().trim();
-                                const normalizedValue = value.toLowerCase().trim();
-                                const element1 = textToElementMap.get(keyPart);
-                                const element2 = textToElementMap.get(normalizedValue);
-                                if (element1 && !element1.disabled) {
-                                    element1.click();
+                    } else if (challengeType === 'Story Gap Fill') {
+                        const correctIndices = window.sol.correctIndices || [];
+                        const choicesList = window.sol.choices || [];
+                        for (const idx of correctIndices) {
+                            const targetText = choicesList[idx];
+                            if (targetText == null) continue;
+                            const gapBtns = document.querySelectorAll('[data-test="stories-choice"], [data-test*="challenge-tap-token"]:not(span):not([disabled]):not([aria-disabled="true"])');
+                            for (const btn of gapBtns) {
+                                if (btn.innerText.trim() === targetText.trim() && !btn.disabled && btn.getAttribute('aria-disabled') !== 'true') {
+                                    btn.click();
                                     await sleep(50);
-                                }
-                                if (element2 && !element2.disabled) {
-                                    element2.click();
-                                    await sleep(50);
+                                    break;
                                 }
                             }
                         }
-                    } else if (challengeType === 'Judge') {
-                        const ci = window.sol.correctIndices?.[0] ?? 0;
-                        document.querySelectorAll('[data-test="challenge-judge-text"]')[ci]?.click();
-
-                    } else if (challengeType === 'Dialogue') {
-                        const idx = window.sol.correctIndex ?? 0;
-                        const judgeItems = document.querySelectorAll('[data-test="challenge-judge-text"]');
-                        if (judgeItems.length > 0) {
-                            judgeItems[idx]?.click();
-                        } else {
-                            const choiceCards = document.querySelectorAll('[data-test="challenge-choice-card"]');
-                            if (choiceCards.length > 0) {
-                                choiceCards[idx]?.click();
-                            } else {
-                                document.querySelectorAll('[data-test="challenge-choice"]')[idx]?.click();
-                            }
-                        }
-
-                    } else if (challengeType === 'Select Card') {
-                        const idx = window.sol.correctIndex ?? 0;
-                        const cards = document.querySelectorAll('[data-test="challenge-choice-card"]');
-                        if (cards.length > 0) {
-                            cards[idx]?.click();
-                        } else {
-                            document.querySelectorAll('[data-test="challenge-choice"]')[idx]?.click();
-                        }
-
                     } else if (challengeType === 'Order Tap Complete') {
                         const blanks = window.sol.displayTokens?.filter(t => t.isBlank);
                         if (blanks && blanks.length > 0) {
@@ -10772,54 +10879,58 @@
                                 }
                             }
                         }
-
-                    } else if (challengeType === 'Story Gap Fill') {
-                        const correctIndices = window.sol.correctIndices || [];
-                        const choicesList = window.sol.choices || [];
-                        for (const idx of correctIndices) {
-                            const targetText = choicesList[idx];
-                            if (targetText == null) continue;
-                            const gapBtns = document.querySelectorAll('[data-test="stories-choice"], [data-test*="challenge-tap-token"]:not(span):not([disabled]):not([aria-disabled="true"])');
-                            for (const btn of gapBtns) {
-                                if (btn.innerText.trim() === targetText.trim() && !btn.disabled && btn.getAttribute('aria-disabled') !== 'true') {
-                                    btn.click();
-                                    await sleep(50);
-                                    break;
-                                }
+                    } else if (challengeType === 'Dialogue') {
+                        const idx = window.sol.correctIndex ?? 0;
+                        const judgeItems = document.querySelectorAll('[data-test="challenge-judge-text"]');
+                        if (judgeItems.length > 0) {
+                            judgeItems[idx]?.click();
+                        } else {
+                            const choiceCards = document.querySelectorAll('[data-test="challenge-choice-card"]');
+                            if (choiceCards.length > 0) {
+                                choiceCards[idx]?.click();
+                            } else {
+                                document.querySelectorAll('[data-test="challenge-choice"]')[idx]?.click();
                             }
                         }
-
+                    } else if (challengeType === 'Select Card') {
+                        const idx = window.sol.correctIndex ?? 0;
+                        const cards = document.querySelectorAll('[data-test="challenge-choice-card"]');
+                        if (cards.length > 0) {
+                            cards[idx]?.click();
+                        } else {
+                            document.querySelectorAll('[data-test="challenge-choice"]')[idx]?.click();
+                        }
+                    } else if (challengeType === 'Judge') {
+                        const ci = window.sol.correctIndices?.[0] ?? 0;
+                        document.querySelectorAll('[data-test="challenge-judge-text"]')[ci]?.click();
                     } else if (challengeType === 'Translate') {
                         const correctSolutions = window.sol.correctSolutions;
                         if (window.sol.correctTokens && window.sol.correctTokens.length > 0) {
                             await solverClickTokens(window.sol.correctTokens);
                         } else if (correctSolutions) {
-                            const ta = document.querySelector('textarea[data-test="challenge-translate-input"]');
+                            const ta = document.querySelector('textarea[data-test="challenge-translate-input"]') ||
+                                       document.querySelector('input[data-test="challenge-text-input"]');
                             if (ta) await typeHumanized(ta, correctSolutions[0]);
                         }
-
-                    } else if (challengeType === 'Listen Tap') {
-                        await solverClickTokens(window.sol.correctTokens);
-
                     } else if (challengeType === 'Listen Type') {
                         const answer = window.sol.prompt || window.sol.correctSolutions?.[0] || '';
                         const ta = document.querySelector('textarea[data-test="challenge-translate-input"]') ||
-                            document.querySelector('[data-test="challenge-text-input"]');
+                                   document.querySelector('[data-test="challenge-text-input"]');
                         if (ta) await typeHumanized(ta, answer);
 
-                    } else if (challengeType === 'Complete Reverse') {
-                        const blankTokens = window.sol.displayTokens?.filter(t => t.isBlank);
-                        const inputFields = document.querySelectorAll('[data-test="challenge-text-input"]');
-                        if (blankTokens && blankTokens.length > 1 && inputFields.length > 1) {
-                            for (let index = 0; index < inputFields.length; index++) {
-                                if (blankTokens[index]) {
-                                    await typeHumanized(inputFields[index], blankTokens[index].text);
+                    } else if (challengeType === 'Listen Tap') {
+                        const tokens = document.querySelectorAll('[data-test$="challenge-tap-token"]');
+                        const usedIdx = [];
+                        for (const word of (window.sol.correctTokens || [])) {
+                            for (let i = 0; i < tokens.length; i++) {
+                                if (usedIdx.includes(i)) continue;
+                                if (tokens[i].innerText.trim() === word.trim() && !tokens[i].disabled) {
+                                    tokens[i].click();
+                                    usedIdx.push(i);
+                                    await sleep(50);
+                                    break;
                                 }
                             }
-                        } else {
-                            const answer = blankTokens?.[0]?.text || window.sol.correctSolutions?.[0] || '';
-                            const input = document.querySelector('[data-test="challenge-text-input"]');
-                            if (input) await typeHumanized(input, answer);
                         }
                     }
                 }
@@ -10829,7 +10940,6 @@
                     const key = Object.keys(dom).find(key => key.startsWith("__reactProps"));
                     return dom?.[key]?.children?.props?.slide;
                 }
-
 
                 function solverFindReact(dom, traverseUp = reactTraverseUp) {
                     if (!dom) return null;
@@ -10855,48 +10965,64 @@
 
                 function solverFindChallenge() {
                     try {
-                        const mainEl = document.getElementsByClassName(findReactMainElementClass)[0];
-                        const reactObj = solverFindReact(mainEl);
-                        if (reactObj?.props?.currentChallenge) {
-                            return reactObj.props.currentChallenge;
+                        const mainEl = document.getElementsByClassName(findReactMainElementClass)[0] ||
+                                       document.querySelector('[data-test="challenge"]') ||
+                                       document.querySelector('[class*="challenge"]');
+                        if (mainEl) {
+                            const reactObj = solverFindReact(mainEl);
+                            const c1 = reactObj?.props?.currentChallenge || reactObj?.props?.challenge;
+                            if (c1) return c1;
                         }
                     } catch {}
 
                     try {
                         const selectors = [
+                            '[data-test~="challenge"]',
+                            '[data-test="challenge-header"]',
                             '[data-test="player-next"]',
                             '[data-test="player-skip"]',
                             '[data-test="quit-button"]',
+                            '[data-test="player-footer"] button',
+                            'footer button',
                             '#solveAllButton',
                             '.vpDIE',
+                            '[class*="challenge"]',
+                            '[class*="Player"]',
                             '._3yE3H',
                             '._3TJzR'
                         ];
                         for (const sel of selectors) {
                             const el = document.querySelector(sel);
                             if (!el) continue;
+
+                            const propsKey = Object.keys(el).find(k => k.startsWith("__reactProps"));
+                            if (propsKey) {
+                                const props = el[propsKey];
+                                const c = props?.currentChallenge || props?.challenge || props?.children?.props?.challenge || props?.children?.props?.slide?.challenge || props?.children?.props?.slide?.currentChallenge;
+                                if (c && (c.type || c.id || c.prompt || c.choices)) return c;
+                            }
+
                             const key = Object.keys(el).find(k => k.startsWith("__reactFiber$") || k.startsWith("__reactInternalInstance$"));
                             if (!key) continue;
                             let fiber = el[key];
                             while (fiber) {
-                                if (fiber.memoizedProps?.currentChallenge) {
-                                    return fiber.memoizedProps.currentChallenge;
-                                }
-                                if (fiber.stateNode?.props?.currentChallenge) {
-                                    return fiber.stateNode.props.currentChallenge;
-                                }
+                                const c = fiber.memoizedProps?.currentChallenge ||
+                                    fiber.memoizedProps?.challenge ||
+                                    fiber.memoizedProps?.item ||
+                                    fiber.stateNode?.props?.currentChallenge ||
+                                    fiber.stateNode?.props?.challenge;
+                                if (c && (c.type || c.id || c.prompt || c.choices)) return c;
                                 fiber = fiber.return;
                             }
                         }
                     } catch {}
 
                     try {
-                        const subEl = document.querySelector('.vpDIE') || document.querySelector('._3yE3H');
+                        const subEl = document.querySelector('.vpDIE') || document.querySelector('._3yE3H') || document.querySelector('[data-test="challenge"]');
                         if (subEl) {
                             const slide = solverFindSubReact(subEl);
-                            if (slide?.currentChallenge) {
-                                return slide.currentChallenge;
-                            }
+                            const c3 = slide?.currentChallenge || slide?.challenge;
+                            if (c3) return c3;
                         }
                     } catch {}
 
@@ -10925,7 +11051,7 @@
                         const practiceAgain = document.querySelector('[data-test="player-practice-again"]');
                         const sessionCompleteSlide = document.querySelector('[data-test="session-complete-slide"]');
 
-                        const completeSlideVisible = sessionCompleteSlide || practiceAgain;
+                        const completeSlideVisible = sessionCompleteSlide || practiceAgain || document.querySelector('[data-test="session-complete-slide"]');
                         if (completeSlideVisible) {
                             if (!hasDecrementedForCurrentLesson) {
                                 hasDecrementedForCurrentLesson = true;
@@ -10933,51 +11059,49 @@
                                     new CustomEvent('DX_LessonCompleted')
                                 );
                             }
-                            if (practiceAgain) {
-                                const autoPath =
-                                    localStorage.getItem('dx_auto_path') ===
-                                    'true';
-                                const autoPractice =
-                                    localStorage.getItem(
-                                        'dx_auto_practice'
-                                    ) === 'true';
-                                const autoLegendary =
-                                    localStorage.getItem(
-                                        'dx_auto_legendary'
-                                    ) === 'true';
-                                const pathRem =
-                                    parseInt(
-                                        localStorage.getItem('dx_path_rem')
-                                    ) || 0;
-                                const practiceRem =
-                                    parseInt(
-                                        localStorage.getItem('dx_practice_rem')
-                                    ) || 0;
-                                const legendaryRem =
-                                    parseInt(
-                                        localStorage.getItem('dx_legendary_rem')
-                                    ) || 0;
-                                const pathInf =
-                                    localStorage.getItem('dx_path_inf') ===
-                                    'true';
-                                const practiceInf =
-                                    localStorage.getItem('dx_practice_inf') ===
-                                    'true';
-                                const legendaryInf =
-                                    localStorage.getItem('dx_legendary_inf') ===
-                                    'true';
-                                const pathActive =
-                                    autoPath && (pathInf || pathRem > 0);
-                                const practiceActive =
-                                    autoPractice &&
-                                    (practiceInf || practiceRem > 0);
-                                const legendaryActive =
-                                    autoLegendary &&
-                                    (legendaryInf || legendaryRem > 0);
-                                if (pathActive || practiceActive || legendaryActive) {
+
+                            const autoPath = localStorage.getItem('dx_auto_path') === 'true';
+                            const autoPractice = localStorage.getItem('dx_auto_practice') === 'true';
+                            const autoLegendary = localStorage.getItem('dx_auto_legendary') === 'true';
+                            const pathRem = parseInt(localStorage.getItem('dx_path_rem')) || 0;
+                            const practiceRem = parseInt(localStorage.getItem('dx_practice_rem')) || 0;
+                            const legendaryRem = parseInt(localStorage.getItem('dx_legendary_rem')) || 0;
+                            const pathInf = localStorage.getItem('dx_path_inf') !== 'false';
+                            const practiceInf = localStorage.getItem('dx_practice_inf') !== 'false';
+                            const legendaryInf = localStorage.getItem('dx_legendary_inf') !== 'false';
+
+                            const pathActive = autoPath && (pathInf || pathRem > 0);
+                            const practiceActive = autoPractice && (practiceInf || practiceRem > 0);
+                            const legendaryActive = autoLegendary && (legendaryInf || legendaryRem > 0);
+
+                            if (legendaryActive) {
+                                isAutoMode = false;
+
+                                window.location.href = "https://www.duolingo.com/";
+                                return;
+                            } else if (pathActive) {
+                                isAutoMode = false;
+
+                                window.location.href = "https://www.duolingo.com/lesson";
+                                return;
+                            } else if (practiceActive) {
+                                if (practiceAgain) {
                                     practiceAgain.click();
                                     return;
+                                } else {
+                                    isAutoMode = false;
+
+                                    window.location.href = "https://www.duolingo.com/practice";
+                                    return;
                                 }
+                            }
+
+                            const endNextBtn = document.querySelector('[data-test="player-next"]') ||
+                                document.querySelector('[data-test="legendary-session-end-continue"]') ||
+                                document.querySelector('[data-test="player-practice-again"]');
+                            if (endNextBtn) {
+                                endNextBtn.click();
+                                return;
                             }
                         } else {
                             hasDecrementedForCurrentLesson = false;
@@ -10985,23 +11109,20 @@
 
                         const selectorsForSkip = [
                             '[data-test="practice-hub-ad-no-thanks-button"]',
-                            '.vpDIE',
                             '[data-test="plus-no-thanks"]',
-                            '._1N-oo._36Vd3._16r-S._1ZBYz._23KDq._1S2uf.HakPM',
-                            '._8AMBh._2vfJy._3Qy5R._28UWu._3h0lA._1S2uf._1E9sc',
-                            '._1Qh5D._36g4N._2YF0P._28UWu._3h0lA._1S2uf._1E9sc',
-                            '[data-test="story-start"]',
-                            '._3bBpU._1x5JY._1M9iF._36g4N._2YF0P.T7I0c._2EnxW.MYehf',
-                            '._2V6ug._1ursp._7jW2t._28UWu._3h0lA._1S2uf._1E9sc',
-                            '._1rcV8._1VYyp._1ursp._7jW2t._1gKir',
-                            '._2V6ug._1ursp._7jW2t._3zgLG',
                             '[data-test="hearts-intro-continue-button"]',
-                            '[data-test="legendary-session-end-continue"]',
-                            '[data-test="legendary-start-button"]',
                             '[data-test="create-profile-later"]',
                             '[data-test="close-button"]',
                             '[data-test="streak-goal-option"]',
-                            '[data-test="plus-continue"] + div + button'
+                            '[data-test="plus-continue"] + div + button',
+                            '[data-test="story-start"]',
+                            '.vpDIE',
+                            '._8AMBh._2vfJy._3Qy5R._28UWu._3h0lA._1S2uf._1E9sc',
+                            '._1Qh5D._36g4N._2YF0P._28UWu._3h0lA._1S2uf._1E9sc',
+                            '._3bBpU._1x5JY._1M9iF._36g4N._2YF0P.T7I0c._2EnxW.MYehf',
+                            '._2V6ug._1ursp._7jW2t._28UWu._3h0lA._1S2uf._1E9sc',
+                            '._1rcV8._1VYyp._1ursp._7jW2t._1gKir',
+                            '._2V6ug._1ursp._7jW2t._3zgLG'
                         ];
                         selectorsForSkip.forEach(selector => {
                             const element = document.querySelector(selector);
@@ -11041,59 +11162,67 @@
                             hasLoggedForCurrent = 0;
                         }
 
-                        if (justClickedNext) {
-                            const hasChallenge =
-                                document.querySelector(
-                                    '[data-test~="challenge"]'
-                                ) !== null;
-                            if (
-                                hasChallenge &&
-                                questionKey === lastSolvedQuestionId &&
-                                questionKey !== null &&
-                                Date.now() - nextClickedTime < 5000
-                            ) {
-                                return;
-                            } else {
-                                justClickedNext = false;
-                            }
-                        }
-
                         if (challengeType === 'error') {
                             await Promise.race([
                                 solverClickCheck(),
                                 new Promise(resolve => setTimeout(resolve, 500))
                             ]);
                         } else if (challengeType) {
-                            let playerFooter1 = document.getElementById("session/PlayerFooter");
+                            const blameBanner = document.querySelector('[data-test="blame"]') ||
+                                                document.querySelector('[data-test="blame-banner"]') ||
+                                                document.querySelector('[data-test="blame-correct"]') ||
+                                                document.querySelector('[data-test="blame-incorrect"]');
 
-                            if ((playerFooter1 && playerFooter1.matches("._3rB4d._1VTif._2HXQ9")) || (!playerFooter1 && document.querySelector('._2i9lj'))) {
+                            const solverIsFooterNeutral = () => {
+                                if (blameBanner) return false;
+                                let playerFooter = document.getElementById("session/PlayerFooter") ||
+                                                   document.querySelector('[data-test="player-footer"]') ||
+                                                   document.querySelector('footer');
+                                if (playerFooter) {
+                                    const bg = window.getComputedStyle(playerFooter).backgroundColor;
+                                    const match = bg.match(/\d+/g);
+                                    if (match && match.length >= 3) {
+                                        const r = parseInt(match[0]);
+                                        const g = parseInt(match[1]);
+                                        const b = parseInt(match[2]);
+                                        const max = Math.max(r, g, b);
+                                        const min = Math.min(r, g, b);
+                                        if (max - min > 15) {
+                                            return false;
+                                        }
+                                    }
+                                }
+                                return true;
+                            };
+
+                            const isCompletionSlide =
+                                challengeType === 'Session Complete' ||
+                                challengeType === 'Daily Quest Progress' ||
+                                challengeType === 'Streak' ||
+                                challengeType === 'Leaderboard' ||
+                                document.querySelector('[data-test="session-complete-slide"]') ||
+                                document.querySelector('[data-test="daily-quest-progress-slide"]') ||
+                                document.querySelector('[data-test="streak-slide"]') ||
+                                document.querySelector('[data-test="leaderboard-slide"]');
+
+                            const isFooterNeutral = !isCompletionSlide && solverIsFooterNeutral();
+
+                            if (isFooterNeutral) {
                                 await Promise.race([
                                     solverHandleChallenge(challengeType),
                                     new Promise(resolve => setTimeout(resolve, 2000))
                                 ]);
                                 await new Promise(r => setTimeout(r, 50));
-                            }
-
-                            let skipInsteadOfCheck = false;
-                            if (check && (playerFooter1 && playerFooter1.matches('._3rB4d._1VTif._2HXQ9')) || (!playerFooter1 && document.querySelector('._2i9lj'))) {
                                 await Promise.race([
                                     solverClickCheck(),
                                     new Promise(resolve => setTimeout(resolve, 500))
                                 ]);
                                 await new Promise(r => setTimeout(r, 50));
-                                lastSolvedQuestionId = questionKey;
-                            } else if (check && (playerFooter1 && !playerFooter1.matches('._3rB4d._1VTif._2HXQ9')) || ((!playerFooter1 && document.querySelector('._2i9lj')) && !document.querySelector('[data-test="stories-player-continue"]').disabled)) {
-                                skipInsteadOfCheck = true;
-                            }
-
-                            if (skip || skipInsteadOfCheck) {
+                            } else {
                                 await Promise.race([
                                     solverClickNext(),
                                     new Promise(resolve => setTimeout(resolve, 500))
                                 ]);
-                                lastSolvedQuestionId = questionKey;
-                                justClickedNext = true;
-                                nextClickedTime = Date.now();
                             }
                         } else {
                             await Promise.race([
@@ -11133,6 +11262,7 @@
                         solvingLoopRunning = true;
 
                         (async function runLoop() {
+                            const initialUrl = window.location.href;
                             while (isAutoMode && runToken === solveAllRunToken) {
                                 const _p = window.location.pathname;
                                 const stillInLesson =
@@ -11151,7 +11281,7 @@
                                     !!document.querySelector('[data-test="player-next"]') ||
                                     !!document.querySelector('[data-test="player-skip"]') ||
                                     !!document.querySelector('[data-test="player-footer"]');
-                                if (!stillInLesson) {
+                                if (!stillInLesson || window.location.href !== initialUrl) {
                                     isAutoMode = false;
                                     try {
                                         const btn = document.getElementById("solveAllButton");
@@ -11214,9 +11344,7 @@
                     runAutoSolve();
                 });
 
-
                 window.addEventListener('DX_StopSolver', () => {
-
                     toggleAutoSolve("stop");
                 });
 
@@ -11246,12 +11374,28 @@
                             toggleAutoSolve('start');
                         }
                     } else {
-                        solverPausedByUser = false;
-                        if (isAutoMode) {
-                            toggleAutoSolve('stop');
+                        const isAutoRunnerActive = localStorage.getItem('dx_auto_path') === 'true' ||
+                            localStorage.getItem('dx_auto_practice') === 'true' ||
+                            localStorage.getItem('dx_auto_legendary') === 'true';
+                        if (!isAutoRunnerActive) {
+                            solverPausedByUser = false;
+                            if (isAutoMode) {
+                                toggleAutoSolve('stop');
+                            }
                         }
                     }
                 }, 1000);
+
+                const resumeCheckSafari = () => {
+                    const autoSolverVal = localStorage.getItem('dx_auto_solver') === 'true';
+                    if (autoSolverVal && !isAutoMode && !solverPausedByUser) {
+                        toggleAutoSolve('start');
+                    }
+                };
+                window.addEventListener('pageshow', resumeCheckSafari);
+                document.addEventListener('visibilitychange', () => {
+                    if (document.visibilityState === 'visible') resumeCheckSafari();
+                });
             })();
         `;
     (document.head || document.documentElement).appendChild(script);
@@ -11386,9 +11530,14 @@
       if (!hasDecrementedForCurrentLesson) {
         hasDecrementedForCurrentLesson = true;
 
+        const isPathInf = localStorage.getItem("dx_path_inf") !== "false";
+        const isPracInf = localStorage.getItem("dx_practice_inf") !== "false";
+        const isLegInf = localStorage.getItem("dx_legendary_inf") !== "false";
+
         if (autoPathEnabled) {
-          if (pathLessonsRemaining !== Infinity) {
+          if (!isPathInf && pathLessonsRemaining !== Infinity) {
             pathLessonsRemaining = Math.max(0, pathLessonsRemaining - 1);
+            localStorage.setItem("dx_path_rem", String(pathLessonsRemaining));
             updatePathRemainingUI();
             if (pathLessonsRemaining === 0) {
               autoPathEnabled = false;
@@ -11406,10 +11555,14 @@
         }
 
         if (autoPracticeEnabled) {
-          if (practiceLessonsRemaining !== Infinity) {
+          if (!isPracInf && practiceLessonsRemaining !== Infinity) {
             practiceLessonsRemaining = Math.max(
               0,
               practiceLessonsRemaining - 1,
+            );
+            localStorage.setItem(
+              "dx_practice_rem",
+              String(practiceLessonsRemaining),
             );
             updatePracticeRemainingUI();
             if (practiceLessonsRemaining === 0) {
@@ -11428,10 +11581,14 @@
         }
 
         if (autoLegendaryEnabled) {
-          if (legendaryLessonsRemaining !== Infinity) {
+          if (!isLegInf && legendaryLessonsRemaining !== Infinity) {
             legendaryLessonsRemaining = Math.max(
               0,
               legendaryLessonsRemaining - 1,
+            );
+            localStorage.setItem(
+              "dx_legendary_rem",
+              String(legendaryLessonsRemaining),
             );
             updateLegendaryRemainingUI();
             if (legendaryLessonsRemaining === 0) {
@@ -11811,7 +11968,7 @@
       setTimeout(() => window.location.reload(), 1200);
     });
     wireToggle("DX_SafeStreak_Toggle", "dx_safe_streak", () => {});
-    wireToggle("DX_SafeSolver_Toggle", "dx_safe_solver", () => {});
+
     wireToggle("DX_AutoJoin_Toggle", "dx_auto_join_league", () => {
       leagueJoinAttempted = false;
     });
@@ -12688,14 +12845,16 @@
 
     ["pushState", "replaceState"].forEach((method) => {
       const orig = history[method];
-      history[method] = function () {
-        const res = orig.apply(this, arguments);
-        setTimeout(() => onNavChange(), 300);
-        return res;
-      };
+      if (orig) {
+        history[method] = function () {
+          const res = orig.apply(this, arguments);
+          setTimeout(() => onNavChange(), 200);
+          return res;
+        };
+      }
     });
     window.addEventListener("popstate", () =>
-      setTimeout(() => onNavChange(), 300),
+      setTimeout(() => onNavChange(), 200),
     );
     onNavChange();
 

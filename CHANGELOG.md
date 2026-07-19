@@ -1,3 +1,7 @@
+## [1.2.0]
+
+- Various bug fixes
+
 ## [1.1.0]
 
 - Added support for Legendary lessons in Solver Mode.
