@@ -1,3 +1,9 @@
+## [1.1.0]
+
+- Added support for Legendary lessons in Solver Mode.
+- Redesigned DuoXJS.
+- Fixed various bugs.
+  
 ## [1.0.2]
 
 - Various bug fixes
