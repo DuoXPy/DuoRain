@@ -1,3 +1,7 @@
+## [1.2.1]
+
+- Various bug fixes
+
 ## [1.2.0]
 
 - Various bug fixes

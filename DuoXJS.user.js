@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name                DuoXJS
 // @namespace           https://github.com/LibreDuo/DuoXJS
-// @version             1.2.0
+// @version             1.2.1
 // @description         Free userscript utility for Duolingo
 // @author              LibreDuo
 // @license             MIT
@@ -20,10 +20,13 @@
 // @connect             avatars.githubusercontent.com
 // @downloadURL         https://raw.githubusercontent.com/LibreDuo/DuoXJS/main/DuoXJS.user.js
 // @updateURL           https://raw.githubusercontent.com/LibreDuo/DuoXJS/main/DuoXJS.meta.js
+// @noframes
 // ==/UserScript==
 
 (function () {
   "use strict";
+
+  if (window.self !== window.top) return;
 
   if (
     window.location.href.includes("/legendary/") &&
@@ -48,7 +51,7 @@
       ) {
         try {
           unsafeWindow.localStorage.setItem(key, value);
-        } catch (e) {}
+        } catch {}
       }
     },
     removeItem: (key) => window.localStorage.removeItem(key),
@@ -71,11 +74,11 @@
                 key,
                 window.localStorage.getItem(key),
               );
-            } catch (e) {}
+            } catch {}
           }
         }
       }
-    } catch (e) {}
+    } catch {}
   }, 150);
 
   const icons = {
@@ -131,8 +134,8 @@
       "https://d35aaqx5ub95lt.cloudfront.net/images/icons/398e4298a3b39ce566050e5c041949ef.svg",
   };
 
-  const dxVersion = "1.2.0";
-  const dxScriptVersion = "1.2.0";
+  const dxVersion = "1.2.1";
+  const dxScriptVersion = "1.2.1";
   const dxUpdateMetaUrl =
     "https://raw.githubusercontent.com/LibreDuo/DuoXJS/main/DuoXJS.meta.js";
   const dxUpdatePageUrl = "https://github.com/LibreDuo/DuoXJS";
@@ -1732,20 +1735,22 @@
             padding: 14px 20px;
             border-radius: 16px;
             corner-shape: var(--DX-corner);
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            outline: 1px solid rgba(229, 229, 229, 1);
+            background: rgba(255, 255, 255, 0.82);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            border-top: 0.5px solid rgba(255, 255, 255, 0.5);
+            outline: 1px solid rgba(229, 229, 229, 0.8);
             outline-offset: -1px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12), 0 2px 6px rgba(0, 0, 0, 0.06);
             opacity: 0;
-            transform: translate3d(0, -40px, 0) scale(0.85);
-            transition: transform var(--DX-motion-page) var(--DX-ease),
-                        opacity var(--DX-motion) var(--DX-ease),
-                        margin var(--DX-motion-page) var(--DX-ease);
+            transform: translate3d(0, -20px, 0) scale(0.92);
+            transition: transform 420ms cubic-bezier(0.175, 0.885, 0.32, 1.1),
+                        opacity 280ms cubic-bezier(0.2, 1, 0.3, 1),
+                        margin 380ms cubic-bezier(0.2, 1, 0.3, 1);
             pointer-events: auto;
             width: 100%;
             min-width: 0;
+            will-change: transform, opacity;
         }
 
         .DX_Notif_Title {
@@ -1784,8 +1789,9 @@
         }
 
         .DX_Notif_Main.dx-dark .DX_Notif_Box {
-            background: rgba(32, 47, 54, 0.85);
-            outline-color: rgba(55, 70, 79, 1);
+            background: rgba(32, 47, 54, 0.82);
+            outline-color: rgba(55, 70, 79, 0.8);
+            border-top-color: rgba(255, 255, 255, 0.08);
         }
 
         .DX_Notif_Box.show {
@@ -1795,17 +1801,40 @@
 
         .DX_Notif_Box.hide {
             opacity: 0 !important;
-            transform: translate3d(0, -40px, 0) scale(0.85) !important;
+            transform: translate3d(0, -12px, 0) scale(0.95) !important;
+            transition: transform 280ms cubic-bezier(0.4, 0, 1, 1),
+                        opacity 200ms ease-out,
+                        margin 280ms cubic-bezier(0.4, 0, 1, 1) !important;
             margin-top: -60px;
             z-index: -1;
         }
 
+        .DX_Notif_Box.dx-clickable {
+            cursor: pointer;
+        }
+
+        .DX_Notif_Box.dx-clickable:active {
+            transform: scale(0.97) !important;
+            transition: transform 80ms ease-out !important;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .DX_Notif_Box {
+                transform: none !important;
+                transition: opacity 200ms ease !important;
+            }
+            .DX_Notif_Box.hide {
+                transform: none !important;
+                transition: opacity 150ms ease, margin 200ms ease !important;
+            }
+        }
+
         .DX_Notif_Main[data-pos="bottom_center"] .DX_Notif_Box {
-            transform: translate3d(0, 40px, 0) scale(0.85);
+            transform: translate3d(0, 20px, 0) scale(0.92);
         }
 
         .DX_Notif_Main[data-pos="bottom_center"] .DX_Notif_Box.hide {
-            transform: translate3d(0, 40px, 0) scale(0.85) !important;
+            transform: translate3d(0, 12px, 0) scale(0.95) !important;
             margin-top: 0px;
             margin-bottom: -60px;
             z-index: -1;
@@ -1813,10 +1842,10 @@
 
         /* Left-aligned positions (top_left, bottom_left) */
         .DX_Notif_Main[data-pos$="left"] .DX_Notif_Box {
-            transform: translate3d(-40px, 0, 0) scale(0.85);
+            transform: translate3d(-20px, 0, 0) scale(0.92);
         }
         .DX_Notif_Main[data-pos$="left"] .DX_Notif_Box.hide {
-            transform: translate3d(-40px, 0, 0) scale(0.85) !important;
+            transform: translate3d(-12px, 0, 0) scale(0.95) !important;
             z-index: -1;
         }
         .DX_Notif_Main[data-pos="bottom_left"] .DX_Notif_Box.hide {
@@ -1826,10 +1855,10 @@
 
         /* Right-aligned positions (top_right, bottom_right) */
         .DX_Notif_Main[data-pos$="right"] .DX_Notif_Box {
-            transform: translate3d(40px, 0, 0) scale(0.85);
+            transform: translate3d(20px, 0, 0) scale(0.92);
         }
         .DX_Notif_Main[data-pos$="right"] .DX_Notif_Box.hide {
-            transform: translate3d(40px, 0, 0) scale(0.85) !important;
+            transform: translate3d(12px, 0, 0) scale(0.95) !important;
             z-index: -1;
         }
         .DX_Notif_Main[data-pos="bottom_right"] .DX_Notif_Box.hide {
@@ -3731,7 +3760,7 @@
   if (typeof GM_addStyle === "function") {
     GM_addStyle(`${mainCss}${loadCss}`);
   } else {
-    document.head.insertAdjacentHTML(
+    (document.head || document.documentElement).insertAdjacentHTML(
       "beforeend",
       `<style id="dx-style-inject">${mainCss}${loadCss}</style>`,
     );
@@ -3767,7 +3796,6 @@
   let solverButtonsEnabled =
     localStorage.getItem("dx_solver_buttons") !== "false";
   let autoSolverEnabled = localStorage.getItem("dx_auto_solver") === "true";
-  let randomSpeedEnabled = localStorage.getItem("dx_random_speed") === "true";
   let solveSpeedMin =
     parseFloat(localStorage.getItem("dx_solve_speed_min")) || 2.8;
   let solveSpeedMax =
@@ -4188,11 +4216,11 @@
 
     const isLeft = notifPos.indexOf("left") !== -1;
     const isRight = notifPos.indexOf("right") !== -1;
-    let initTransform = `translate3d(0, ${atTop ? -40 : 40}px, 0) scale(0.85)`;
+    let initTransform = `translate3d(0, ${atTop ? -20 : 20}px, 0) scale(0.92)`;
     if (isLeft) {
-      initTransform = "translate3d(-40px, 0, 0) scale(0.85)";
+      initTransform = "translate3d(-20px, 0, 0) scale(0.92)";
     } else if (isRight) {
-      initTransform = "translate3d(40px, 0, 0) scale(0.85)";
+      initTransform = "translate3d(20px, 0, 0) scale(0.92)";
     }
     element.style.transform = initTransform;
 
@@ -4204,11 +4232,11 @@
       element.style[atTop ? "marginTop" : "marginBottom"] = -(h + 10) + "px";
       setTimeout(() => {
         element.remove();
-      }, 400);
+      }, 300);
     };
 
     if (typeof onClick === "function") {
-      element.style.cursor = "pointer";
+      element.classList.add("dx-clickable");
       element.addEventListener("click", () => {
         dismiss();
         onClick();
@@ -4395,13 +4423,13 @@
     });
 
     try {
-      Object.keys(localStorage).forEach((k) => {
+      Object.keys(window.localStorage).forEach((k) => {
         if (
           k.startsWith("persist:") ||
           k.startsWith("duo.") ||
           k.startsWith("duolingo_")
         ) {
-          localStorage.removeItem(k);
+          window.localStorage.removeItem(k);
         }
       });
     } catch {}
@@ -5463,7 +5491,7 @@
           card.style.display = "none";
         }
       }
-    } catch (e) {
+    } catch {
       const card = document.getElementById("DX_Changelog_Card");
       if (card) card.style.display = "none";
     } finally {
@@ -9993,22 +10021,22 @@
                                     const fl = data.fromLanguage || 'en';
                                     const lsChallenge = {
                                         character: {
-                                            url: "https://d2pur3iezf4d1j.cloudfront.net/images/51d3bded9ecbd8bf6e9869041c437ba9",
+                                            url: "https://d2pur3iezf4d1j.cloudfront.net/images/861252b26a49194f2a98ee58e7c373f8",
                                             image: {
-                                                pdf: "https://d2pur3iezf4d1j.cloudfront.net/images/51d3bded9ecbd8bf6e9869041c437ba9",
-                                                svg: "https://d2pur3iezf4d1j.cloudfront.net/images/51d3bded9ecbd8bf6e9869041c437ba9"
+                                                pdf: "https://d2pur3iezf4d1j.cloudfront.net/images/861252b26a49194f2a98ee58e7c373f8",
+                                                svg: "https://d2pur3iezf4d1j.cloudfront.net/images/81ca92172d70599306b16bcb87799195"
                                             },
-                                            gender: "MALE",
-                                            correctAnimation: "https://simg-ssl.duolingo.com/lottie/Falstaff_CORRECT_Cropped_NotBad.json",
-                                            incorrectAnimation: "https://simg-ssl.duolingo.com/lottie/Bear_INCORRECT_Cropped.json",
-                                            idleAnimation: "https://simg-ssl.duolingo.com/lottie/Falstaff_IDLE_Cropped.json",
-                                            name: "FALSTAFF",
+                                            gender: "FEMALE",
+                                            correctAnimation: "https://simg-ssl.duolingo.com/lottie/Lily_CORRECT_Cropped_BigWhoop.json",
+                                            incorrectAnimation: "https://simg-ssl.duolingo.com/lottie/Violet_INCORRECT_Cropped.json",
+                                            idleAnimation: "https://simg-ssl.duolingo.com/lottie/Lily_IDLE_Cropped.json",
+                                            name: "LILY",
                                             avatarIconImage: {
-                                                pdf: "https://simg-ssl.duolingo.com/world-characters/avatars/falstaff_avatar_icon.pdf",
-                                                svg: "https://simg-ssl.duolingo.com/world-characters/avatars/falstaff_avatar_icon.svg"
+                                                pdf: "https://simg-ssl.duolingo.com/world-characters/avatars/lily_avatar_icon.pdf",
+                                                svg: "https://simg-ssl.duolingo.com/world-characters/avatars/lily_avatar_icon.svg"
                                             }
                                         },
-                                        prompt: "How this even possible?",
+                                        prompt: "What tool should you introduce to other learners?",
                                         choices: ["DuoXJS by LibreDuo"],
                                         correctIndex: 0,
                                         options: [{
@@ -10312,18 +10340,11 @@
                             !!document.querySelector('[data-test="stories-player-continue"]') ||
                             !!document.querySelector('[data-test="stories-player-done"]');
 
-                        if (isStory) {
-                            if (tl === 'arrange') return 'Story Arrange';
-                            if (tl === 'multiple-choice' || tl === 'multiple_choice' || tl === 'select-phrases' || tl === 'select_phrase' || tl === 'select-phrase' || tl === 'challenge_prompt' || tl === 'challenge-prompt') return 'Story Multiple Choice';
-                            if (tl === 'point-to-phrase' || tl === 'point_to_phrase') return 'Story Point to Phrase';
-                            if (tl === 'match') return 'Story Pairs';
-                            if (tl === 'gap-fill' || tl === 'gap_fill') return 'Story Gap Fill';
-                        }
-
                         if (tl === 'arrange') return 'Story Arrange';
-                        if (tl === 'multiple-choice' || tl === 'multiple_choice' || tl === 'select_phrase' || tl === 'select-phrase' || tl === 'challenge_prompt' || tl === 'challenge-prompt') return 'Story Multiple Choice';
+                        if (tl === 'multiple-choice' || tl === 'multiple_choice' || tl === 'select-phrases' || tl === 'select_phrase' || tl === 'select-phrase' || tl === 'challenge_prompt' || tl === 'challenge-prompt') return 'Story Multiple Choice';
                         if (tl === 'point-to-phrase' || tl === 'point_to_phrase') return 'Story Point to Phrase';
                         if (tl === 'gap-fill' || tl === 'gap_fill') return 'Story Gap Fill';
+                        if (isStory && tl === 'match') return 'Story Pairs';
 
                         if (t === 'typeCloze') return 'Type Cloze';
                         if (t === 'typeClozeTable') return 'Type Cloze Table';
@@ -11050,8 +11071,10 @@
                     try {
                         const practiceAgain = document.querySelector('[data-test="player-practice-again"]');
                         const sessionCompleteSlide = document.querySelector('[data-test="session-complete-slide"]');
+                        const legendaryEndSlide = document.querySelector('[data-test="legendary-earned-slide"]') ||
+                            document.querySelector('[data-test="legendary-session-end-continue"]');
 
-                        const completeSlideVisible = sessionCompleteSlide || practiceAgain || document.querySelector('[data-test="session-complete-slide"]');
+                        const completeSlideVisible = sessionCompleteSlide || legendaryEndSlide || practiceAgain;
                         if (completeSlideVisible) {
                             if (!hasDecrementedForCurrentLesson) {
                                 hasDecrementedForCurrentLesson = true;
@@ -11201,6 +11224,8 @@
                                 challengeType === 'Streak' ||
                                 challengeType === 'Leaderboard' ||
                                 document.querySelector('[data-test="session-complete-slide"]') ||
+                                document.querySelector('[data-test="legendary-earned-slide"]') ||
+                                document.querySelector('[data-test="legendary-session-end-continue"]') ||
                                 document.querySelector('[data-test="daily-quest-progress-slide"]') ||
                                 document.querySelector('[data-test="streak-slide"]') ||
                                 document.querySelector('[data-test="leaderboard-slide"]');
@@ -11301,7 +11326,7 @@
 
                                 const targetDelay = randomSpeedEnabled
                                     ? Math.floor((
-                                        solveSpeedMin + (crypto.getRandomValues(new Uint32Array(1))[0] / 4294967295) *
+                                        solveSpeedMin + ((typeof crypto !== 'undefined' && crypto.getRandomValues) ? (crypto.getRandomValues(new Uint32Array(1))[0] / 4294967295) : Math.random()) *
                                         (solveSpeedMax - solveSpeedMin)
                                     ) * 1000)
                                     : solveSpeedFixed;
@@ -12026,9 +12051,7 @@
       autoSolverEnabled = on;
       toggleAutoSolve(on ? "start" : "stop");
     });
-    wireToggle("DX_RandomSpeed_Toggle", "dx_random_speed", (on) => {
-      randomSpeedEnabled = on;
-    });
+    wireToggle("DX_RandomSpeed_Toggle", "dx_random_speed", () => {});
     wireToggle("DX_EZQuiz_Toggle", "dx_ez_quiz", () => {
       clearPrefetchedSessionsCache();
       notify(

@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name                DuoXJS
 // @namespace           https://github.com/LibreDuo/DuoXJS
-// @version             1.2.0
+// @version             1.2.1
 // @description         Free userscript utility for Duolingo
 // @author              LibreDuo
 // @license             MIT
@@ -20,4 +20,5 @@
 // @connect             avatars.githubusercontent.com
 // @downloadURL         https://raw.githubusercontent.com/LibreDuo/DuoXJS/main/DuoXJS.user.js
 // @updateURL           https://raw.githubusercontent.com/LibreDuo/DuoXJS/main/DuoXJS.meta.js
+// @noframes
 // ==/UserScript==
